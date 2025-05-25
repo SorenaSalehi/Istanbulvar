@@ -1,0 +1,304 @@
+<!-- Gallery + Product options -->
+<section class='container pb-5 mb-1 mb-sm-2 mb-md-3 mb-lg-4 mb-xl-5'>
+    <div class='row'>
+
+        <!-- Product gallery -->
+        <div class='col-md-6'>
+
+            <!-- Preview (Large image) -->
+            <div class='swiper' data-swiper='{
+            "loop": true,
+            "navigation": {
+              "prevEl": ".btn-prev",
+              "nextEl": ".btn-next"
+            },
+            "thumbs": {
+              "swiper": "#thumbs"
+            }
+          }'>
+                <div class='swiper-wrapper'>
+                    {% for media in product.media.all %}
+                    <div class='swiper-slide'>
+                        <div class='ratio ratio-1x1'>
+                            {% if media.media_type == 'image' %}
+                            <img src='{{media.file.url}}' data-zoom='{{media.file.url}}' data-zoom-options='
+                            {
+                                "paneSelector": "#zoomPane" ,
+                                "inlinePane" : 768,
+                                "hoverDelay" : 500,
+                                "touchDisable" :true
+                            }' alt='{{media.name}}'>
+                            {% elif media.media_type == 'video' %}
+                            <video class='img-fluid' autoplay muted loop playsinline>
+                                <source src='{{ media.file.url }}' type='video/mp4'>
+                            </video>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+
+                <!-- Prev button -->
+                <div class='position-absolute top-50 start-0 z-2 translate-middle-y ms-sm-2 ms-lg-3'>
+                    <button type='button'
+                        class='btn btn-prev btn-icon btn-outline-secondary bg-body rounded-circle animate-slide-start'
+                        aria-label='قبلی'>
+                        <i class='ci-chevron-left fs-lg animate-target'></i>
+                    </button>
+                </div>
+
+                <!-- Next button -->
+                <div class='position-absolute top-50 end-0 z-2 translate-middle-y me-sm-2 me-lg-3'>
+                    <button type='button'
+                        class='btn btn-next btn-icon btn-outline-secondary bg-body rounded-circle animate-slide-end'
+                        aria-label='بعدی'>
+                        <i class='ci-chevron-right fs-lg animate-target'></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Thumbnails -->
+            <div class='swiper swiper-load swiper-thumbs pt-2 mt-1' id='thumbs' data-swiper='{
+            "loop": true,
+            "spaceBetween": 12,
+            "slidesPerView": 3,
+            "watchSlidesProgress": true,
+            "breakpoints": {
+              "340": {
+                "slidesPerView": 4
+              },
+              "500": {
+                "slidesPerView": 5
+              },
+              "600": {
+                "slidesPerView": 6
+              },
+              "768": {
+                "slidesPerView": 4
+              },
+              "992": {
+                "slidesPerView": 5
+              },
+              "1200": {
+                "slidesPerView": 6
+              }
+            }
+          }'>
+                <div class='swiper-wrapper'>
+                    {% for media in product.media.all %}
+                    <div class='swiper-slide swiper-thumb'>
+                        <div class='ratio ratio-1x1' style='max-width: 94px'>
+                            {% if media.media_type == 'image' %}
+                            <img src='{{media.thumbnail.url}}' class='swiper-thumb-img' alt='{{media.name}}'>
+                            {% elif media.media_type == 'video' %}
+                            <video class='img-fluid' autoplay muted loop playsinline>
+                                <source src='{{ media.file.url }}' type='video/mp4'>
+                            </video>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Product options -->
+        <div class='col-md-6 col-xl-5 offset-xl-1 pt-4'>
+            <div class='ps-md-4 ps-xl-0'>
+                <div class='position-relative' id='zoomPane'>
+
+                    <form action="{% url 'shop:product_detail' product.slug %}" method="POST" id="variantAttributeForm">
+                        {% csrf_token %}
+                        {% for attr_name, attr_values in attributes.items %}
+                        <div class="pb-3 mb-2 mb-lg-3">
+                            <label class="form-label fw-semibold pb-1 mb-2">{{ attr_name }}</label>
+                            <div class="d-flex flex-wrap gap-2">
+                                {% for val in attr_values %}
+                                <input value="{{ val.value }}" {% if val.selected %}checked{% endif %} type="radio"
+                                    class="btn-check" name="{{ attr_name }}" id="{{ val.id }}">
+                                <label for="{{ val.id }}" class="btn btn-sm btn-outline-secondary">
+                                    {{ val.value }}
+                                </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </form>
+
+                    <!-- Price -->
+                    <div class='d-flex flex-wrap align-items-center mb-3'>
+                        <div class='h4 mb-0 me-3'>
+                            {% if product.discount_price %}
+                            <span class='price'>{{product.discount_price|to_price}} <del
+                                    class='text-body-tertiary fs-sm fw-normal'>{{product.price|to_price}}
+                                </del></span>
+                            {% else %}
+                            <span class='price'>{{product.price|to_price}} </span>
+                            {% endif %}
+                        </div>
+
+                        {% if product.stock > 5 %}
+                        <div class='d-flex align-items-center text-success fs-sm ms-auto'>
+                            <i class='ci-check-circle fs-base me-2'></i>
+                            قابل سفارش
+                        </div>
+                        {% elif product.stock == 0 %}
+                        <div class='d-flex align-items-center text-muted fs-sm ms-auto'>
+                            <i class='ci-bell-off fs-base me-2'></i>
+                            موجود نیست
+                        </div>
+                        {% else %}
+                        <div class='d-flex align-items-center text-danger fs-sm ms-auto'>
+                            <i class='ci-alert-circle fs-base me-2'></i>
+                            فقط {{ product.stock }} عدد در انبار باقی مانده است!
+                        </div>
+                        {% endif %}
+
+                    </div>
+
+                    <!-- Count + Buttons -->
+                    <div
+                        class='variable-items d-flex flex-wrap flex-sm-nowrap flex-md-wrap flex-lg-nowrap gap-3 gap-lg-2 gap-xl-3 mb-4'>
+
+
+                        {% if isExist %}
+                        {% if not product in wishlist_items %}
+                        <button type='button'
+                            class='btn btn-icon btn-lg btn-secondary animate-pulse order-sm-3 order-md-2 order-lg-3 wishlist-toggle-{{product.id}}'
+                            data-bs-toggle='tooltip' data-bs-placement='top' data-bs-custom-class='tooltip-sm'
+                            data-bs-title='افزودن به علاقه‌مندی‌ها' aria-label='افزودن به علاقه‌مندی‌ها'
+                            onclick='addToWishlist("{{ product.id }}")'>
+                            <i class='ci-heart fs-lg animate-target'></i>
+                        </button>
+                        {% else %}
+                        <button type='button'
+                            class='btn btn-icon btn-lg btn-secondary animate-pulse order-sm-3 order-md-2 order-lg-3 wishlist-toggle-{{product.id}}'
+                            data-bs-toggle='tooltip' data-bs-placement='top' data-bs-custom-class='tooltip-sm'
+                            data-bs-title='حذف از علاقه‌مندی‌ها' aria-label='حذف از علاقه‌مندی‌ها'
+                            onclick='removeFromWishlist("{{ product.id }}")'>
+                            <i class='ci-heart-filled fs-lg animate-target'></i>
+                        </button>
+                        {% endif %}
+                        {% endif %}
+
+                        <button type='button'
+                            class='btn btn-icon btn-lg btn-secondary animate-rotate order-sm-4 order-md-3 order-lg-4'
+                            data-bs-toggle='tooltip' data-bs-placement='top' data-bs-custom-class='tooltip-sm'
+                            data-bs-title='مقایسه' aria-label='مقایسه'>
+                            <i class='ci-refresh-cw fs-lg animate-target'></i>
+                        </button>
+
+                        {% if product.stock > 0 and isExist %}
+                        <div class='count-input flex-shrink-0 order-sm-1'>
+                            <button type='button' class='btn btn-icon btn-lg' data-decrement='' aria-label='کاهش تعداد'>
+                                <i class='ci-minus'></i>
+                            </button>
+                            <input type='number' class='form-control form-control-lg in-num' value='1' min='1' max='50'
+                                readonly=''>
+                            <button type='button' class='btn btn-icon btn-lg' data-increment=''
+                                aria-label='افزایش تعداد'>
+                                <i class='ci-plus'></i>
+                            </button>
+                        </div>
+                        <button type='button'
+                            class='btn btn-lg btn-primary w-100 animate-slide-end order-sm-2 order-md-4 order-lg-2'
+                            onclick='addToCart(
+                                    "{{ product.id }}", 
+                                    this.closest(" .variable-items").querySelector(".in-num").value )'>
+                            <i class='ci-shopping-cart fs-lg animate-target ms-n1 me-2'></i>
+                            افزودن به سبد خرید
+                        </button>
+                        {% elif not isExist %}
+                        <button class='btn btn-primary btn-danger w-100 animate-slide-end' disabled>
+                            <i class='ci-alert-circle fs-lg animate-target ms-n1 me-2'></i>
+                            این گزینه‌ها موجود نیستند
+                        </button>
+                        {% else %}
+                        <button type='button'
+                            class='btn btn-lg btn-warning w-100 animate-slide-end order-sm-2 order-md-4 order-lg-2'>
+                            <i class='ci-bell fs-lg animate-target ms-n1 me-2'></i>
+                            به من اطلاع بده
+                        </button>
+                        {% endif %}
+
+                    </div>
+
+                    <!-- Features -->
+                    <div class='d-flex flex-wrap gap-3 gap-xl-4 pb-4 pb-lg-5 mb-2 mb-lg-0 mb-xl-2'>
+
+                    </div>
+                </div>
+
+                <!-- Shipping options -->
+                <div class='d-flex align-items-center pb-2'>
+                    <h3 class='h6 mb-0'>گزینه‌های ارسال</h3>
+                    <a class='btn btn-sm btn-secondary ms-auto' href='#!'>
+                        <i class='ci-map-pin fs-sm ms-n1 me-1'></i>
+                        تیپاکس
+                    </a>
+                </div>
+                <table class='table table-borderless fs-sm mb-2'>
+                    <tbody>
+                        <tr>
+                            <td class='py-2 ps-0'>تهران</td>
+                            <td class='py-2'>امروز</td>
+                        </tr>
+                        <tr>
+                            <td class='py-2 ps-0'>شهرستان</td>
+                            <td class='py-2'>حداکثر تا دو روز</td>
+                            <td class='text-body-emphasis fw-semibold text-end py-2 pe-0'>{{product.cargo_price}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Warranty + Payment info accordion -->
+                <div class='accordion' id='infoAccordion'>
+                    <div class='accordion-item border-top'>
+                        <h3 class='accordion-header' id='headingWarranty'>
+                            <button type='button' class='accordion-button animate-underline collapsed'
+                                data-bs-toggle='collapse' data-bs-target='#warranty' aria-expanded='false'
+                                aria-controls='warranty'>
+                                <span class='animate-target me-2'>اطلاعات گارانتی</span>
+                            </button>
+                        </h3>
+                        <div class='accordion-collapse collapse' id='warranty' aria-labelledby='headingWarranty'
+                            data-bs-parent='#infoAccordion'>
+                            <div class='accordion-body'>
+                                <div class='alert d-flex alert-info mb-3' role='alert'>
+                                    <i class='ci-check-shield fs-xl mt-1 me-2'></i>
+                                    <div class='fs-sm'><span class='fw-semibold'>گارانتی:</span> ۱۲ ماه گارانتی رسمی
+                                        سازنده. امکان تعویض یا مرجوعی محصول تا ۱۴ روز.</div>
+                                </div>
+                                <p class='mb-0'>جزئیات <a class='fw-medium' href='#!'>شرایط گارانتی محصولات</a> ما،
+                                    از جمله مدت زمان، پوشش‌ها و طرح‌های اضافی را بررسی کنید. ما رضایت شما را اولویت
+                                    قرار می‌دهیم و اطلاعات گارانتی ما به شما اطمینان می‌دهد که با آرامش خرید کنید.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='accordion-item'>
+                        <h3 class='accordion-header' id='headingPayment'>
+                            <button type='button' class='accordion-button animate-underline collapsed'
+                                data-bs-toggle='collapse' data-bs-target='#payment' aria-expanded='false'
+                                aria-controls='payment'>
+                                <span class='animate-target me-2'>پرداخت و اعتبار</span>
+                            </button>
+                        </h3>
+                        <div class='accordion-collapse collapse' id='payment' aria-labelledby='headingPayment'
+                            data-bs-parent='#infoAccordion'>
+                            <div class='accordion-body'>با روش‌های پرداخت انعطاف‌پذیر و تسهیلات اعتباری ما،
+                                تراکنش‌های بدون دردسر را تجربه کنید. درباره روش‌های پرداخت پذیرفته‌شده، طرح‌های
+                                اقساطی و پیشنهادات اعتبار ویژه بیشتر بیاموزید تا تجربه خرید شما بی‌نقص باشد.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+
+</script>

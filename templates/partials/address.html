@@ -1,0 +1,98 @@
+{% load static %}
+
+
+
+<div class="account_form" style="max-width: 400px; margin: 50px auto;">
+
+    <h2 style="margin-bottom: 20px;">Yeni adres ekleme</h2>
+
+
+    <form id="addressForm" method="post" action="{% url " addNewAddress" %}">
+        {% csrf_token %}
+        <div class="row">
+
+            <div class="col-lg-6">
+                <div class="default-form-box">
+                    <label>İsim <span>*</span></label>
+                    <input type="text" name="first_name" maxlength="255" id="id_first_name">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="default-form-box">
+                    <label>Soy İsim <span>*</span></label>
+                    <input type="text" name="last_name" maxlength="255" id="id_last_name">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="default-form-box">
+                    <label for="state">İl <span>*</span></label>
+                    <select class="country_option nice-select wide" name="state" id="state">
+                        {% for state in states %}
+                        <option value="{{ state.id }}">{{ state.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="default-form-box">
+                    <label>Sokak Adresi <span>*</span></label>
+                    <input type="text" name="street" placeholder="Cadde, sokak adı" maxlength="255" required=""
+                        id="id_street">
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="default-form-box">
+                    <input type="text" name="apartment" placeholder="Apartman, daire, birim vb. (isteğe bağlı)"
+                        maxlength="100" id="id_apartment">
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="default-form-box">
+                    <label>İlçe / Semt <span>*</span></label>
+                    <input type="text" name="city" placeholder="İlçenizi giriniz" maxlength="100" required=""
+                        id="id_city">
+
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12">
+                <label class="checkbox-default" data-bs-toggle="collapse" data-bs-target="#is_corporate">
+                    <input type="checkbox" name="is_corporate">
+                    <span>Kurumsal adres mı?</span>
+                </label>
+            </div>
+            <div id="is_corporate" class="collapse row mt-3" data-parent="#is_corporate">
+                <div class="col-lg-6">
+                    <div class="default-form-box">
+                        <label>Vergi dairesi <span>*</span></label>
+                        <input type="text" name="tax_office">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="default-form-box">
+                        <label>Şirket adı<span>*</span></label>
+                        <input type="text" name="company_name">
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="default-form-box">
+                        <label>Vergi numarası <span>*</span></label>
+                        <input type="text" name="tax_id">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="next" id="nextInput" value="{{next}}" />
+        <button type="submit" class="btn btn-default-outline btn-md" style="width: 100%; margin-top: 15px;">
+            ekle
+        </button>
+    </form>
+
+
+    {% include "partials/messages.html" %}
+
+</div>

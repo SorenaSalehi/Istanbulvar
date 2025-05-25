@@ -1,0 +1,22 @@
+{% load static %}
+
+<div class='account_form' style='max-width: 400px; margin: 50px auto;'>
+
+    <h2 style='margin-bottom: 20px;'>ورود با پیامک</h2>
+
+    <p style='margin-bottom: 20px;'>
+        کدی که به شماره تلفن شما ارسال شده را وارد کنید:
+    </p>
+    <form class='login_form' id='verifyCodeForm'>
+        <div class='default-form-box'>
+            {{ form.as_p }}
+        </div>
+        <input type='hidden' name='next' id='nextInput' value='{{ next }}' />
+        <button type='submit' class='btn btn-primary w-100' style='width: 100%; margin-top: 15px;'>
+            تأیید
+        </button>
+    </form>
+
+    {% include "partials/messages.html" %}
+
+</div>

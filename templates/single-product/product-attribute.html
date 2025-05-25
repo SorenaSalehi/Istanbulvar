@@ -1,0 +1,61 @@
+{% extends "single-product/base-single-product.html" %}
+{% load static %}
+
+{% block section %}
+<ul class='nav nav-underline flex-nowrap gap-4'>
+
+    <li class='nav-item me-sm-2'>
+        <a class='nav-link' href='{% url "shop:product_detail" product.slug %}'>اطلاعات کلی</a>
+    </li>
+    <li class='nav-item me-sm-2'>
+        <a class='nav-link pe-none active' href='{% url "shop:product_attribute" product.slug %}'>ویژگی‌های محصول</a>
+    </li>
+
+    <li class='nav-item'>
+        <a class='nav-link' href='{% url "shop:product_review" product.slug %}'>نظرات ({{product.comments.count}})</a>
+    </li>
+</ul>
+{% endblock %}
+
+{% block productContent %}
+
+<div class='col-md-7'>
+
+    {% for attr in product.attributes.all|sort_by_attr %}
+    {% if attr.attribute.attribute_type == 'attributes' %}
+    {% ifchanged attr.attribute %}
+    <h3 class='h6'>{{attr.attribute}}</h3>
+
+    <ul class='list-unstyled d-flex flex-column gap-3 fs-sm pb-3 m-0 mb-2 mb-sm-3'>
+        {% for attr2 in product.attributes.all %}
+        {% if attr2.attribute == attr.attribute %}
+        <li class='d-flex align-items-center position-relative pe-4'>
+            <span>{{attr2.key}}:</span>
+            <span class='d-block flex-grow-1 border-bottom border-dashed px-1 mt-2 mx-2'></span>
+            <span class='text-dark-emphasis fw-medium text-end'>{{attr2.value}}</span>
+            {% if attr2.desc %}
+            <i class='ci-info fs-base text-body-tertiary position-absolute top-50 end-0 translate-middle-y'
+                data-bs-toggle='popover' data-bs-trigger='hover' data-bs-custom-class='popover-sm'
+                data-bs-content='{{attr2.desc}}'></i>
+            {% endif %}
+        </li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+
+    {% endifchanged %}
+    {% endif %}
+    {% endfor %}
+
+    <div class='alert d-flex alert-info mb-2 mb-sm-3' role='alert'>
+        <i class='ci-info fs-lg pe-1 me-2' style='margin-top: .125rem'></i>
+        <div class='fs-sm'>مشخصات و تجهیزات محصول ممکن است بدون اطلاع قبلی تغییر کنند.</div>
+    </div>
+    <div class='pt-3'>
+        <h3 class='h6'>سوالی دارید؟</h3>
+        <a class='btn btn-sm btn-primary' href='#!'>تماس با ما</a>
+    </div>
+
+</div>
+
+{% endblock %}

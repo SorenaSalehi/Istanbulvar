@@ -1,0 +1,35 @@
+{% load static %}
+
+{% for addr in user.addresses.all %}
+{% if addr.isCurrent %}
+<div class='form-check'>
+    <input {%if addr.isCurrent%}checked{%endif%} class='form-check-input' type='radio' name='selected_address'
+        id='addr_{{ addr.id }}' value='{{ addr.id }}' />
+    <label class='form-check-label' for='addr_{{ addr.id }}'>
+        {{ addr.street }} / {{addr.city }} / {{ addr.state }}
+    </label>
+    <button onclick='deleteAddressFunc("{{ addr.id }}")' class='text-muted'>
+        <img src='{% static "images/icons/icon-trash.svg" %}' alt='Trash Icon' style='width: 18px; height: 18px;'>
+    </button>
+</div>
+{% endif %}
+{% endfor %}
+
+{% for addr in user.addresses.all %}
+{% if not addr.isCurrent %}
+<div class='form-check'>
+    <input {%if addr.isCurrent%}checked{%endif%} class='form-check-input' type='radio' name='selected_address'
+        id='addr_{{ addr.id }}' value='{{ addr.id }}' />
+    <label class='form-check-label' for='addr_{{ addr.id }}'>
+        {{ addr.street }} / {{addr.city }} / {{ addr.state }}
+    </label>
+    <button onclick='deleteAddressFunc("{{ addr.id }}")' class='text-muted'>
+        <img src='{% static "images/icons/icon-trash.svg" %}' alt='Trash Icon' style='width: 18px; height: 18px;'>
+    </button>
+</div>
+{% endif %}
+{% endfor %}
+<button data-redirect-url='{{request.get_full_path}}' type='button' class='main-menu-event' data-bs-toggle='modal'
+    data-bs-target='#addressModel'>
+    <span>Yeni adres ekle</span>
+</button>

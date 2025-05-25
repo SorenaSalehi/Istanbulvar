@@ -1,0 +1,11 @@
+{% load static %}
+
+{% for message in messages %}
+<script>
+    Swal.fire({
+        icon: '{{message.tags}}',
+        text: '{{message}}',
+        confirmButtonText: 'باشه',
+    });
+</script>
+{% endfor %}

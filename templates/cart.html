@@ -1,0 +1,280 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<!-- ...::: Ekmek Kırıntısı (Breadcrumb) Bölümü Başlangıcı :::... -->
+<div class='breadcrumb-section'>
+    <div class='box-wrapper'>
+        <div class='breadcrumb-wrapper breadcrumb-wrapper--style-1 pos-relative'>
+            <div class='breadcrumb-bg'>
+                <img src='{% static "images/breadcrumb/breadcrumb-img-product-details-page.webp" %}' alt=''>
+            </div>
+            <div class='breadcrumb-content section-fluid-270'>
+                <div class='breadcrumb-wrapper'>
+                    <div class='content'>
+                        <h2 class='title'><span class='text-mark'>Sepetteki</span> ürünlerin</h2>
+                    </div>
+                    <ul class='breadcrumb-nav'>
+                        <li><a href='/'>Ana sayfa</a></li>
+                        <li>Sepetim</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ...::: Ekmek Kırıntısı (Breadcrumb) Bölümü Sonu :::... -->
+
+<!-- ...:::: Ödeme Bölümü Başlangıcı :::... -->
+<div class='checkout-section section-fluid-270 section-top-gap-100'>
+    <div class='container-fluid'>
+        <div class='row'>
+            <!-- Kullanıcı Hızlı İşlem Formu -->
+            <div class='col-12'>
+                <div class='user-actions accordion'>
+                    {% if not user.is_authenticated %}
+                    <h3>
+                        Bir hesabın var mı?
+                        <a data-redirect-url='{% url "shop:checkOut" %}' type='button' class='main-menu-event'
+                            data-bs-toggle='modal' data-bs-target='#loginModel'>
+                            Giriş yap
+                        </a>
+                    </h3>
+                    {% endif %}
+                </div>
+            </div>
+            <!-- Kullanıcı Hızlı İşlem Formu Sonu -->
+        </div>
+
+        <form method='post' action='{% url "shop:checkOut" %}' id='checkoutForm'>
+            {% csrf_token %}
+            <div class='checkout_form'>
+                <div class='row'>
+                    <!-- ==== Sol sütun: Teslimat (Adres) Bilgileri ==== -->
+                    <div class='col-lg-6 col-md-6'>
+                        <h3>TESLİMAT ADRESİ</h3>
+
+                        {% if user.is_authenticated and user.addresses.exists %}
+                        <div class='registered-addresses mb-4'>
+                            <p>Mevcut kayıtlı adresleriniz:</p>
+                            {% for addr in user.addresses.all %}
+                            <div class='form-check'>
+                                <input {%if addr.isCurrent%}checked{%endif%} class='form-check-input' type='radio'
+                                    name='selected_address' id='addr_{{ addr.id }}' value='{{ addr.id }}' />
+                                <label class='form-check-label' for='addr_{{ addr.id }}'>
+                                    {{ addr.street }}{% if addr.apartment %}, {{ addr.apartment }}{% endif %},
+                                    {{addr.city }}{% if addr.state %}, {{ addr.state }}{% endif %}, {{ addr.country }}
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <label class='checkbox-default' for='newAddressCheckbox' data-bs-toggle='collapse'
+                            data-bs-target='#newAddressCollapse' aria-expanded='false'
+                            aria-controls='newAddressCollapse'>
+                            <input type='checkbox' id='newAddressCheckbox'>
+                            <span>Farklı bir adrese mi göndermek istiyorsunuz?</span>
+                        </label>
+                        {% endif %}
+                        {% if user.is_authenticated and user.addresses.exists %}
+                        <div class='collapse mt-3' id='newAddressCollapse'>
+                            {% else %}
+                            <div class='mt-3' id='newAddressCollapse'>
+                                {% endif %}
+
+                                <div class='card card-body'>
+                                    <div class='row'>
+
+                                        <div class='col-lg-6'>
+                                            <div class='default-form-box'>
+                                                <label>İsim <span>*</span></label>
+                                                <input type='text' value='{{user.first_name}}' name='first_name'>
+                                            </div>
+                                        </div>
+                                        <div class='col-lg-6'>
+                                            <div class='default-form-box'>
+                                                <label>Soy İsim <span>*</span></label>
+                                                <input type='text' value='{{user.last_name}}' name='last_name'>
+                                            </div>
+                                        </div>
+                                        <div class='col-lg-6'>
+                                            <div class='default-form-box'>
+                                                <label>Telefon<span>*</span></label>
+                                                <input type='text' value='{{user.phone_number}}' name='phone'>
+                                            </div>
+                                        </div>
+                                        <div class='col-lg-6'>
+                                            <div class='default-form-box'>
+                                                <label>Email Adresi <span>*</span></label>
+                                                <input type='text' value='{{user.email}}' name='email'>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class='row'>
+                                        <div class='col-12'>
+                                            <div class='default-form-box'>
+                                                <label for='state'>İl <span>*</span></label>
+                                                <select class='country_option nice-select wide' name='state' id='state'>
+                                                    {% for state in states %}
+                                                    <option value='{{ state.id }}'>{{ state.name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class='col-12'>
+                                            <div class='default-form-box'>
+                                                <label>Sokak Adresi <span>*</span></label>
+                                                <input placeholder='Bina numarası ve sokak adı' type='text'
+                                                    name='street'>
+                                            </div>
+                                        </div>
+                                        <div class='col-12'>
+                                            <div class='default-form-box'>
+                                                <input placeholder='Apartman, daire, birim vb. (isteğe bağlı)'
+                                                    type='text' name='apartment'>
+                                            </div>
+                                        </div>
+                                        <div class='col-12'>
+                                            <div class='default-form-box'>
+                                                <label>İlçe / Semt <span>*</span></label>
+                                                <input type='text' name='city'>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class='row mt-3'>
+                                        <div class='col-12'>
+                                            <label class='checkbox-default' data-bs-toggle='collapse'
+                                                data-bs-target='#is_corporate'>
+                                                <input type='checkbox' name='is_corporate'>
+                                                <span>Kurumsal adres mı?</span>
+                                            </label>
+                                        </div>
+                                        <div id='is_corporate' class='collapse row mt-3' data-parent='#is_corporate'>
+                                            <div class='col-lg-6'>
+                                                <div class='default-form-box'>
+                                                    <label>Vergi dairesi <span>*</span></label>
+                                                    <input type='text' name='tax_office'>
+                                                </div>
+                                            </div>
+                                            <div class='col-lg-6'>
+                                                <div class='default-form-box'>
+                                                    <label>Şirket adı<span>*</span></label>
+                                                    <input type='text' name='company_name'>
+                                                </div>
+                                            </div>
+                                            <div class='col-12'>
+                                                <div class='default-form-box'>
+                                                    <label>Vergi numarası <span>*</span></label>
+                                                    <input type='text' name='tax_id'>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='row mt-3'>
+                                <div class='order-notes'>
+                                    <label for='order_note'>Sipariş Notları</label>
+                                    <textarea id='order_note'
+                                        placeholder='Siparişiniz hakkında notlar, örn. teslimat için özel notlar.'></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class='col-lg-6 col-md-6'>
+                            <h3>SEPETTEKİ ÜRÜNLER</h3>
+                            <div class='order_table table-responsive'>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Seç</th>
+                                            <th>Ürün</th>
+                                            <th>Toplam</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in cart_items %}
+                                        <tr>
+                                            <td>
+                                                <a href='{% url "shop:product_detail" item.product.slug %}'>
+                                                    <img src='{{item.product.media.first.thumbnail.url}}'
+                                                        alt='{{item.product.name}}' style='width: 15%;'>
+                                                    <strong>{{item.product.name}}</strong>
+                                                    <strong> × {{item.quantity}}</strong>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                {{item.product.discount_price|to_price}} -
+                                                <del>{{item.product.price|to_price}}</del>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Ara Toplam:</th>
+                                            <td colspan='2'>{{total_price|to_price}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Kargo ücreti:</th>
+                                            <td colspan='2'>{{cargo|to_price}}</td>
+                                        </tr>
+                                        <tr class='order_total'>
+                                            <th>Toplam Tutar</th>
+                                            <td colspan='2'><strong>{{total_ordered_price|to_price}}</strong></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <div class='payment_method mt-4'>
+                                <div class='form-check mb-3'>
+                                    <input class='form-check-input' type='checkbox' id='kvkkAgreement' required>
+                                    <label class='form-check-label' for='kvkkAgreement'>
+                                        <a href='{% url "website:gp" %}'>
+                                            Gizlilik politikası</a>,
+                                        <a href='{% url "website:orderAndRefound" %}'>
+                                            İade Koşulları"nı</a> ve
+                                        <a href='{% url "website:mss" %}'>
+                                            Mesafeli Satış Sözleşmesi</a>"ni
+                                        okudum, onaylıyorum.
+                                        <span class='text-danger'>*</span>
+                                    </label>
+                                </div>
+                                <div class='form-check mb-3'>
+                                    <input class='form-check-input' type='checkbox' id='newsletterSignup'>
+                                    <label class='form-check-label' for='newsletterSignup'>
+                                        Kampanyalardan ve özel fırsatlardan haberdar olmak için e-posta yoluyla benimle
+                                        iletişime geçilmesine onay veriyorum.
+                                    </label>
+                                </div>
+                                <div class='order_button'>
+                                    <button class='btn btn-primary w-100' type='submit'>
+                                        Ödemeyi tamamla
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </form>
+    </div>
+</div>
+<!-- ...:::: Ödeme Bölümü Sonu :::... -->
+
+<!-- Payment Modal -->
+<div class='modal fade' id='paymentModal' tabindex='-1' aria-labelledby='paymentModalLabel' aria-hidden='true'>
+    <div class='modal-dialog modal-xl modal-dialog-centered'>
+        <div class='modal-content'>
+            <div class='modal-header'>
+                <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='kapat'></button>
+            </div>
+            <div class='modal-body' id='paymentModalBody'>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,128 @@
+{% load static %}
+
+<!-- Categories mega menu -->
+<div class="col-lg-3">
+    <div class="navbar-nav">
+        <div class="dropdown w-100">
+
+            <!-- Button visible on screens ≥ lg -->
+            <div class="cursor-pointer d-none d-lg-block" data-bs-toggle="dropdown" data-bs-trigger="hover"
+                aria-expanded="false">
+                <a class="position-absolute top-0 start-0 w-100 h-100" href="shop-categories-electronics.html">
+                    <span class="visually-hidden">دسته‌بندی‌ها</span>
+                </a>
+                <button type="button"
+                    class="btn btn-lg btn-secondary dropdown-toggle w-100 rounded-bottom-0 justify-content-start pe-none">
+                    <i class="ci-grid fs-lg"></i>
+                    <span class="ms-2 me-auto">دسته‌بندی‌ها</span>
+                </button>
+            </div>
+
+            <!-- Button visible on screens < lg -->
+            <button type="button"
+                class="btn btn-lg btn-secondary dropdown-toggle w-100 justify-content-start d-lg-none mb-2"
+                data-bs-toggle="dropdown" data-bs-auto-close="outside">
+                <i class="ci-grid fs-lg"></i>
+                <span class="ms-2 me-auto">دسته‌بندی‌ها</span>
+            </button>
+
+            <!-- Mega menu container -->
+            <ul class="dropdown-menu w-100 rounded-top-0 rounded-bottom-4 py-1 p-lg-1">
+                <!-- Mobile “همه دسته‌ها” -->
+                <li class="d-lg-none pt-2">
+                    <a class="dropdown-item fw-medium" href="shop-categories-electronics.html">
+                        <i class="ci-grid fs-xl opacity-60 pe-1 me-2"></i>
+                        همه دسته‌ها
+                        <i class="ci-chevron-right fs-base ms-auto me-n1"></i>
+                    </a>
+                </li>
+
+                <!-- کامپیوتر و قطعات -->
+                <li class="dropend position-static">
+                    <div class="position-relative rounded pb-1 px-lg-2" tabindex="0" data-bs-toggle="dropdown"
+                        data-bs-trigger="hover">
+                        <a class="dropdown-item fw-medium stretched-link d-none d-lg-flex"
+                            href="{% url 'shop:shop_list' %}?category=12">
+                            <i class="ci-computer fs-xl opacity-60 pe-1 me-2"></i>
+                            <span class="text-truncate">کامپیوتر و قطعات کامپیوتر</span>
+                        </a>
+                        <div class="dropdown-item fw-medium stretched-link d-lg-none">
+                            <i class="ci-headphones-2 fs-xl opacity-60 pe-1 me-2"></i>
+                            کامپیوتر و قطعات کامپیوتر
+                        </div>
+                    </div>
+                </li>
+
+                <!-- تجهیزات گیمینگ و لوازم جانبی -->
+                <li class="dropstart position-static">
+                    <div class="position-relative rounded pb-1 px-lg-2" tabindex="0" data-bs-toggle="dropdown"
+                        data-bs-trigger="hover">
+                        <a class="dropdown-item fw-medium stretched-link d-none d-lg-flex"
+                            href="{% url 'shop:shop_list' %}?category=10">
+                            <i class="ci-game fs-xl opacity-60 pe-1 me-2"></i>
+                            <span class="text-truncate">تجهیزات گیمینگ و لوازم جانبی</span>
+                            <i class="ci-chevron-left fs-base ms-auto me-n1"></i>
+                        </a>
+                        <div class="dropdown-item fw-medium stretched-link d-lg-none">
+                            <i class="ci-game fs-xl opacity-60 pe-1 me-2"></i>
+                            تجهیزات گیمینگ و لوازم جانبی
+                            <i class="ci-chevron-down fs-base ms-auto me-n1"></i>
+                        </div>
+                    </div>
+                    <div class="dropdown-menu rounded-4 p-4"
+                        style="top: 1rem; right: 100%; left: auto; width: auto !important; min-width: max-content;">
+                        <ul class="nav flex-column gap-2">
+                            <li class="nav-item"><a class="nav-link fw-normal text-truncate"
+                                    href="{% url 'shop:shop_list' %}?category=1">موس</a></li>
+                            <li class="nav-item"><a class="nav-link fw-normal text-truncate"
+                                    href="{% url 'shop:shop_list' %}?category=2">موس‌پد</a></li>
+                            <li class="nav-item"><a class="nav-link fw-normal text-truncate"
+                                    href="{% url 'shop:shop_list' %}?category=3">هدست</a></li>
+                            <li class="nav-item"><a class="nav-link fw-normal text-truncate"
+                                    href="{% url 'shop:shop_list' %}?category=4">کیبورد</a></li>
+                            <li class="nav-item"><a class="nav-link fw-normal text-truncate"
+                                    href="{% url 'shop:shop_list' %}?category=5">میکروفن</a></li>
+                            <li class="nav-item"><a class="nav-link fw-normal text-truncate"
+                                    href="{% url 'shop:shop_list' %}?category=6">وب‌کم</a></li>
+                            <li class="nav-item"><a class="nav-link fw-normal text-truncate"
+                                    href="{% url 'shop:shop_list' %}?category=7">مانیتور</a></li>
+                            <li class="nav-item"><a class="nav-link fw-normal text-truncate"
+                                    href="{% url 'shop:shop_list' %}?category=8">سیستم صوتی</a></li>
+                            <li class="nav-item"><a class="nav-link fw-normal text-truncate"
+                                    href="{% url 'shop:shop_list' %}?category=9">نورپردازی</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Inline or external CSS -->
+<style>
+    /* خودکار کردن عرض زیرمنوها */
+    .navbar-nav .position-static.dropstart>.dropdown-menu,
+    .navbar-nav .position-static.dropend>.dropdown-menu {
+        width: auto !important;
+        min-width: max-content;
+    }
+
+    .navbar-nav .position-static.dropstart>.dropdown-menu {
+        right: 100%;
+        left: auto;
+    }
+
+    /* باز شدن منو با هاور در دسکتاپ */
+    @media (min-width: 992px) {
+        .navbar-nav .dropdown:hover>.dropdown-menu {
+            display: block !important;
+            visibility: visible !important;
+        }
+
+        .navbar-nav .position-static.dropend:hover>.dropdown-menu,
+        .navbar-nav .position-static.dropstart:hover>.dropdown-menu {
+            display: block !important;
+            visibility: visible !important;
+        }
+    }
+</style>

@@ -1,0 +1,204 @@
+{% extends "single-product/base-single-product.html" %}
+{% load static %}
+
+{% block section %}
+<ul class='nav nav-underline flex-nowrap gap-4'>
+
+    <li class='nav-item me-sm-2'>
+        <a class='nav-link pe-none active' href='{% url "shop:product_detail" product.slug %}'>اطلاعات کلی</a>
+    </li>
+    <li class='nav-item me-sm-2'>
+        <a class='nav-link' href='{% url "shop:product_attribute" product.slug %}'>ویژگی‌های محصول</a>
+    </li>
+
+    <li class='nav-item'>
+        <a class='nav-link' href='{% url "shop:product_review" product.slug %}'>نظرات ({{product.comments.count}})</a>
+    </li>
+</ul>
+{% endblock %}
+
+
+
+{% block productGallery %}
+
+{% include "single-product/product-gallery.html" %}
+
+{% endblock %}
+
+
+
+{% block productContent %}
+
+
+{% for detail in product.details.all %}
+<h3>{{detail.title}}</h3>
+{{detail.description|safe}}
+{% if detail.media.all|length > 1 %}
+<div class='position-relative py-3 py-md-4 px-5 mb-3'>
+
+    <!-- External slider prev/next buttons -->
+    <button type='button' id='prev'
+        class='btn btn-icon btn-outline-secondary rounded-circle animate-slide-start position-absolute top-50 start-0 translate-middle-y mt-n3'
+        aria-label='قبلی'>
+        <i class='ci-chevron-left fs-lg animate-target'></i>
+    </button>
+    <button type='button' id='next'
+        class='btn btn-icon btn-outline-secondary rounded-circle animate-slide-end position-absolute top-50 end-0 translate-middle-y mt-n3'
+        aria-label='بعدی'>
+        <i class='ci-chevron-right fs-lg animate-target'></i>
+    </button>
+
+    <div class='swiper px-3' data-swiper='{
+                        "effect": "fade",
+                        "fadeEffect": {
+                          "crossFade": true
+                        },
+                        "loop": true,
+                        "pagination": {
+                          "el": ".swiper-pagination",
+                          "clickable": true
+                        },
+                        "navigation": {
+                          "prevEl": "#prev",
+                          "nextEl": "#next"
+                        }
+                      }'>
+        <div class='swiper-wrapper'>
+            {% for media in detail.media.all %}
+            {% if media.media_type == 'image' %}
+            <div class='swiper-slide'>
+                <div class='ratio' style='--cz-aspect-ratio: calc(505 / 728 * 100%)'>
+                    <img src='{{media.file.url}}' class='rounded-4' alt='{{media.name}}'>
+                </div>
+            </div>
+            {% elif media.media_type == 'video' %}
+            <div class='swiper-slide'>
+                <div class='ratio' style='--cz-aspect-ratio: calc(505 / 728 * 100%)'>
+                    <video class='rounded-4' autoplay muted loop playsinline>
+                        <source src='{{ media.file.url }}' type='video/mp4'>
+                    </video>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- Pagination (Bullets) -->
+        <div class='swiper-pagination position-static mt-3'></div>
+    </div>
+</div>
+{% elif detail.media.all|length == 1 %}
+{% if detail.media.first.media_type == 'image' %}
+
+<div class='ratio' style='--cz-aspect-ratio: calc(505 / 728 * 100%)'>
+    <img src='{{detail.media.first.file.url}}' class='rounded-4' alt='{{detail.media.first.name}}'>
+</div>
+
+{% elif detail.media.first.media_type == 'video' %}
+
+<div class='ratio' style='--cz-aspect-ratio: calc(505 / 728 * 100%)'>
+    <video class='rounded-4' autoplay muted loop playsinline>
+        <source src='{{ detail.media.first.file.url }}' type='video/mp4'>
+    </video>
+</div>
+
+{% endif %}
+{% endif %}
+{% endfor %}
+
+
+<!-- Reviews -->
+<div class='d-flex align-items-center pt-5 mb-4 mt-2 mt-md-3 mt-lg-4' id='reviews' style='scroll-margin-top: 80px'>
+    <h2 class='h3 mb-0'>نظرات</h2>
+    <button type='button' class='btn btn-secondary ms-auto' data-bs-toggle='modal' data-bs-target='#reviewForm'>
+        <i class='ci-edit-3 fs-base ms-n1 me-2'></i>
+        ثبت نظر
+    </button>
+</div>
+
+<!-- Reviews stats -->
+<div class='row g-4 pb-3'>
+    <div class='col-sm-4'>
+
+        <!-- Overall rating card -->
+        <div class='d-flex flex-column align-items-center justify-content-center h-100 bg-body-tertiary rounded p-4'>
+            <div class='h1 pb-2 mb-1'>{{product.rating}}</div>
+            <div class='hstack justify-content-center gap-1 fs-sm mb-2'>
+                {% for i in '12345' %}
+                {% if product.rating >= forloop.counter %}
+                <i class='ci-star-filled text-warning'></i>
+                {% elif product.rating >= forloop.counter0|add_decimal:'0.5' %}
+                <i class='ci-star-half text-warning'></i>
+                {% else %}
+                <i class='ci-star text-warning'></i>
+                {% endif %}
+                {% endfor %}
+            </div>
+            <div class='fs-sm'>{{product.comments.count}} نظر</div>
+        </div>
+    </div>
+    <div class='col-sm-8'>
+        <!-- Rating breakdown by quantity -->
+        <div class='vstack gap-3'>
+            {% for item in rating_breakdown %}
+            <div class='hstack gap-2'>
+                <div class='hstack fs-sm gap-1'>
+                    {{ item.star }}<i class='ci-star-filled text-warning'></i>
+                </div>
+                <div class='progress w-100' role='progressbar' aria-label='{{ item.star }} ستاره'
+                    aria-valuenow='{{ item.percentage }}' aria-valuemin='0' aria-valuemax='100' style='height: 4px'>
+                    <div class='progress-bar bg-warning rounded-pill' style='width: "{{ item.percentage }}%"'></div>
+                </div>
+                <div class='fs-sm text-nowrap text-end' style='width: 40px;'>{{ item.count }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% for comment in product.comments.all|slice:':3' %}
+<!-- Review -->
+<div class='border-bottom py-3 mb-3'>
+    <div class='d-flex align-items-center mb-3'>
+        <div class='text-nowrap me-3'>
+            <span class='h6 mb-0'>{{ comment.user.get_full_name|default:'Anonymous' }}</span>
+            {% if comment.user %}
+            <i class='ci-check-circle text-success align-middle ms-1' data-bs-toggle='tooltip' data-bs-placement='top'
+                data-bs-custom-class='tooltip-sm' data-bs-title='مشتری تأیید شده'></i>
+            {% endif %}
+        </div>
+        <span class='text-body-secondary fs-sm ms-auto'>{{ comment.created_at|date:'F d, Y' }}</span>
+    </div>
+    <div class='d-flex gap-1 fs-sm pb-2 mb-1'>
+        {% for i in '12345' %}
+        {% if comment.rating >= forloop.counter %}
+        <i class='ci-star-filled text-warning'></i>
+        {% elif comment.rating >= forloop.counter0|add_decimal:'0.5' %}
+        <i class='ci-star-half text-warning'></i>
+        {% else %}
+        <i class='ci-star text-warning'></i>
+        {% endif %}
+        {% endfor %}
+    </div>
+    <p class='fs-sm'>{{ comment.content }}</p>
+    <div class='d-flex gap-2 pt-1 pb-3'>
+        {% for image in comment.media.all %}
+        <img src='{{ image.thumbnail.url }}' class='d-block rounded-2 me-1' width='86' alt='تصویر'>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% empty %}
+<p class='text-center'>هیچ نظری یافت نشد.</p>
+{% endfor %}
+
+<div class='nav'>
+    <a class='nav-link text-primary animate-underline px-0' href='{% url "shop:product_review" product.slug %}'>
+        <span class='animate-target'>مشاهده همه نظرات</span>
+        <i class='ci-chevron-right fs-base ms-1'></i>
+    </a>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,130 @@
+````django
+{% extends "single-product/base-single-product.html" %}
+{% load static %}
+
+{% block section %}
+<ul class='nav nav-underline flex-nowrap gap-4'>
+    <li class='nav-item me-sm-2'>
+        <a class='nav-link' href='{% url "shop:product_detail" product.slug %}'>اطلاعات کلی</a>
+    </li>
+    <li class='nav-item me-sm-2'>
+        <a class='nav-link' href='{% url "shop:product_attribute" product.slug %}'>ویژگی‌های محصول</a>
+    </li>
+    <li class='nav-item'>
+        <a class='nav-link pe-none active' href='#!'>نظرات ({{ product.comments.count }})</a>
+    </li>
+</ul>
+{% endblock %}
+
+{% block productContent %}
+<!-- Reviews -->
+<div class='d-flex align-items-center pt-5 mb-4 mt-2 mt-md-3 mt-lg-4' id='reviews' style='scroll-margin-top: 80px'>
+    <h2 class='h3 mb-0'>نظرات</h2>
+    <button type='button' class='btn btn-secondary ms-auto' data-bs-toggle='modal' data-bs-target='#reviewForm'>
+        <i class='ci-edit-3 fs-base ms-n1 me-2'></i>
+        ثبت نظر
+    </button>
+</div>
+
+<!-- Reviews stats -->
+<div class='row g-4 pb-3'>
+    <div class='col-sm-4'>
+        <!-- Overall rating card -->
+        <div class='d-flex flex-column align-items-center justify-content-center h-100 bg-body-tertiary rounded p-4'>
+            <div class='h1 pb-2 mb-1'>{{ product.rating }}</div>
+            <div class='hstack justify-content-center gap-1 fs-sm mb-2'>
+                {% for i in '12345' %}
+                {% if product.rating >= forloop.counter %}
+                <i class='ci-star-filled text-warning'></i>
+                {% elif product.rating >= forloop.counter0|add_decimal:'0.5' %}
+                <i class='ci-star-half text-warning'></i>
+                {% else %}
+                <i class='ci-star text-warning'></i>
+                {% endif %}
+                {% endfor %}
+            </div>
+            <div class='fs-sm'>{{ product.comments.count }} نظر</div>
+        </div>
+    </div>
+    <div class='col-sm-8'>
+        <!-- Rating breakdown by quantity -->
+        <div class='vstack gap-3'>
+            {% for item in rating_breakdown %}
+            <div class='hstack gap-2'>
+                <div class='hstack fs-sm gap-1'>
+                    {{ item.star }}<i class='ci-star-filled text-warning'></i>
+                </div>
+                <div class='progress w-100' role='progressbar' aria-label='{{ item.star }} ستاره'
+                    aria-valuenow='{{ item.percentage }}' aria-valuemin='0' aria-valuemax='100' style='height: 4px'>
+                    <div class='progress-bar bg-warning rounded-pill' style='width: "{{ item.percentage }}%"'></div>
+                </div>
+                <div class='fs-sm text-nowrap text-end' style='width: 40px;'>{{ item.count }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% for comment in comments_page %}
+<!-- Review -->
+<div class='border-bottom py-3 mb-3'>
+    <div class='d-flex align-items-center mb-3'>
+        <div class='text-nowrap me-3'>
+            <span class='h6 mb-0'>{{ comment.user.get_full_name|default:'Anonymous' }}</span>
+            {% if comment.user %}
+            <i class='ci-check-circle text-success align-middle ms-1' data-bs-toggle='tooltip' data-bs-placement='top'
+                data-bs-custom-class='tooltip-sm' data-bs-title='مشتری تأیید شده'></i>
+            {% endif %}
+        </div>
+        <span class='text-body-secondary fs-sm ms-auto'>{{ comment.created_at|date:'F d, Y' }}</span>
+    </div>
+    <div class='d-flex gap-1 fs-sm pb-2 mb-1'>
+        {% for i in '12345' %}
+        {% if comment.rating >= forloop.counter %}
+        <i class='ci-star-filled text-warning'></i>
+        {% elif comment.rating >= forloop.counter0|add_decimal:'0.5' %}
+        <i class='ci-star-half text-warning'></i>
+        {% else %}
+        <i class='ci-star text-warning'></i>
+        {% endif %}
+        {% endfor %}
+    </div>
+    <p class='fs-sm'>{{ comment.content }}</p>
+    <div class='d-flex gap-2 pt-1 pb-3'>
+        {% for image in comment.media.all %}
+        <img src='{{ image.thumbnail.url }}' class='d-block rounded-2 me-1' width='86' alt='تصویر'>
+        {% endfor %}
+    </div>
+</div>
+{% empty %}
+<p class='text-center'>هیچ نظری یافت نشد.</p>
+{% endfor %}
+
+<!-- Pagination -->
+{% if comments_page.has_other_pages %}
+<nav class='mt-3 pt-2 pt-md-3' aria-label='صفحه‌بندی نظرات'>
+    <ul class='pagination'>
+        {% if comments_page.has_previous %}
+        <li class='page-item'>
+            <a class='page-link' href='?page={{ comments_page.previous_page_number }}'>قبلی</a>
+        </li>
+        {% else %}
+        <li class='page-item disabled'>
+            <span class='page-link'>قبلی</span>
+        </li>
+        {% endif %}
+
+        {% if comments_page.has_next %}
+        <li class='page-item'>
+            <a class='page-link' href='?page={{ comments_page.next_page_number }}'>بعدی</a>
+        </li>
+        {% else %}
+        <li class='page-item disabled'>
+            <span class='page-link'>بعدی</span>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+{% endblock %}```
+````

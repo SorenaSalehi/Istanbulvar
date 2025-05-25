@@ -1,0 +1,71 @@
+<div class="offcanvas-header align-items-start py-3 pt-lg-4">
+    <div>
+        <h4 class="offcanvas-title mb-1" id="orderDetailsLabel">
+            سفارش شماره {{ order.id }}
+        </h4>
+        <span class="d-flex align-items-center fs-sm fw-medium text-body-emphasis">
+            <span class="bg-{{ order.status_color }} rounded-circle p-1 me-2"></span>
+            {{ order.get_status_display }}
+        </span>
+    </div>
+    <button type="button" class="btn-close mt-0" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+</div>
+<div class="offcanvas-body d-flex flex-column gap-4 pt-2 pb-3">
+    <div class="d-flex flex-column gap-3" id="detailItems">
+        {% for item in order.order_items.all %}
+        <div class="d-flex align-items-center">
+            <a class="flex-shrink-0" href="{% url 'shop:product_detail' item.product.slug %}">
+                <img src="{{ item.product.media.first.thumbnail.url }}" width="110" alt="{{ item.product.name }}">
+            </a>
+            <div class="w-100 min-w-0 ps-2 ps-sm-3">
+                <h5 class="d-flex animate-underline mb-2">
+                    <a class="d-block fs-sm fw-medium text-truncate animate-target"
+                        href="{% url 'shop:product_detail' item.product.slug %}">
+                        {{ item.product.name }}
+                    </a>
+                </h5>
+                <div class="h6 mb-2">{{ item.price|to_price }}</div>
+                <div class="fs-xs"> {{ item.quantity }} عدد</div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="border-top pt-4">
+        <h6>تحویل</h6>
+        <ul class="list-unstyled fs-sm mb-4">
+            <li class="d-flex justify-content-between mb-1">
+                تاریخ تحویل مورد انتظار:
+                <span class="text-body-emphasis fw-medium text-end ms-2">
+                    {{ order.estimated_delivery|date:"M j, Y" }}
+                </span>
+            </li>
+            <li class="d-flex justify-content-between">
+                روش ارسال:
+                <span class="text-body-emphasis fw-medium text-end ms-2">{{ order.shipping_carrier.name }}</span>
+            </li>
+            <li class="d-flex justify-content-between">
+                نشانی ارسال:
+                <span class="text-body-emphasis fw-medium text-end ms-2">
+                    {{ order.address|linebreaksbr }}
+                </span>
+            </li>
+            <div class="mt-2">
+                {% if order.tracking_url %}
+                <a href="{{ order.tracking_url }}" target="_blank" class="fs-sm text-decoration-none">
+                    📦 سفارش من کجاست؟
+                </a>
+                {% else %}
+                <button class="btn btn-sm btn-outline-secondary fs-sm py-0 px-1" disabled>
+                    📦 سفارش من کجاست؟
+                </button>
+                {% endif %}
+            </div>
+        </ul>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-between fs-sm border-top pt-4">
+        مجموع تخمینی:
+        <span class="h5 text-end ms-2 mb-0">{{ order.total_price|to_price }}</span>
+    </div>
+</div>

@@ -1,0 +1,427 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<main class='content-wrapper'>
+
+    <!-- Breadcrumb -->
+    <nav class='container pt-3 my-3 my-md-4' aria-label='breadcrumb'>
+        <ol class='breadcrumb'>
+            <li class='breadcrumb-item'><a href='/'>صفحه اصلی</a></li>
+            <li class='breadcrumb-item'><a href='{% url "shop:shop_list" %}'>لیست محصولات</a></li>
+            <li class='breadcrumb-item active' aria-current='page'>جزئیات {{product.name}}</li>
+        </ol>
+    </nav>
+
+
+    <!-- Page title -->
+    <h1 class='h3 container mb-4'>{{product.name}}</h1>
+
+
+    <!-- Nav links + Reviews -->
+    <section class='container pb-2 pb-lg-4'>
+        <div class='d-flex align-items-center border-bottom'>
+            {% block section %}
+            {% endblock %}
+
+            <a class='d-none d-md-flex align-items-center gap-2 text-decoration-none ms-auto mb-1' href='#reviews'>
+                <div class='d-flex gap-1 fs-sm'>
+                    {% for i in '12345' %}
+                    {% if product.rating >= forloop.counter %}
+                    <i class='ci-star-filled text-warning'></i>
+                    {% elif product.rating >= forloop.counter0|add_decimal:'0.5' %}
+                    <i class='ci-star-half text-warning'></i>
+                    {% else %}
+                    <i class='ci-star text-warning'></i>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <span class='text-body-tertiary fs-xs'>{{product.comments.count}} نظر</span>
+            </a>
+        </div>
+    </section>
+
+    {% block productGallery %}
+    {% endblock %}
+
+    <!-- Sticky product preview + Add to cart CTA -->
+    <section class='sticky-product-banner sticky-top d-md-none' data-sticky-element=''>
+        <div class='sticky-product-banner-inner pt-5'>
+            <div class='bg-body border-bottom border-light border-opacity-10 shadow pt-4 pb-2'>
+                <div class='container d-flex align-items-center'>
+                    <div class='d-flex align-items-center min-w-0 ms-n2 me-3'>
+                        <div class='ratio ratio-1x1 flex-shrink-0' style='width: 50px'>
+                            <img src='{{product.media.first.thumbnail.url}}' alt='{{product.name}}'>
+                        </div>
+                        <div class='w-100 min-w-0 ps-2'>
+                            <h4 class='fs-sm fw-medium text-truncate mb-1'>{{product.name}}</h4>
+                            <div class='h6 mb-0'>
+                                {% if product.discount_price %}
+                                <span class='price'>{{product.discount_price|to_price}} <del
+                                        class='text-body-tertiary fs-sm fw-normal'>{{product.price|to_price}}
+                                    </del></span>
+                                {% else %}
+                                <span class='price'>{{product.price|to_price}} </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class='d-flex gap-2 ms-auto'>
+                        {% if product.stock > 0 and isExist %}
+                        <button class='btn btn-primary animate-slide-end ' onclick='addToCart("{{product.id}}", 1)'>
+                            <i class='ci-shopping-cart fs-base animate-target ms-n1 me-2'></i>
+                            افزودن به سبد خرید
+                        </button>
+                        {% elif not isExist %}
+                        <button class='btn btn-primary btn-danger w-100 animate-slide-end' disabled>
+                            <i class='ci-alert-circle fs-lg animate-target ms-n1 me-2'></i>
+                            موجود نیست
+                        </button>
+                        {% else %}
+                        <button class='btn btn-primary btn-warning animate-slide-end '>
+                            <i class='ci-bell fs-lg animate-target ms-n1 me-2'></i>
+                            به من اطلاع بده
+                        </button>
+                        {% endif %}
+
+                        {% if isExist %}
+                        {% if not product in wishlist_items %}
+                        <button class='btn btn-icon btn-secondary animate-pulse wishlist-toggle-{{product.id}}'
+                            onclick='addToWishlist("{{product.id}}")'>
+                            <i class='ci-heart fs-base animate-target'></i>
+                        </button>
+                        {% else %}
+                        <button class='btn btn-icon btn-secondary animate-pulse wishlist-toggle-{{product.id}}'
+                            onclick='removeFromWishlist("{{product.id}}")'>
+                            <i class='ci-heart-filled fs-base animate-target'></i>
+                        </button>
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Product details and Reviews shared container -->
+    <section class='container pb-5 mb-2 mb-md-3 mb-lg-4 mb-xl-5'>
+        <div class='row'>
+            <div class='col-md-7'>
+
+                {% block productContent %}
+                {% endblock %}
+
+            </div>
+
+            <!-- Sticky product preview visible on screens > 991px wide (lg breakpoint) -->
+            <aside class='col-md-5 col-xl-4 offset-xl-1 d-none d-md-block' style='margin-top: -100px'>
+                <div class='position-sticky top-0 ps-3 ps-lg-4 ps-xl-0' style='padding-top: 100px'>
+                    <div class='border rounded p-3 p-lg-4'>
+                        <div class='d-flex align-items-center mb-3'>
+                            <div class='ratio ratio-1x1 flex-shrink-0' style='width: 110px'>
+                                <img src='{{product.media.first.thumbnail.url}}' width='110' alt='{{product.name}}'>
+                            </div>
+                            <div class='w-100 min-w-0 ps-2 ps-sm-3'>
+                                <div class='d-flex align-items-center gap-2 mb-2'>
+                                    <div class='d-flex gap-1 fs-xs'>
+                                        {% for i in '12345' %}
+                                        {% if product.rating >= forloop.counter %}
+                                        <i class='ci-star-filled text-warning'></i>
+                                        {% elif product.rating >= forloop.counter0|add_decimal:'0.5' %}
+                                        <i class='ci-star-half text-warning'></i>
+                                        {% else %}
+                                        <i class='ci-star text-warning'></i>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    <span class='text-body-tertiary fs-xs'>{{product.comments.count}}</span>
+                                </div>
+                                <h4 class='fs-sm fw-medium mb-2'>{{product.name}}</h4>
+                                <div class='h5 mb-0'>
+                                    {% if product.discount_price %}
+                                    <span class='price'>{{product.discount_price|to_price}} <del
+                                            class='text-body-tertiary fs-sm fw-normal'>{{product.price|to_price}}
+                                        </del></span>
+                                    {% else %}
+                                    <span class='price'>{{product.price|to_price}} </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class='d-flex gap-2 gap-lg-3'>
+                            {% if product.stock > 0 and isExist %}
+                            <button class='btn btn-primary w-100 animate-slide-end'
+                                onclick='addToCart("{{product.id}}", 1)'>
+                                <i class='ci-shopping-cart fs-base animate-target ms-n1 me-2'></i>
+                                افزودن به سبد خرید
+                            </button>
+                            {% elif not isExist %}
+                            <button class='btn btn-primary btn-danger w-100 animate-slide-end' disabled>
+                                <i class='ci-alert-circle fs-lg animate-target ms-n1 me-2'></i>
+                                این گزینه‌ها موجود نیستند
+                            </button>
+                            {% else %}
+                            <button class='btn btn-primary btn-warning w-100 animate-slide-end'>
+                                <i class='ci-bell fs-lg animate-target ms-n1 me-2'></i>
+                                به من اطلاع بده
+                            </button>
+                            {% endif %}
+                            {% if isExist %}
+                            {% if not product in wishlist_items %}
+                            <button class='btn btn-icon btn-secondary animate-pulse wishlist-toggle-{{product.id}}'
+                                onclick='addToWishlist("{{product.id}}")'>
+                                <i class='ci-heart fs-base animate-target'></i>
+                            </button>
+                            {% else %}
+                            <button class='btn btn-icon btn-secondary animate-pulse wishlist-toggle-{{product.id}}'
+                                onclick='removeFromWishlist("{{product.id}}")'>
+                                <i class='ci-heart-filled fs-base animate-target'></i>
+                            </button>
+                            {% endif %}
+                            {% endif %}
+                            <button class='btn btn-icon btn-secondary animate-rotate' data-bs-toggle='tooltip'
+                                data-bs-placement='top' data-bs-custom-class='tooltip-sm' data-bs-title='مقایسه'
+                                aria-label='مقایسه'>
+                                <i class='ci-refresh-cw fs-base animate-target'></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+
+    <!-- Viewed products (Carousel) -->
+    <section class='container pb-4 pb-md-5 mb-2 mb-sm-0 mb-lg-2 mb-xl-4'>
+        <h2 class='h3 border-bottom pb-4 mb-0'>محصولات مشابه</h2>
+
+        <!-- Product carousel -->
+        <div class='position-relative mx-md-1'>
+
+            <!-- External slider prev/next buttons visible on screens > 500px wide (sm breakpoint) -->
+            <button
+                class='viewed-prev btn btn-prev btn-icon btn-outline-secondary bg-body rounded-circle animate-slide-start position-absolute top-50 start-0 z-2 translate-middle-y ms-n1 d-none d-sm-inline-flex'
+                aria-label='قبلی'>
+                <i class='ci-chevron-left fs-lg animate-target'></i>
+            </button>
+            <button
+                class='viewed-next btn btn-next btn-icon btn-outline-secondary bg-body rounded-circle animate-slide-end position-absolute top-50 end-0 z-2 translate-middle-y me-n1 d-none d-sm-inline-flex'
+                aria-label='بعدی'>
+                <i class='ci-chevron-right fs-lg animate-target'></i>
+            </button>
+
+            <!-- Slider -->
+            <div class='swiper py-4 px-sm-3' data-swiper='{
+          "slidesPerView": 2,
+          "spaceBetween": 24,
+          "loop": true,
+          "navigation": {
+            "prevEl": ".viewed-prev",
+            "nextEl": ".viewed-next"
+          },
+          "breakpoints": {
+            "768": {
+              "slidesPerView": 3
+            },
+            "992": {
+              "slidesPerView": 4
+            }
+          }
+        }'>
+                <div class='swiper-wrapper'>
+
+                    {% for product in similar_products %}
+                    <!-- Item -->
+                    <div class='swiper-slide'>
+                        <div class='product-card animate-underline hover-effect-opacity bg-body rounded'>
+                            <div class='position-relative'>
+                                <div class='position-absolute top-0 end-0 z-2 hover-effect-target opacity-0 mt-3 me-3'>
+                                    <div class='d-flex flex-column gap-2'>
+                                        {% if not product in wishlist_items %}
+                                        <button
+                                            class='btn btn-icon btn-secondary animate-pulse d-none d-lg-inline-flex  wishlist-toggle-{{product.id}}'
+                                            onclick='addToWishlist("{{product.id}}")'>
+                                            <i class='ci-heart fs-base animate-target'></i>
+                                        </button>
+                                        {% else %}
+                                        <button
+                                            class='btn btn-icon btn-secondary animate-pulse d-none d-lg-inline-flex  wishlist-toggle-{{product.id}}'
+                                            onclick='removeFromWishlist("{{product.id}}")'>
+                                            <i class='ci-heart-filled fs-base animate-target'></i>
+                                        </button>
+                                        {% endif %}
+                                        <button
+                                            class='btn btn-icon btn-secondary animate-rotate d-none d-lg-inline-flex'
+                                            aria-label='مقایسه'>
+                                            <i class='ci-refresh-cw fs-base animate-target'></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class='dropdown d-lg-none position-absolute top-0 end-0 z-2 mt-2 me-2'>
+                                    <button class='btn btn-icon btn-sm btn-secondary bg-body' data-bs-toggle='dropdown'
+                                        aria-expanded='false' aria-label='More actions'>
+                                        <i class='ci-more-vertical fs-lg'></i>
+                                    </button>
+                                    <ul class='dropdown-menu dropdown-menu-end fs-xs p-2' style='min-width: auto'>
+                                        <li>
+                                            {% if not product in wishlist_items %}
+                                            <button class='dropdown-item wishlist-toggle-{{product.id}}'
+                                                onclick='addToWishlist("{{product.id}}")'>
+                                                <i class='ci-heart fs-base animate-target'></i>
+                                            </button>
+                                            {% else %}
+                                            <button class='dropdown-item wishlist-toggle-{{product.id}}'
+                                                onclick='removeFromWishlist("{{product.id}}")'>
+                                                <i class='ci-heart-filled fs-base animate-target'></i>
+                                            </button>
+                                            {% endif %}
+                                        </li>
+
+                                        <li>
+                                            <a class='dropdown-item' href='#!'>
+                                                <i class='ci-refresh-cw fs-base animate-target'></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <a class='d-block rounded-top overflow-hidden p-3 p-sm-4'
+                                    href='{% url "shop:product_detail" product.slug %}'>
+                                    <div class='ratio' style='--cz-aspect-ratio: calc(240 / 258 * 100%)'>
+                                        <img src='{{product.media.first.thumbnail.url}}' alt='{{product.name}}'>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class='w-100 min-w-0 px-1 pb-2 px-sm-3 pb-sm-3'>
+                                <div class='d-flex align-items-center gap-2 mb-2'>
+                                    <div class='d-flex gap-1 fs-xs'>
+                                        {% for i in '12345' %}
+                                        {% if product.rating >= forloop.counter %}
+                                        <i class='ci-star-filled text-warning'></i>
+                                        {% elif product.rating >= forloop.counter0|add_decimal:'0.5' %}
+                                        <i class='ci-star-half text-warning'></i>
+                                        {% else %}
+                                        <i class='ci-star text-warning'></i>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    <span class='text-body-tertiary fs-xs'>({{product.comments.count}})</span>
+                                </div>
+                                <h3 class='pb-1 mb-2'>
+                                    <a class='d-block fs-sm fw-medium text-truncate'
+                                        href='{% url "shop:product_detail" product.slug %}'>
+                                        <span class='animate-target'>{{product.name}}</span>
+                                    </a>
+                                </h3>
+                                <div class='d-flex align-items-center justify-content-between'>
+                                    <div class='h6 mb-0'>
+                                        {% if product.discount_price %}
+                                        <span class='price'>{{product.discount_price|to_price}} <del
+                                                class='text-body-tertiary fs-sm fw-normal'>{{product.price|to_price}}
+                                            </del></span>
+                                        {% else %}
+                                        <span class='price'>{{product.price|to_price}} </span>
+                                        {% endif %}
+                                    </div>
+                                    <button
+                                        class='product-card-button btn btn-icon btn-secondary animate-slide-end ms-2'
+                                        onclick='addToCart("{{product.id}}", 1)'>
+                                        <i class='ci-shopping-cart fs-base animate-target'></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- External slider prev/next buttons visible on screens < 500px wide (sm breakpoint) -->
+            <div class='d-flex justify-content-center gap-2 mt-n2 mb-3 pb-1 d-sm-none'>
+                <button
+                    class='viewed-prev btn btn-prev btn-icon btn-outline-secondary bg-body rounded-circle animate-slide-start me-1'
+                    aria-label='قبلی'>
+                    <i class='ci-chevron-left fs-lg animate-target'></i>
+                </button>
+                <button
+                    class='viewed-next btn btn-next btn-icon btn-outline-secondary bg-body rounded-circle animate-slide-end'
+                    aria-label='بعدی'>
+                    <i class='ci-chevron-right fs-lg animate-target'></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Subscription form + Vlog -->
+    <section class='bg-body-tertiary py-5'>
+        <div class='container pt-sm-2 pt-md-3 pt-lg-4 pt-xl-5'>
+            <div class='row'>
+                <div class='col-md-6 col-lg-5 mb-5 mb-md-0'>
+                    <h2 class='h4 mb-2'>در خبرنامه ما عضو شوید</h2>
+                    <p class='text-body pb-2 pb-ms-3'>جدیدترین به‌روزرسانی‌های محصولات و تخفیفات ما را دریافت کنید</p>
+                    <form class='d-flex needs-validation pb-1 pb-sm-2 pb-md-3 pb-lg-0 mb-4 mb-lg-5' novalidate=''>
+                        <div class='position-relative w-100 me-2'>
+                            <input type='email' class='form-control form-control-lg' placeholder='ایمیل شما'
+                                required=''>
+                        </div>
+                        <button type='submit' class='btn btn-lg btn-primary'>اشتراک</button>
+                    </form>
+                    <div class='d-flex gap-3'>
+                        <a class='btn btn-icon btn-secondary rounded-circle' href='#!' aria-label='اینستاگرام'>
+                            <i class='ci-instagram fs-base'></i>
+                        </a>
+                        <a class='btn btn-icon btn-secondary rounded-circle' href='#!' aria-label='فیسبوک'>
+                            <i class='ci-facebook fs-base'></i>
+                        </a>
+                        <a class='btn btn-icon btn-secondary rounded-circle' href='#!' aria-label='یوتیوب'>
+                            <i class='ci-youtube fs-base'></i>
+                        </a>
+                        <a class='btn btn-icon btn-secondary rounded-circle' href='#!' aria-label='تلگرام'>
+                            <i class='ci-telegram fs-base'></i>
+                        </a>
+                    </div>
+                </div>
+                <div class='col-md-6 col-lg-5 col-xl-4 offset-lg-1 offset-xl-2'>
+                    <ul class='list-unstyled d-flex flex-column gap-4 ps-md-4 ps-lg-0 mb-3'>
+                        <li class='nav flex-nowrap align-items-center position-relative'>
+                            <img src='{% static "img/vlog/01.jpg" %}' class='rounded' width='140' alt='کاور ویدیو'>
+                            <div class='ps-3'>
+                                <div class='fs-xs text-body-secondary lh-sm mb-2'>6:16</div>
+                                <a class='nav-link fs-sm hover-effect-underline stretched-link p-0' href='#!'>۵ گجت جدید
+                                    و جالب که باید در پی اس سی گیمز ببینید - بودجه کم</a>
+                            </div>
+                        </li>
+                        <li class='nav flex-nowrap align-items-center position-relative'>
+                            <img src='{% static "img/vlog/02.jpg" %}' class='rounded' width='140' alt='کاور ویدیو'>
+                            <div class='ps-3'>
+                                <div class='fs-xs text-body-secondary lh-sm mb-2'>10:20</div>
+                                <a class='nav-link fs-sm hover-effect-underline stretched-link p-0' href='#!'>۵ گجت
+                                    فوق‌العاده مفید در پی اس سی گیمز که باید در ۲۰۲۳ داشته باشید</a>
+                            </div>
+                        </li>
+                        <li class='nav flex-nowrap align-items-center position-relative'>
+                            <img src='{% static "img/vlog/03.jpg" %}' class='rounded' width='140' alt='کاور ویدیو'>
+                            <div class='ps-3'>
+                                <div class='fs-xs text-body-secondary lh-sm mb-2'>8:40</div>
+                                <a class='nav-link fs-sm hover-effect-underline stretched-link p-0' href='#!'>۵ گجت
+                                    شگفت‌انگیز جدید در پی اس سی گیمز که حتماً باید ببینید</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class='nav ps-md-4 ps-lg-0'>
+                        <a class='btn nav-link animate-underline text-decoration-none px-0' href='#!'>
+                            <span class='animate-target'>مشاهده همه</span>
+                            <i class='ci-chevron-right fs-base ms-1'></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+
+{% endblock %}
