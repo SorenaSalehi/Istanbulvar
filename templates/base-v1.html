@@ -1,0 +1,754 @@
+{% load static %}
+{% load i18n %}
+
+<!DOCTYPE html>
+
+<html lang="fa" dir="rtl" data-bs-theme="light" data-pwa="true">
+
+
+<head>
+    <meta charset='utf-8'>
+
+    <!-- Viewport -->
+    <meta name='viewport'
+        content='width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover'>
+
+    <!-- SEO Meta Tags -->
+    <title>استانبول وار</title>
+    <meta name='description' content='istabulvar واردات پوشاک اورجینال و اصل از ترکیه زنانه , مردانه , بچگانه , پسرانه و دخترانه , زارا , دفاکتو , کوتون , نایک , آدیداس , اچ اند ام , مانگو , برشکا , کلوین کلاین  ,ویکتوریا سکرت , شاین '> 
+    <meta name='description' content='واردات اجناس اورجینال , پوشاک و اکسسوری , دکوری , لوازم منزل , اصل از ترکیه istanbulvar , defacto , zara , nike , adidas , h&m , mongo , bershka , calvin klein , victoria secret , shein , koton '>
+    <meta name='keywords'
+        content='فروشگاه آنلاین، تجارت الکترونیک، فروشگاه آنلاین، بازار، چندمنظوره، صفحه لندینگ محصول، سبد خرید، پرداخت، کیت رابط کاربری، حالت روشن و تاریک، bootstrap، html5، css3، javascript، گالری، اسلایدر، موبایل، pwa'>
+    <meta name='author' content='Createx Studio'>
+
+
+    <!-- Webmanifest + Favicon / App icons -->
+    <meta name='apple-mobile-web-app-status-bar-style' content='black'>
+    <link rel='manifest' href='{% static "manifest.json" %}'>
+
+    
+    <!-- //todo: png to webpp -->
+    <link rel='icon' type='image/png' href='{% static "app-icons/icon-32x32.png" %}' sizes='32x32'>
+    <link rel='apple-touch-icon' href='{% static "app-icons/icon-180x180.png" %}'>
+
+    <!-- Preloaded local web font (Inter) -->
+     <!-- //todo:check this font -->
+    <link rel='preload' href='{% static "fonts/inter-variable-latin.woff2" %}' as='font' type='font/woff2'
+        crossorigin=''>
+
+    <!-- Font icons -->
+    <link rel='preload' href='{% static "icons/cartzilla-icons.woff2" %}' as='font' type='font/woff2' crossorigin=''>
+    <link rel='stylesheet' href='{% static "icons/cartzilla-icons.min.css" %}'>
+
+    <!-- Vendor styles -->
+    <link rel='stylesheet' href='{% static "vendor/swiper/swiper-bundle.min.css" %}'>
+    <link rel='stylesheet' href='{% static "vendor/nouislider/nouislider.min.css" %}'>
+
+
+    
+    <!-- Bootstrap + Theme styles -->
+    <link rel="stylesheet" href="{% static 'css/theme.rtl.min.css' %}" id="theme-styles">
+    <link rel='stylesheet' href='{% static "vendor/drift-zoom/drift-basic.min.css" %}'>
+    <link rel='stylesheet' href='{% static "vendor/simplebar/simplebar.min.css" %}'>
+    <link rel='stylesheet' href='{% static "vendor/choices.js/choices.min.css" %}'>
+
+
+    <!--  <head> -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap&subset=latin,arabic"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bs-body-font-family: 'Vazirmatn', sans-serif;
+            --bs-heading-font-family: 'Vazirmatn', sans-serif;
+        }
+    </style>
+
+
+</head>
+
+<!-- Body -->
+
+<body>
+
+    <!-- Shopping cart offcanvas -->
+    <div class='offcanvas offcanvas-end pb-sm-2 px-sm-2' id='shoppingCart' tabindex='-1'
+        aria-labelledby='shoppingCartLabel' style='width: 500px'>
+
+        <!-- Header -->
+        <div class='offcanvas-header flex-column align-items-start py-3 pt-lg-4'>
+            <div class='d-flex align-items-center justify-content-between w-100'>
+                <h4 class='offcanvas-title' id='shoppingCartLabel'>سبد خرید من</h4>
+                <button type='button' class='btn-close' data-bs-dismiss='offcanvas' aria-label='بستن'></button>
+            </div>
+        </div>
+
+        <div class='offcanvas-body cartContainer' id='cartContainer'>
+            {% include "partials/cart_items.html" %}
+        </div>
+    </div>
+
+
+    <!-- //todo : split -->
+    <!-- Authenticate modal -->
+    <div class='modal fade' tabindex='-1' role='dialog' id='authenticate'>
+        <div class='modal-dialog modal-lg' role='document'>
+            <div class='modal-content row row-cols-1 row-cols-lg-2 flex-row g-0 overflow-hidden'>
+                <div class='col order-lg-2'>
+                    <div class='position-relative d-flex align-items-end h-100 pt-4 px-4 px-sm-5 px-lg-0'>
+                        <button type='button' class='btn-close position-absolute top-0 end-0 z-2 mt-3 me-3'
+                            data-bs-dismiss='modal' aria-label='بستن'></button>
+                        <div class='ratio position-relative z-1' style='--cz-aspect-ratio: calc(1030 / 1032 * 100%)'>
+                            <img src='static/img/account/cover.png' alt='دختر'>
+                        </div>
+                        <span class='position-absolute top-0 start-0 w-100 h-100 d-none-dark'
+                            style='background: linear-gradient(-90deg, #accbee 0%, #e7f0fd 100%)'></span>
+                        <span class='position-absolute top-0 start-0 w-100 h-100 d-none d-block-dark'
+                            style='background: linear-gradient(-90deg, #1b273a 0%, #1f2632 100%)'></span>
+                    </div>
+                </div>
+                <div class='col d-flex flex-column order-lg-1' id='authenticateContent'>
+                    <div class='modal-header d-block border-0 pt-sm-5 px-sm-5 pb-2'>
+                        <ul class='nav nav-tabs mt-sm-n2' role='tablist'>
+                            <li class='nav-item' role='presentation'>
+                                <button type='button' class='nav-link text-nowrap active' data-bs-toggle='tab'
+                                    data-bs-target='#signin' role='tab' aria-controls='signin' aria-selected='true'>
+                                    <i class='ci-log-in fs-base opacity-75 ms-n1 me-2'></i>
+                                    ورود
+                                </button>
+                            </li>
+                            <li class='nav-item' role='presentation'>
+                                <button type='button' class='nav-link text-nowrap' data-bs-toggle='tab'
+                                    data-bs-target='#signup' role='tab' aria-controls='signup' aria-selected='false'>
+                                    <i class='ci-user fs-base opacity-75 ms-n1 me-2'></i>
+                                    ثبت نام
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class='modal-body tab-content px-sm-5 pb-sm-5'>
+                        <div class='tab-pane fade show active' id='signin' role='tabpanel'>
+                            <h2 class='h5 mb-4'>خوش آمدید دوباره</h2>
+                            <form method='post' action='{% url "login" %}' id='loginForm'>
+                                {% csrf_token %}
+                                <div class='position-relative mb-4'>
+                                    <input type="text" class="form-control phone-mask" id='phone_number'
+                                        name='phone_number' placeholder="09__ - ___ - ____" maxlength="16"
+                                        style="direction: ltr; text-align: left;" required>
+                                </div>
+                                <div class='mb-4'>
+                                    <div class='password-toggle'>
+                                        <input type='password' name='password' style="direction: ltr; text-align: left;"
+                                            id='password' class='form-control' placeholder='رمز عبور' required>
+                                        <label class='password-toggle-button fs-lg'
+                                            aria-label='نمایش/مخفی کردن رمز عبور'>
+                                            <input type='checkbox' class='btn-check'>
+                                        </label>
+                                    </div>
+                                </div>
+                                <button type='submit' class='btn btn-primary w-100'>ورود</button>
+                            </form>
+                        </div>
+                        <div class='tab-pane fade' id='signup' role='tabpanel'>
+                            <h2 class='h5'>ایجاد حساب</h2>
+                            <form method='post' action='{% url "signup" %}' id='signupForm'>
+                                {% csrf_token %}
+                                <input type='hidden' name='next' value='{{request.get_full_path}}'>
+                                <div class='position-relative mb-4'>
+                                    <input type="text" class="form-control phone-mask" id='phone_number'
+                                        name='phone_number' placeholder="09__ - ___ - ____" maxlength="16"
+                                        style="direction: ltr; text-align: left;" required>
+                                </div>
+                                <div class='position-relative mb-3'>
+                                    <label for='register-email' class='form-label'>ایمیل</label>
+                                    <input type='email' class='form-control' name='email' required>
+                                </div>
+                                <div class='mb-4'>
+                                    <label for='register-password' class='form-label'>رمز عبور</label>
+                                    <div class='password-toggle'>
+                                        <input type='password' class='form-control' name='password' minlength='8'
+                                            placeholder='حداقل 8 کاراکتر' style="direction: ltr; text-align: left;"
+                                            required>
+                                        <label class='password-toggle-button fs-lg'
+                                            aria-label='نمایش/مخفی کردن رمز عبور'>
+                                            <input type='checkbox' class='btn-check'>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class='mb-4'>
+                                    <label for='register-password' class='form-label'>تکرار رمز عبور</label>
+                                    <div class='password-toggle'>
+                                        <input type='password' class='form-control' name='confirm_password'
+                                            minlength='8' placeholder='حداقل 8 کاراکتر'
+                                            style="direction: ltr; text-align: left;" required>
+                                        <label class='password-toggle-button fs-lg'
+                                            aria-label='نمایش/مخفی کردن رمز عبور'>
+                                            <input type='checkbox' class='btn-check'>
+                                        </label>
+                                    </div>
+                                </div>
+                                <button type='submit' class='btn btn-primary w-100'>ایجاد حساب</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wishlist offcanvas -->
+    <div class='offcanvas offcanvas-end pb-sm-2 px-sm-2' id='Wishlist' tabindex='-1' aria-labelledby='WishlistLabel'
+        style='width: 500px'>
+
+        <!-- Header -->
+        <div class='offcanvas-header flex-column align-items-start py-3 pt-lg-4'>
+            <div class='d-flex align-items-center justify-content-between w-100 mb-3 mb-lg-4'>
+                <h4 class='offcanvas-title' id='shoppingCartLabel'>علاقه‌مندی‌های من</h4>
+                <button type='button' class='btn-close' data-bs-dismiss='offcanvas' aria-label='بستن'></button>
+            </div>
+        </div>
+
+        <div class='offcanvas-body wishlistContainer' id='wishlistContainer'>
+            {% include "partials/wishlist_items.html" %}
+        </div>
+    </div>
+
+
+
+    <!-- Navigation bar (Page header) -->
+    <header class='navbar navbar-expand-lg navbar-dark bg-dark d-block z-fixed p-0'
+        data-sticky-navbar='{"offset": 500}'>
+        <div class='container d-block py-1 py-lg-3' data-bs-theme='dark'>
+            <div class='navbar-stuck-hide pt-1'></div>
+            <div class='row flex-nowrap align-items-center g-0'>
+                <div class='col col-lg-3 d-flex align-items-center'>
+
+                    <!-- Mobile offcanvas menu toggler (Hamburger) -->
+                    <button type='button' class='navbar-toggler me-4 me-lg-0' data-bs-toggle='offcanvas'
+                        data-bs-target='#navbarNav' aria-controls='navbarNav' aria-label='Toggle navigation'>
+                        <span class='navbar-toggler-icon'></span>
+                    </button>
+
+                    <!-- Navbar brand (Logo) -->
+                    <a href="/" class="navbar-brand me-0">
+                        <img src="{% static 'img/website/psc-white.png' %}" alt="لوگو" class="img-fluid"
+                            style="max-height:60px; width:auto;">
+                        <span class='d-none d-sm-flex flex-shrink-0 text-primary me-2'>
+                            <!-- پی اس سی گیمز -->
+                        </span>
+                    </a>
+                </div>
+                <div class='col col-lg-9 d-flex align-items-center justify-content-end'>
+                    <div class='position-relative flex-fill d-none d-lg-block pe-4 pe-xl-5'>
+                        <form action="{% url 'shop:shop_list' %}" method="get">
+                            <button type="submit"
+                                class="btn position-absolute top-50 translate-middle-y start-0 ms-3 p-0 border-0 bg-transparent">
+                                <i class="ci-search fs-lg text-white"></i>
+                            </button>
+                            <input type="search" name="query"
+                                class='form-control form-control-lg form-icon-start border-white rounded-pill'
+                                placeholder='جستجوی محصولات' value="{{ request.GET.query|default:'' }}">
+                        </form>
+                    </div>
+
+
+                    <!-- Sale link visible on screens > 1200px wide (xl breakpoint) -->
+                    <a class='d-none d-xl-flex align-items-center text-decoration-none animate-shake navbar-stuck-hide me-3 me-xl-4 me-xxl-5'
+                        href='{% url "shop:shop_list" %}?discount=yes'>
+                        <div
+                            class='btn btn-icon btn-lg fs-lg text-primary bg-body-secondary bg-opacity-75 pe-none rounded-circle'>
+                            <i class='ci-percent animate-target'></i>
+                        </div>
+                        <div class='ps-2 text-nowrap'>
+                            <div class='fs-xs text-body'>
+                                فقط برای این ماه </div>
+                            <div class='fw-medium text-white'> تا سقف ۷۰٪ تخفیف ویژه
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Button group -->
+                    <div class='d-flex align-items-center'>
+
+                        <!-- Navbar stuck nav toggler (optional) -->
+                        <button type='button' class='navbar-toggler d-none navbar-stuck-show me-3'
+                            data-bs-toggle='collapse' data-bs-target='#stuckNav' aria-controls='stuckNav'
+                            aria-expanded='false' aria-label='Toggle navigation in navbar stuck state'>
+                            <span class='navbar-toggler-icon'></span>
+                        </button>
+
+                        <!-- Theme switcher (always visible) -->
+                        <div class='dropdown'>
+                            <button type='button'
+                                class='theme-switcher btn btn-icon btn-lg btn-outline-secondary fs-lg border-0 rounded-circle animate-scale d-none d-md-inline-flex'
+                                data-bs-toggle='dropdown' aria-expanded='false' aria-label='Temayı değiştir (açık)'>
+                                <span class='theme-icon-active d-flex animate-target'>
+                                    <i class='ci-sun'></i>
+                                </span>
+                            </button>
+                            <ul class='dropdown-menu' style='--cz-dropdown-min-width: 9rem'>
+                                <li>
+                                    <button type='button' class='dropdown-item active' data-bs-theme-value='light'
+                                        aria-pressed='true'>
+                                        <span class='theme-icon d-flex fs-base me-2'>
+                                            <i class='ci-sun'></i>
+                                        </span>
+                                        <span class='theme-label'>روز</span>
+                                        <i class='item-active-indicator ci-check ms-auto'></i>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type='button' class='dropdown-item' data-bs-theme-value='dark'
+                                        aria-pressed='false'>
+                                        <span class='theme-icon d-flex fs-base me-2'>
+                                            <i class='ci-moon'></i>
+                                        </span>
+                                        <span class='theme-label'>شب</span>
+                                        <i class='item-active-indicator ci-check ms-auto'></i>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type='button' class='dropdown-item' data-bs-theme-value='auto'
+                                        aria-pressed='false'>
+                                        <span class='theme-icon d-flex fs-base me-2'>
+                                            <i class='ci-auto'></i>
+                                        </span>
+                                        <span class='theme-label'>بر اساس سیستم</span>
+                                        <i class='item-active-indicator ci-check ms-auto'></i>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Search toggle button (visible on mobile due to d-lg-none class) -->
+                        <button type='button'
+                            class='btn btn-icon btn-lg fs-xl btn-outline-secondary border-0 rounded-circle animate-shake d-lg-none'
+                            data-bs-toggle='collapse' data-bs-target='#searchBar' aria-expanded='false'
+                            aria-controls='searchBar' aria-label='Arama çubuğunu göster/gizle'>
+                            <i class='ci-search animate-target'></i>
+                        </button>
+
+                        <!-- Account button -->
+                        {% if not user.is_authenticated %}
+                        <button type='button'
+                            class='btn btn-icon btn-lg fs-lg btn-outline-secondary border-0 rounded-circle animate-shake d-md-inline-flex'
+                            data-bs-toggle='modal' data-bs-target='#authenticate' aria-controls='authenticate'
+                            aria-label='Hesap'>
+                            <i class='ci-user animate-target'></i>
+                            <span class='visually-hidden'>Account</span>
+                        </button>
+                        {% else %}
+                        <a type='button'
+                            class='btn btn-icon btn-lg fs-lg btn-outline-secondary border-0 rounded-circle animate-shake d-md-inline-flex'
+                            aria-controls='authenticate' aria-label='Hesap' href='{% url "website:orders" %}'>
+                            <i class='ci-user animate-target'></i>
+                            <span class='visually-hidden'>Account</span>
+                        </a>
+                        {% endif %}
+
+                        <!-- Wishlist button -->
+                        <button type='button'
+                            class='btn btn-icon btn-lg animate-pulse fs-lg btn-secondary position-relative rounded-circle ms-2'
+                            data-bs-toggle='offcanvas' data-bs-target='#Wishlist' aria-controls='Wishlist'
+                            aria-label='Favoriler'>
+                            <i class='ci-heart animate-target'></i>
+                            <span
+                                class='position-absolute top-0 start-100 mt-n1 ms-n3 badge text-bg-success border border-3 border-dark rounded-pill wishlistCount'
+                                style='--cz-badge-padding-y: .25em; --cz-badge-padding-x: .42em'>{{wishlist_count}}</span>
+                            <span class='visually-hidden'>Wishlist</span>
+                        </button>
+
+                        <!-- Cart button -->
+                        <button type='button'
+                            class='btn btn-icon btn-lg btn-secondary position-relative rounded-circle ms-2'
+                            data-bs-toggle='offcanvas' data-bs-target='#shoppingCart' aria-controls='shoppingCart'
+                            aria-label='Alışveriş Sepeti'>
+                            <span
+                                class='position-absolute top-0 start-100 mt-n1 ms-n3 badge text-bg-success border border-3 border-dark rounded-pill cartCount'
+                                style='--cz-badge-padding-y: .25em; --cz-badge-padding-x: .42em'>{{cart_count}}</span>
+                            <span
+                                class='position-absolute top-0 start-0 d-flex align-items-center justify-content-center w-100 h-100 rounded-circle animate-slide-end fs-lg'>
+                                <i class='ci-shopping-cart animate-target ms-n1'></i>
+                            </span>
+                            <span class='visually-hidden'>Cart</span>
+                        </button>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class='navbar-stuck-hide pb-1'></div>
+        </div>
+
+        <!-- Search visible on screens < 992px wide (lg breakpoint). It is hidden inside collapse by default -->
+        <div class="collapse position-absolute top-100 z-2 w-100 bg-dark d-lg-none" id="searchBar">
+            <form action="{% url 'shop:shop_list' %}" method="get">
+                <div class="container position-relative my-3" data-bs-theme="dark">
+                    <button type="submit"
+                        class="btn position-absolute top-50 translate-middle-y d-flex fs-lg text-white ms-3 p-0"
+                        style="background: none; border: none;">
+                        <i class="ci-search"></i>
+                    </button>
+
+                    <input name="query" type="search" class="form-control form-icon-start border-white rounded-pill"
+                        placeholder='جستجوی محصولات' data-autofocus="collapse">
+                </div>
+            </form>
+        </div>
+
+        <!-- Main navigation that turns into offcanvas on screens < 992px wide (lg breakpoint) -->
+        <div class='collapse navbar-stuck-hide' id='stuckNav'>
+            <nav class='offcanvas offcanvas-start' id='navbarNav' tabindex='-1' aria-labelledby='navbarNavLabel'>
+                <div class='offcanvas-header py-3'>
+                    <h5 class='offcanvas-title' id='navbarNavLabel'>کاوش PSC Games</h5>
+                    <button type='button' class='btn-close' data-bs-dismiss='offcanvas' aria-label='بستن'></button>
+                </div>
+                <div class='offcanvas-body py-3 py-lg-0'>
+                    <div class='container px-0 px-lg-3'>
+                        <div class='row'>
+
+                            {% include "partials/category_menu_item.html" %}
+
+                            <!-- Navbar nav -->
+                            <div class='col-lg-9 d-lg-flex pt-3 pt-lg-0 ps-lg-0'>
+                                <ul class='navbar-nav position-relative'>
+                                    <li class='nav-item me-lg-n2 me-xl-0'>
+                                        <a class='nav-link' href='/'>صفحه اصلی</a>
+                                    </li>
+                                    <li class='nav-item dropdown me-lg-n1 me-xl-0'>
+                                        <a class='nav-link dropdown-toggle active' aria-current='page' href='#'
+                                            role='button' data-bs-toggle='dropdown' data-bs-trigger='hover'
+                                            aria-expanded='false'>برندها</a>
+                                        <ul class='dropdown-menu'>
+                                            {% for brand in brands %}
+                                            <li class='hover-effect-opacity px-2 mx-n2'>
+                                                <a class='dropdown-item d-block mb-0'
+                                                    href='{% url "shop:shop_list" %}?brand={{brand.slug}}'>
+                                                    <span class='fw-medium'>{{ brand.name }}</span>
+                                                    <span
+                                                        class='d-block fs-xs text-body-secondary'>{{brand.description}}</span>
+                                                    <div class='d-none d-lg-block hover-effect-target position-absolute top-0 start-100 bg-body border border-light-subtle rounded rounded-start-0 transition-none invisible opacity-0 pt-2 px-2 ms-n2'
+                                                        style='width: 212px; height: calc(100% + 2px); margin-top: -1px'>
+                                                        <img class='position-relative z-2' src='{{ brand.img.url }}'
+                                                            alt='{{ brand.name }}'>
+                                                        <span
+                                                            class='position-absolute top-0 start-0 w-100 h-100 rounded rounded-start-0 d-none-dark'
+                                                            style='box-shadow: .875rem .5rem 2rem -.5rem #676f7b; opacity: .1'></span>
+                                                        <span
+                                                            class='position-absolute top-0 start-0 w-100 h-100 rounded rounded-start-0 d-none d-block-dark'
+                                                            style='box-shadow: .875rem .5rem 1.875rem -.5rem #080b12; opacity: .25'></span>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                    <li class='nav-item me-lg-n2 me-xl-0'>
+                                        <a class='nav-link' href='{% url "shop:shop_list" %}'>محصولات</a>
+                                    </li>
+                                    <li class='nav-item me-lg-n2 me-xl-0'>
+                                        <a class='nav-link' href='{% url "website:contact" %}'>تماس با ما</a>
+                                    </li>
+                                </ul>
+                                <hr class='d-lg-none my-3'>
+                                <ul class='navbar-nav ms-auto d-block d-lg-none'>
+                                    <li class='nav-item me-lg-n2 me-xl-0'>
+                                        {% if not user.is_authenticated %}
+                                        <button class='nav-link' type='button' data-bs-toggle='modal'
+                                            data-bs-target='#authenticate' aria-controls='authenticate'
+                                            aria-label='authenticate'>
+                                            ورود / ثبت نام
+                                        </button>
+                                        {% else %}
+                                        <a class='nav-link' href='{% url "website:orders" %}'>
+                                            <i class='ci-user fs-base opacity-75 ms-n1 me-2'></i>پروفایل و تنظیمات</a>
+                                        <a class='nav-link' href='{% url "logout" %}'>
+                                            <i class='ci-log-out fs-base opacity-75 ms-n1 me-2'></i>خروج</a>
+                                        {% endif %}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+            </nav>
+        </div>
+        </div>
+    </header>
+
+    {% block content %}
+    {% endblock %}
+
+    <!-- Subscription form + Vlog -->
+    <section class="bg-body-tertiary py-5">
+        <div class="container pt-sm-2 pt-md-3 pt-lg-4 pt-xl-5">
+            <div class="row">
+                <div class="col-md-6 col-lg-5 mb-5 mb-md-0">
+                    <h2 class="h4 mb-2">در خبرنامه ما مشترک شوید</h2>
+                    <p class="text-body pb-2 pb-ms-3">آخرین به‌روزرسانی‌ها درباره محصولات و کمپین‌های ما را دریافت کنید
+                    </p>
+                    <form class="d-flex needs-validation pb-1 pb-sm-2 pb-md-3 pb-lg-0 mb-4 mb-lg-5" novalidate>
+                        <div class="position-relative w-100 me-2">
+                            <input type="email" class="form-control form-control-lg" placeholder="ایمیل شما" required>
+                        </div>
+                        <button type="submit" class="btn btn-lg btn-primary">مشترک شوید</button>
+                    </form>
+                    <div class="d-flex gap-3">
+                        <a class="btn btn-icon btn-secondary rounded-circle"
+                            href="https://www.instagram.com/pscgameshop" aria-label="Instagram" target="_blank">
+                            <i class="ci-instagram fs-base"></i>
+                        </a>
+                        <a class="btn btn-icon btn-secondary rounded-circle" href="https://wa.me/+989219869325"
+                            aria-label="whatsapp" target="_blank">
+                            <i class="ci-whatsapp fs-base"></i>
+                        </a>
+                        <!-- <a class="btn btn-icon btn-secondary rounded-circle" href="#!" aria-label="Facebook">
+                            <i class="ci-facebook fs-base"></i>
+                        </a> -->
+                        <!-- <a class="btn btn-icon btn-secondary rounded-circle" href="#!" aria-label="YouTube">
+                            <i class="ci-youtube fs-base"></i>
+                        </a> -->
+                        <!-- <a class="btn btn-icon btn-secondary rounded-circle" href="#!" aria-label="Telegram">
+                            <i class="ci-telegram fs-base"></i>
+                        </a> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Page footer -->
+    <footer class='footer position-relative bg-dark'>
+        <span class='position-absolute top-0 start-0 w-100 h-100 bg-body d-none d-block-dark'></span>
+        <div class='container position-relative z-1 pt-sm-2 pt-md-3 pt-lg-4' data-bs-theme='dark'>
+
+            <!-- Columns with links that are turned into accordion on screens < 500px wide (sm breakpoint) -->
+            <div class='accordion py-5' id='footerLinks'>
+                <div class='row'>
+                    <div class='col-md-4 d-sm-flex flex-md-column align-items-center align-items-md-start pb-3 mb-sm-4'>
+                        <h4 class='mb-sm-0 mb-md-4 me-4'>
+                            <a href='/' class='navbar-brand me-0'>
+                                <img src="{% static 'img/website/psc-white.png' %}" alt="لوگو" class="img-fluid">
+                                <span class='d-none d-sm-flex flex-shrink-0 text-primary me-2'>
+                                    <!-- Wigenzo PSC  -->
+                                </span>
+                            </a>
+                        </h4>
+                    </div>
+                    <div class='col-md-8'>
+                        <div class='row row-cols-1 row-cols-sm-3 gx-3 gx-md-4'>
+                            <div class='accordion-item col border-0'>
+                                <h6 class='accordion-header' id='companyHeading'>
+                                    <span class='text-dark-emphasis d-none d-sm-block'>شرکت</span>
+                                    <button type='button' class='accordion-button collapsed py-3 d-sm-none'
+                                        data-bs-toggle='collapse' data-bs-target='#companyLinks' aria-expanded='false'
+                                        aria-controls='companyLinks'>شرکت</button>
+                                </h6>
+                                <div class='accordion-collapse collapse d-sm-block' id='companyLinks'
+                                    aria-labelledby='companyHeading' data-bs-parent='#footerLinks'>
+                                    <ul class='nav flex-column gap-2 pt-sm-3 pb-3 mt-n1 mb-1'>
+                                        <li class='d-flex w-100 pt-1'>
+                                            <a class='nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0'
+                                                href='{% url "website:about" %}'>درباره شرکت</a>
+                                        </li>
+                                        <li class='d-flex w-100 pt-1'>
+                                            <a class='nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0'
+                                                href='#!'>فرصت‌های شغلی</a>
+                                        </li>
+                                        <li class='d-flex w-100 pt-1'>
+                                            <a class='nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0'
+                                                href='{% url "website:contact" %}'>تماس با ما</a>
+                                        </li>
+                                        <li class='d-flex w-100 pt-1'>
+                                            <a class='nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0'
+                                                href='#!'>اخبار</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <hr class='d-sm-none my-0'>
+                            </div>
+                            <div class='accordion-item col border-0'>
+                                <h6 class='accordion-header' id='accountHeading'>
+                                    <span class='text-dark-emphasis d-none d-sm-block'>حساب</span>
+                                    <button type='button' class='accordion-button collapsed py-3 d-sm-none'
+                                        data-bs-toggle='collapse' data-bs-target='#accountLinks' aria-expanded='false'
+                                        aria-controls='accountLinks'>حساب</button>
+                                </h6>
+                                <div class='accordion-collapse collapse d-sm-block' id='accountLinks'
+                                    aria-labelledby='accountHeading' data-bs-parent='#footerLinks'>
+                                    <ul class='nav flex-column gap-2 pt-sm-3 pb-3 mt-n1 mb-1'>
+                                        <li class='d-flex w-100 pt-1'>
+                                            {% if not user.is_authenticated %}
+                                            <a type='button' aria-controls='authenticate' aria-label='Hesap'
+                                                data-bs-toggle='modal' data-bs-target='#authenticate'
+                                                class='nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0'
+                                                href='#!'>حساب شما
+                                            </a>
+                                            {% else %}
+                                            <a class='nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0'
+                                                href='{% url "website:orders" %}'>حساب شما</a>
+                                            {% endif %}
+                                        </li>
+                                        <li class='d-flex w-100 pt-1'>
+                                            <a class='nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0'
+                                                href='#!'>هزینه‌ها و سیاست‌های حمل‌ونقل</a>
+                                        </li>
+                                        <li class='d-flex w-100 pt-1'>
+                                            <a class='nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0'
+                                                href='#!'>مرجوعی‌ها &amp; تعویض‌ها</a>
+                                        </li>
+                                        <li class='d-flex w-100 pt-1'>
+                                            <a class='nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0'
+                                                href='#!'>اطلاعات تحویل</a>
+                                        </li>
+                                        <li class='d-flex w-100 pt-1'>
+                                            <a class='nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0'
+                                                href='#!'>پیگیری سفارش</a>
+                                        </li>
+                                        <li class='d-flex w-100 pt-1'>
+                                            <a class='nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0'
+                                                href='#!'>مالیات‌ها &amp; هزینه‌ها</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <hr class='d-sm-none my-0'>
+                            </div>
+                            <div class='accordion-item col border-0'>
+                                <h6 class='accordion-header' id='customerHeading'>
+                                    <span class='text-dark-emphasis d-none d-sm-block'>خدمات مشتریان</span>
+                                    <button type='button' class='accordion-button collapsed py-3 d-sm-none'
+                                        data-bs-toggle='collapse' data-bs-target='#customerLinks' aria-expanded='false'
+                                        aria-controls='customerLinks'>خدمات مشتریان</button>
+                                </h6>
+                                <div class='accordion-collapse collapse d-sm-block' id='customerLinks'
+                                    aria-labelledby='customerHeading' data-bs-parent='#footerLinks'>
+                                    <ul class='nav flex-column gap-2 pt-sm-3 pb-3 mt-n1 mb-1'>
+                                        <li class='d-flex w-100 pt-1'>
+                                            <a class='nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0'
+                                                href='{% url "website:mss" %}'>قرارداد فروش از راه دور</a>
+                                        </li>
+                                        <li class='d-flex w-100 pt-1'>
+                                            <a class='nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0'
+                                                href='{% url "website:gp" %}'>سیاست حفظ حریم خصوصی</a>
+                                        </li>
+                                        <li class='d-flex w-100 pt-1'>
+                                            <a class='nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0'
+                                                href='{% url "website:orderAndRefound" %}'>شرایط تحویل، مرجوع و خرید</a>
+                                        </li>
+                                        <li class='d-flex w-100 pt-1'>
+                                            <a class='nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0'
+                                                href='{% url "website:contact" %}'>مرکز پشتیبانی</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <hr class='d-sm-none my-0'>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category / tag links -->
+            <div class='d-flex flex-column gap-3 pb-3 pb-md-4 pb-lg-5 mt-n2 mt-sm-n4 mt-lg-0 mb-4'>
+                <ul class='nav align-items-center text-body-tertiary gap-2'>
+                    {% for category in categories %}
+                    <li class='animate-underline'>
+                        <a class='nav-link fw-normal p-0 animate-target'
+                            href='{% url "shop:shop_list" %}?category={{category.slug}}'>{{category.name}}</a>
+                    </li>
+                    <li class='px-1'>/</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+
+            <!-- Copyright + Payment methods -->
+            <div class='d-md-flex align-items-center border-top py-4'>
+                <div class='d-flex gap-2 gap-sm-3 justify-content-center ms-md-auto mb-4 mb-md-0 order-md-2'>
+                    <div>
+                        <img src="{% static 'img/payment-methods/e-namad.png' %}" alt="اینماد" class="img-fluid"
+                            style="max-height:120px;">
+                    </div>
+                    <div>
+                        <img src="{% static 'img/payment-methods/zarrinpal.png' %}" alt="زرین‌پال" class="img-fluid"
+                            style="max-height:82px;">
+                    </div>
+                </div>
+                <p class='text-body fs-xs text-center text-md-start mb-0 me-4 order-md-1'>Wigenzo PCS © تمام حقوق
+                    محفوظ
+                    است.</p>
+            </div>
+
+        </div>
+    </footer>
+
+
+
+    <!-- Back to top button -->
+    <div class='floating-buttons position-fixed top-50 end-0 z-sticky me-3 me-xl-4 pb-4'>
+        <a class='btn-scroll-top btn btn-sm bg-body border-0 rounded-pill shadow animate-slide-end' href='#top'>
+            بالا
+            <i class='ci-arrow-left fs-base ms-1 me-n1 animate-target'></i>
+            <span class='position-absolute top-0 start-0 w-100 h-100 border rounded-pill z-0'></span>
+            <svg class='position-absolute top-0 start-0 w-100 h-100 z-1' viewBox='0 0 62 32' fill='none'
+                xmlns='http://www.w3.org/2000/svg'>
+                <rect x='.75' y='.75' width='60.5' height='30.5' rx='15.25' stroke='currentColor' stroke-width='1.5'
+                    stroke-miterlimit='10'></rect>
+            </svg>
+        </a>
+    </div>
+
+
+
+
+    <script>
+        // set custom urls for using in scripts.js
+        window.addToCartApiUrl = '{% url "shop:add_to_cart_api" %}';
+        window.checkOut = '{% url "shop:checkOut" %}';
+        window.removeFromCartApiUrl = '{% url "shop:remove_from_cart_api" %}';
+        window.cartPartial = '{% url "shop:cart_partial" %}';
+        window.infiniteScrollUrl = '{% url "shop:shop_list" %}';
+        window.addToWishlistApiUrl = '{% url "shop:add_to_wishlist_api" %}';
+        window.removeFromWishlistApiUrl = '{% url "shop:remove_from_wishlist_api" %}';
+        window.wishlistPartialUrl = '{% url "shop:wishlist_partial" %}';
+        window.setCurrentAddress = '{% url "setCurrentAddress" %}';
+        window.deleteAddress = '{% url "deleteAddress" %}';
+        window.orderDetail = '{% url "shop:order_detail" %}';
+    </script>
+
+    <script defer src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+    <script async src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+    <script async src='https://cdn.jsdelivr.net/npm/inputmask/dist/jquery.inputmask.min.js'></script>
+    <script defer   src='{% static "js/scripts.js" %}'></script>
+
+
+    <!-- Vendor scripts -->
+    <script defer src='{% static "vendor/drift-zoom/Drift.min.js" %}'></script>
+    <script defer src='{% static "vendor/swiper/swiper-bundle.min.js" %}'></script>
+    <script defer src='{% static "vendor/simplebar/simplebar.min.js" %}'></script>
+    <script defer src='{% static "vendor/choices.js/choices.min.js" %}'></script>
+    <script defer src='{% static "vendor/nouislider/nouislider.min.js" %}'></script>
+    <script defer src='{% static "vendor/flatpickr/flatpickr.min.js" %}'></script>
+    <script defer src='{% static "vendor/cleave.js/cleave.min.js" %}'></script>
+
+
+    <!-- Bootstrap + Theme scripts -->
+    <script async src='{% static "js/theme.min.js" %}'></script>
+
+    <!-- Theme switcher (color modes) -->
+    <script defer src='{% static "js/theme-switcher.js" %}'></script>
+
+
+
+    {% for message in messages %}
+    <script>
+        Swal.fire({
+            icon: '{{message.tags}}',
+            text: '{{message|linebreaksbr}}',
+            confirmButtonText: 'باشه',
+        });
+    </script>
+    {% endfor %}
+
+</body>
+
+</html>
