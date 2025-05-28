@@ -12,41 +12,66 @@ from .models import (
     AttributeValue,
 )
 from users.models import Address
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import Paginator
 from django.conf import settings
 from django.contrib import messages
 import json
 from payment.views import payment_iframe
 from django.db.models import Q
+from django.db.models import Min, Max
+from django.db.models.functions import Coalesce
 
 FREE_SHIPPING_THRESHOLD = 5000
 
 def shop_list(request):
     products = Product.objects.all()
+    # min and max price
+    products = products.annotate(effective_price=Coalesce("discount_price", "price"))
+
+    price_stats = products.aggregate(
+        global_min_price=Min("effective_price"),
+        global_max_price=Max("effective_price"),
+    )
+
     categories = Category.objects.all()
     brands = Brand.objects.all()
 
     # --- APPLY FILTERS ---
 
-    # محصولات تخفیف خورده
+    # --- SEARCH ---
+    search_query = request.GET.get("query")
+    if search_query:
+
+        products = products.filter(
+            Q(name__icontains=search_query)
+            | Q(category__name__icontains=search_query)
+            | Q(brand__name__icontains=search_query)
+        )
+
+    # discount products
     discount = request.GET.get("discount")
     if discount:
         products = products.filter(discount_price__isnull=False)
 
-    # فیلتر دسته‌بندی (checkbox با name="category")
     selected_cats = request.GET.getlist("category")
     if selected_cats:
-        products = products.filter(category__in=selected_cats)
+        products = products.filter(category__slug__in=selected_cats)
 
-    # فیلتر برند (checkbox با name="brand")
     selected_brands = request.GET.getlist("brand")
     if selected_brands:
-        products = products.filter(brand__in=selected_brands)
+        products = products.filter(brand__slug__in=selected_brands)
 
-    # فیلتر محدوده قیمت (inputs با name="min_price" / "max_price")
+    attributeIds = request.GET.getlist("attribute")
+    if attributeIds:
+        products = products.filter(attributes__in=attributeIds)
+    selectedAttributes = [int(x) for x in attributeIds]
+
+    products = products.distinct()
+    prodCount = products.count()
+
     min_price = request.GET.get("min_price")
     max_price = request.GET.get("max_price")
     if min_price:
@@ -54,24 +79,26 @@ def shop_list(request):
     if max_price:
         products = products.filter(price__lte=max_price)
 
-    # فیلتر ویژگی‌های داینامیک (checkbox با name="attr_<key>")
-    attribute_keys = AttributeValue.objects.values_list("key", flat=True).distinct()
-    for key in attribute_keys:
-        values = request.GET.getlist(f"attr_{key}")
-        if values:
-            products = products.filter(
-                attributes__key=key, attributes__value__in=values
-            )
+    user_min = request.GET.get("min_price")
+    user_max = request.GET.get("max_price")
 
-    products = products.distinct()
-    prodCount = products.count()
+    if user_min:
+        products = products.filter(
+            Q(discount_price__isnull=False, discount_price__gte=user_min)
+            | Q(discount_price__isnull=True, price__gte=user_min)
+        )
+    if user_max:
+        products = products.filter(
+            Q(discount_price__isnull=False, discount_price__lte=user_max)
+            | Q(discount_price__isnull=True, price__lte=user_max)
+        )
 
     # --- PAGINATE ---
-    paginator = Paginator(products, 9)  # 9 آیتم در هر صفحه
+    paginator = Paginator(products, 9)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    # --- بازسازی تعداد برای سایدبار (بدون تغییر) ---
+    # Collect attributes
     attributes = AttributeValue.objects.all()
     attributesDict = {}
     for attr in attributes:
@@ -102,15 +129,21 @@ def shop_list(request):
         "shop.html",
         {
             "categories": categories,
-            "proudCount":prodCount,
+            "proudCount": prodCount,
             "brands": brands,
             "attributesDict": attributesDict,
             "page_obj": page_obj,
             "paginator": paginator,
             "get_params": get_params,
+            # The full range for your price-slider
+            "global_min_price": price_stats["global_min_price"],
+            "global_max_price": price_stats["global_max_price"],
+            # What the user has currently entered (or None)
+            "selected_min_price": user_min or price_stats["global_min_price"],
+            "selected_max_price": user_max or price_stats["global_max_price"],
+            "selectedAttributes": selectedAttributes,
         },
     )
-
 
 
 def product_view(request, product_slug):
@@ -836,3 +869,9 @@ def sort_by_attr(queryset):
         return sorted(queryset, key=lambda item: item.attribute.name)
     except Exception:
         return queryset
+
+
+@register.filter
+def get_item(dct, key):
+    """مقدار dct[key] را برمی‌گرداند یا None اگر وجود نداشت"""
+    return dct.getlist(key)

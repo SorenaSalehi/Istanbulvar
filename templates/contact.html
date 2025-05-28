@@ -1,4 +1,3 @@
-````django
 {% extends 'base.html' %}
 {% load static %}
 
@@ -26,7 +25,7 @@
                     <button class='nav-link' id='retailers-tab' data-bs-toggle='pill' data-bs-target='#retailers'
                         type='button' role='tab' aria-controls='retailers' aria-selected='false'>
                         <i class='ci-box fs-base me-2 ms-n1'></i>
-                        برای خرده‌فروشان
+                        برای عمده فروشان
                     </button>
                 </li>
             </ul>
@@ -36,9 +35,7 @@
                 <div class='col-md-11 col-lg-9 col-xl-8'>
                     <div class='tab-content bg-body rounded-5 py-3 py-sm-4 px-4 px-sm-5'>
                         <p class='text-center py-3 mx-auto' style='max-width: 450px'>
-                            فرم زیر را پر کنید، ظرف ۲۴ ساعت با شما تماس خواهیم گرفت. همچنین می‌توانید مستقیماً از طریق
-                            <a class='text-decoration-none' href='mailto:info@wigenzo.com.tr'>info@wigenzo.com.tr</a>
-                            با ما در تماس باشید.
+                            فرم زیر را پر کنید، ظرف ۲۴ ساعت با شما تماس خواهیم گرفت.
                         </p>
 
                         <!-- Müşteriler Formu -->
@@ -171,8 +168,8 @@
                     class='ci-phone-outgoing bg-body-secondary text-white fs-4 rounded-circle p-3 mb-3 d-none d-inline-flex-dark'></i>
                 <h3 class='text-body fs-sm fw-normal mb-2'>مستقیماً با ما تماس بگیرید</h3>
                 <div class='nav animate-underline justify-content-center'>
-                    <a class='nav-link animate-target text-dark-emphasis fs-base p-0' href='tel:+905525707128'>+90 552
-                        570 7128</a>
+                    <a class='nav-link animate-target text-dark-emphasis fs-base p-0'
+                        href='tel:+989353006807'>0935-300-6807</a>
                 </div>
             </div>
             <div class='col text-center mb-2 mb-sm-0'>
@@ -196,40 +193,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Mağaza Konumları + Harita -->
-    <section class='container py-1 py-sm-2 py-md-3 py-lg-4 py-xl-5 my-xxl-3'>
-        <div class='row row-cols-1 row-cols-md-2 g-0 overflow-hidden rounded-5 my-5'>
-
-            <!-- Harita -->
-            <div class='col position-relative'>
-                <div class='ratio ratio-4x3'></div>
-                <img src='{% static "img/website/wigenzo-address.png" %}'
-                    class='position-absolute top-0 start-0 w-100 h-100 object-fit-cover' alt='آدرس وِیگِنزو'>
-            </div>
-
-            <!-- İletişim Detayları -->
-            <div class='col bg-body-tertiary order-md-1 py-5 px-4 px-xl-5'>
-                <div class='py-md-4 py-lg-5 px-md-4 px-lg-5'>
-                    <h1 class='pb-2 pb-sm-3 pb-lg-0 mb-md-4 mb-lg-5'>آدرس ما</h1>
-                    <ul class='list-unstyled pb-sm-2 mb-0'>
-                        <li class='lh-lg'>GÜRSEL MAH. NURTAÇ CAD. NO: 1 İÇ KAPI NO: 24
-                            <br>KAĞITHANE/ İSTANBUL
-                        </li>
-                        <li class='nav'>
-                            <a class='nav-link animate-underline fw-semibold px-0'
-                                href='https://maps.app.goo.gl/HrEsunT3UyzrhSTx7'
-                                data-glightbox='width: 100vw; height: 100vh;' data-gallery='map1' target='_blank'>
-                                <span class='animate-target'>نمایش در نقشه</span>
-                                <i class='ci-chevron-right fs-lg ms-2' style='margin-top: .1875rem'></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
 </main>
 
-{% endblock %}```
-````
+{% endblock %}

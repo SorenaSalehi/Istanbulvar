@@ -1,8 +1,6 @@
 # admin.py
 from django.contrib import admin
 from django.utils.html import format_html
-
-from shop.views import product_detail
 from .models import (
     Category,
     Brand,
@@ -21,6 +19,7 @@ from .models import (
     RelatedProduct,
     CommentMedia,
     ShippingCarrier,
+    SpecialOffer
 )
 
 from django_summernote.admin import SummernoteModelAdmin
@@ -86,6 +85,7 @@ admin.site.register(OrderItem)
 admin.site.register(Wishlist)
 admin.site.register(Comment)
 admin.site.register(CommentMedia)
+admin.site.register(SpecialOffer)
 admin.site.register(ProductDetail, ProductDetailAdmin)
 admin.site.register(AttributeValue)
 admin.site.register(ProductDetailMedia)

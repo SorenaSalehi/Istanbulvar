@@ -659,6 +659,43 @@
     });
 
 
+    document.getElementById("newsletterForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const email = document.getElementById("newsletterEmail").value;
+        const messageBox = document.getElementById("newsletterMessage");
+
+        fetch(window.newsletterAdd, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}",
+            },
+            body: JSON.stringify({ email: email }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    messageBox.innerHTML = "<div class='alert alert-success'>Teşekkürler. kaydınız başarılı</div>";
+                } else {
+                    messageBox.innerHTML = "<div class='alert alert-danger'>" + data.message + "</div>";
+                }
+            })
+            .catch(error => {
+                messageBox.innerHTML = "<div class='alert alert-danger'>bir hata oluştu!</div>";
+            });
+    });
+
+    window.addEventListener('load', function () {
+        const form = document.getElementById('filterForm');
+        if (!form) return;
+
+        // checkbox ve number input'lar
+        form.querySelectorAll('input[type="checkbox"]').forEach(input => {
+            input.addEventListener('change', () => form.submit());
+            input.addEventListener('input', () => form.submit());
+        });
+    });
 
 
 })();

@@ -24,8 +24,6 @@
                                             fill="currentColor">
                                             <!-- ...icon paths... -->
                                         </svg>
-                                        <span class="animate-target me-1">{{ user.bonus_balance }}</span>
-                                        <span class="text-body fw-normal text-truncate">امتیازها</span>
                                     </a>
                                 </div>
                             </div>
@@ -62,34 +60,6 @@
             <!-- Orders table -->
             <div class="col-lg-9">
                 <div class="ps-lg-3 ps-xl-0">
-                    <!-- Title & filters -->
-                    <div class="row align-items-center pb-3 pb-md-4 mb-md-1 mb-lg-2">
-                        <div class="col-md-4 col-xl-6 mb-3 mb-md-0">
-                            <h1 class="h2 me-3 mb-0">سفارش‌ها</h1>
-                        </div>
-                        <div class="col-md-8 col-xl-6">
-                            <div class="row row-cols-1 row-cols-sm-2 g-3 g-xxl-4">
-                                <div class="col">
-                                    <select class="form-select" aria-label="فیلتر وضعیت">
-                                        <option value="">تمام وضعیت‌ها</option>
-                                        <option value="inprogress">در حال انجام</option>
-                                        <option value="delivered">تحویل‌داده‌شده</option>
-                                        <option value="canceled">لغو شده</option>
-                                        <option value="delayed">به تأخیر افتاده</option>
-                                    </select>
-                                </div>
-                                <div class="col">
-                                    <select class="form-select" aria-label="فیلتر بازه زمانی">
-                                        <option value="all">همه زمان‌ها</option>
-                                        <option value="year">سال گذشته</option>
-                                        <option value="3mo">سه ماه گذشته</option>
-                                        <option value="30d">۳۰ روز گذشته</option>
-                                        <option value="7d">هفته گذشته</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                     <!-- Table -->
                     <div data-filter-list='{"listClass":"orders-list","valueNames":["date","total"]}'>
@@ -135,7 +105,8 @@
                                 {% for order in orders %}
                                 <tr>
                                     <td class="fw-medium pt-2 pb-3 py-md-2 ps-0">
-                                        <a href="#orderDetails" data-bs-toggle="offcanvas" aria-controls="orderDetails"
+                                        <a href="#" onclick="event.preventDefault(); loadOrderDetails({{ order.id }});"
+                                            data-bs-toggle="offcanvas" aria-controls="orderDetails"
                                             class="d-inline-block animate-underline text-body-emphasis py-2">
                                             <span class="animate-target">{{ order.id }}</span>
                                         </a>

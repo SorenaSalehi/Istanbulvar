@@ -165,7 +165,7 @@
                                 <div class="d-flex align-items-center justify-content-between mb-4">
                                     <h5 class="mb-0">خلاصه سفارش</h5>
                                 </div>
-                                <a class="d-flex align-items-center gap-2 text-decoration-none" href="#orderPreview"
+                                <a class="d-flex align-items-center gap-2 text-decoration-none" href="#shoppingCart"
                                     data-bs-toggle="offcanvas">
                                     {% for item in cart_items|slice:":4" %}
                                     <div class="ratio ratio-1x1" style="max-width: 64px">
@@ -173,41 +173,45 @@
                                             alt="{{item.product.name}}">
                                     </div>
                                     {% endfor %}
-                                    <i class="ci-chevron-right text-body fs-xl p-0 ms-auto"></i>
+                                    <i class="ci-chevron-left text-body fs-xl p-0 ms-auto"></i>
                                 </a>
                             </div>
 
                             <ul class="list-unstyled fs-sm gap-3 mb-0">
                                 <li class="d-flex justify-content-between">
-                                    جمع جزءی ({{total_quantity}} کالا):
-                                    <span class="text-dark-emphasis fw-medium">
+                                    زیرمجموعه ({{total_quantity}} محصول):
+                                    <span class="text-dark-emphasis fw-medium" id="subtotal">
                                         {{total_price|to_price}}
                                     </span>
                                 </li>
+
+                                {% if total_saving %}
                                 <li class="d-flex justify-content-between">
                                     تخفیف:
                                     <span class="text-danger fw-medium">
                                         -{{total_saving|to_price}}
                                     </span>
                                 </li>
-                                <li class="d-flex justify-content-between">
-                                    مالیات بر ارزش افزوده:
-                                    <span class="text-dark-emphasis fw-medium">
-                                        {{tax_collected|to_price}}
-                                    </span>
-                                </li>
+                                {% endif %}
+
                                 <li class="d-flex justify-content-between">
                                     هزینه ارسال:
-                                    <span class="text-dark-emphasis fw-medium">
-                                        {{cargo|to_price}}
+                                    {% if cargo == 0 %}
+                                    <span id="cargo" class="text-dark-emphasis fw-medium">
+                                        <span class="text-success">رایگان</span> <del>{{shown_cargo|to_price}}</del>
                                     </span>
+                                    {% else %}
+                                    <span id="cargo" class="text-dark-emphasis fw-medium">
+                                        +{{cargo|to_price}}
+                                    </span>
+                                    {% endif %}
                                 </li>
                             </ul>
 
                             <div class="border-top pt-4 mt-4">
                                 <div class="d-flex justify-content-between mb-3">
-                                    <span class="fs-sm">مبلغ کل:</span>
-                                    <span class="h5 mb-0">
+                                    <span class="fs-sm">مجموع مبلغ:</span>
+                                    <span id="totalPrice" class="h5 mb-0">
                                         {{total_ordered_price|to_price}}
                                     </span>
                                 </div>
@@ -219,17 +223,16 @@
                         <div class="form-check mb-3">
                             <input class="form-check-input" type="checkbox" id="kvkkAgreement" required>
                             <label class="form-check-label" for="kvkkAgreement">
-                                <a href="{% url 'website:gp' %}">سیاست حریم خصوصی</a>،
-                                <a href="{% url 'website:orderAndRefound' %}">شرایط بازگشت</a> و
-                                <a href="{% url 'website:mss' %}">قرارداد فروش از راه دور</a> را
-                                خواندم و موافقم. <span class="text-danger">*</span>
+                                <a href="{% url 'website:gp' %}">سیاست حفظ حریم خصوصی</a>،
+                                <a href="{% url 'website:orderAndRefound' %}">شرایط بازگشت کالا</a> و
+                                <a href="{% url 'website:mss' %}">قرارداد فروش از راه دور</a> را خواندم و تأیید می‌کنم.
+                                <span class="text-danger">*</span>
                             </label>
                         </div>
                         <div class="form-check mb-3">
                             <input class="form-check-input" type="checkbox" id="newsletterSignup">
                             <label class="form-check-label" for="newsletterSignup">
-                                برای اطلاع از کمپین‌ها و فرصت‌های ویژه، موافقت می‌کنم از طریق ایمیل با من در ارتباط
-                                باشید.
+                                با دریافت ایمیل جهت اطلاع از کمپین‌ها و فرصت‌های ویژه موافقم.
                             </label>
                         </div>
                         <div class="order_button">
@@ -240,9 +243,9 @@
                     </div>
                     </form>
 
-
                 </div>
             </aside>
+
         </div>
     </div>
 </main>

@@ -8,6 +8,7 @@ from django.db import models
 from users.models import Address
 from PIL import Image
 from io import BytesIO
+from django.utils import timezone
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 import os
@@ -795,6 +796,31 @@ class Wishlist(models.Model):
     class Meta:
         verbose_name = "لیست علاقه‌مندی"
         verbose_name_plural = "لیست‌های علاقه‌مندی"
+
+
+
+class SpecialOffer(models.Model):
+    name = models.CharField(max_length=100)
+    products = models.ManyToManyField(Product, related_name="offers")
+    users = models.ManyToManyField(User, blank=True, related_name="personal_offers")
+    groups = models.ManyToManyField(
+        "auth.Group", blank=True, related_name="group_offers"
+    )
+    discount_percent = models.PositiveSmallIntegerField()
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["start_date", "end_date"]),
+        ]
+
+    def is_active(self):
+        now = timezone.now()
+        return self.start_date <= now <= self.end_date
+
+    def __str__(self):
+        return f"{self.name} ({self.discount_percent}%)"
 
 
 @receiver(user_logged_in)

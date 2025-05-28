@@ -1,5 +1,5 @@
 from .views import get_cart, get_wishlist
-from .models import Brand
+from .models import Category, Brand
 
 
 def getHeader(request):
@@ -7,7 +7,7 @@ def getHeader(request):
     Return a dictionary that includes cart and wishlist items (or anything else)
     for the logged-in user so that it’s available in every template.
     """
-    FREE_SHIPPING_THRESHOLD = 5000
+    FREE_SHIPPING_THRESHOLD = 4999
 
     context = {
         "cart_items": [],
@@ -16,6 +16,7 @@ def getHeader(request):
         "wishlist_items": [],
         "wishlist_count": 0,
         "brands": Brand.objects.all(),
+        "categories": Category.objects.all()
     }
 
     total_price = 0
@@ -32,5 +33,6 @@ def getHeader(request):
         wishlist_items = wishlist.products.all()
         context["wishlist_items"] = wishlist_items
         context["wishlist_count"] = wishlist_items.count()
+
 
     return context

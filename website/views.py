@@ -1,22 +1,61 @@
 from django.shortcuts import redirect, render
-from shop.models import Product, Order
+from shop.models import Product, Order, SpecialOffer, Brand
 from .forms import CustomerContactForm, RetailerContactForm
+from .models import Banner, Newsletter
 from django.contrib import messages
 from django.core.paginator import Paginator
+from django.utils import timezone
+from django.db.models import Q
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+import json
 
 
 def httpIndex(request):
-    new_products = list(Product.objects.order_by("-id")[:8])
+    headerBanners = Banner.objects.filter(section="home_header")
+    NewProductsBanner = Banner.objects.filter(section="new_products")
 
+    top_products = Product.objects.order_by("-rating")[:10]
+    new_products = Product.objects.order_by("-created_at")[:8]
     group1 = new_products[:4]
     group2 = new_products[4:8]
+
+    now = timezone.now()
+
+    offers = None
+    nearestEnd = None
+    if request.user.is_authenticated:
+
+        user_group_ids = request.user.groups.values_list("id", flat=True)
+
+        offers = (
+            SpecialOffer.objects.filter(start_date__lte=now, end_date__gte=now)
+            .filter(
+                Q(users__isnull=True, groups__isnull=True)
+                | Q(users=request.user)
+                | Q(groups__in=user_group_ids)
+            )
+            .distinct()
+            .order_by("-end_date")
+        )
+
+        if offers:
+            active_offers = SpecialOffer.objects.filter(
+                start_date__lte=now, end_date__gte=now
+            ).values_list("end_date", flat=True)
+            nearestEnd = min(active_offers)
 
     return render(
         request,
         "index.html",
         {
+            "NewProductsBanner": NewProductsBanner,
+            "headerBanners": headerBanners,
+            "topProducts": top_products,
             "newProducts1": group1,
             "newProducts2": group2,
+            "specialOffers": offers,
+            "nearestEnd": nearestEnd,
         },
     )
 
@@ -60,7 +99,9 @@ def httpOrders(request):
 
 
 def httpAbout(request):
-    return render(request, "about.html")
+    brands = Brand.objects.all()
+
+    return render(request, "about.html", {"brands": brands})
 
 
 def httpMSS(request):
@@ -77,6 +118,32 @@ def httpOrderAndRefound(request):
 
 def httpContact(request):
     return render(request, "contact.html")
+
+
+@csrf_exempt
+def addNewsletter(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            email = data.get("email")
+
+            if not email:
+                return JsonResponse(
+                    {"success": False, "message": "ایمیل وارد نشده است."}
+                )
+
+            if Newsletter.objects.filter(email=email).exists():
+                return JsonResponse(
+                    {"success": False, "message": "این ایمیل قبلاً ثبت شده است."}
+                )
+
+            Newsletter.objects.create(email=email)
+            return JsonResponse({"success": True})
+
+        except Exception as e:
+            return JsonResponse({"success": False, "message": "خطا در پردازش اطلاعات."})
+
+    return JsonResponse({"success": False, "message": "درخواست نامعتبر است."})
 
 
 def customer_contact_view(request):
