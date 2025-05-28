@@ -1,0 +1,288 @@
+{% load static %}
+
+<!-- Page footer -->
+<footer class="footer position-relative bg-dark">
+    <span
+        class="position-absolute top-0 start-0 w-100 h-100 bg-body d-none d-block-dark"
+    ></span>
+    <div
+        class="container position-relative z-1 pt-sm-2 pt-md-3 pt-lg-4"
+        data-bs-theme="dark"
+    >
+        <!-- Columns with links that are turned into accordion on screens < 500px wide (sm breakpoint) -->
+        <div class="accordion py-5" id="footerLinks">
+            <div class="row">
+                <div
+                    class="col-md-4 d-sm-flex flex-md-column align-items-center align-items-md-start pb-3 mb-sm-4"
+                >
+                    <h4 class="mb-sm-0 mb-md-4 me-4">
+                        <a href="/" class="navbar-brand me-0">
+                            <img
+                                src="{% static 'img/website/psc-white.png' %}"
+                                alt="لوگو"
+                                class="img-fluid"
+                            />
+                            <span
+                                class="d-none d-sm-flex flex-shrink-0 text-primary me-2"
+                            >
+                                <!-- Wigenzo PSC  -->
+                            </span>
+                        </a>
+                    </h4>
+                </div>
+                <div class="col-md-8">
+                    <div class="row row-cols-1 row-cols-sm-3 gx-3 gx-md-4">
+                        <div class="accordion-item col border-0">
+                            <h6 class="accordion-header" id="companyHeading">
+                                <span
+                                    class="text-dark-emphasis d-none d-sm-block"
+                                    >شرکت</span
+                                >
+                                <button
+                                    type="button"
+                                    class="accordion-button collapsed py-3 d-sm-none"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#companyLinks"
+                                    aria-expanded="false"
+                                    aria-controls="companyLinks"
+                                >
+                                    شرکت
+                                </button>
+                            </h6>
+                            <div
+                                class="accordion-collapse collapse d-sm-block"
+                                id="companyLinks"
+                                aria-labelledby="companyHeading"
+                                data-bs-parent="#footerLinks"
+                            >
+                                <ul
+                                    class="nav flex-column gap-2 pt-sm-3 pb-3 mt-n1 mb-1"
+                                >
+                                    <li class="d-flex w-100 pt-1">
+                                        <a
+                                            class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                            href='{% url "website:about" %}'
+                                            >درباره شرکت</a
+                                        >
+                                    </li>
+                                    <li class="d-flex w-100 pt-1">
+                                        <a
+                                            class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                            href="#!"
+                                            >فرصت‌های شغلی</a
+                                        >
+                                    </li>
+                                    <li class="d-flex w-100 pt-1">
+                                        <a
+                                            class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                            href='{% url "website:contact" %}'
+                                            >تماس با ما</a
+                                        >
+                                    </li>
+                                    <li class="d-flex w-100 pt-1">
+                                        <a
+                                            class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                            href="#!"
+                                            >اخبار</a
+                                        >
+                                    </li>
+                                </ul>
+                            </div>
+                            <hr class="d-sm-none my-0" />
+                        </div>
+                        <div class="accordion-item col border-0">
+                            <h6 class="accordion-header" id="accountHeading">
+                                <span
+                                    class="text-dark-emphasis d-none d-sm-block"
+                                    >حساب</span
+                                >
+                                <button
+                                    type="button"
+                                    class="accordion-button collapsed py-3 d-sm-none"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#accountLinks"
+                                    aria-expanded="false"
+                                    aria-controls="accountLinks"
+                                >
+                                    حساب
+                                </button>
+                            </h6>
+                            <div
+                                class="accordion-collapse collapse d-sm-block"
+                                id="accountLinks"
+                                aria-labelledby="accountHeading"
+                                data-bs-parent="#footerLinks"
+                            >
+                                <ul
+                                    class="nav flex-column gap-2 pt-sm-3 pb-3 mt-n1 mb-1"
+                                >
+                                    <li class="d-flex w-100 pt-1">
+                                        {% if not user.is_authenticated %}
+                                        <a
+                                            type="button"
+                                            aria-controls="authenticate"
+                                            aria-label="Hesap"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#authenticate"
+                                            class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                            href="#!"
+                                            >حساب شما
+                                        </a>
+                                        {% else %}
+                                        <a
+                                            class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                            href='{% url "website:orders" %}'
+                                            >حساب شما</a
+                                        >
+                                        {% endif %}
+                                    </li>
+                                    <li class="d-flex w-100 pt-1">
+                                        <a
+                                            class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                            href="#!"
+                                            >هزینه‌ها و سیاست‌های حمل‌ونقل</a
+                                        >
+                                    </li>
+                                    <li class="d-flex w-100 pt-1">
+                                        <a
+                                            class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                            href="#!"
+                                            >مرجوعی‌ها &amp; تعویض‌ها</a
+                                        >
+                                    </li>
+                                    <li class="d-flex w-100 pt-1">
+                                        <a
+                                            class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                            href="#!"
+                                            >اطلاعات تحویل</a
+                                        >
+                                    </li>
+                                    <li class="d-flex w-100 pt-1">
+                                        <a
+                                            class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                            href="#!"
+                                            >پیگیری سفارش</a
+                                        >
+                                    </li>
+                                    <li class="d-flex w-100 pt-1">
+                                        <a
+                                            class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                            href="#!"
+                                            >مالیات‌ها &amp; هزینه‌ها</a
+                                        >
+                                    </li>
+                                </ul>
+                            </div>
+                            <hr class="d-sm-none my-0" />
+                        </div>
+                        <div class="accordion-item col border-0">
+                            <h6 class="accordion-header" id="customerHeading">
+                                <span
+                                    class="text-dark-emphasis d-none d-sm-block"
+                                    >خدمات مشتریان</span
+                                >
+                                <button
+                                    type="button"
+                                    class="accordion-button collapsed py-3 d-sm-none"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#customerLinks"
+                                    aria-expanded="false"
+                                    aria-controls="customerLinks"
+                                >
+                                    خدمات مشتریان
+                                </button>
+                            </h6>
+                            <div
+                                class="accordion-collapse collapse d-sm-block"
+                                id="customerLinks"
+                                aria-labelledby="customerHeading"
+                                data-bs-parent="#footerLinks"
+                            >
+                                <ul
+                                    class="nav flex-column gap-2 pt-sm-3 pb-3 mt-n1 mb-1"
+                                >
+                                    <li class="d-flex w-100 pt-1">
+                                        <a
+                                            class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                            href='{% url "website:mss" %}'
+                                            >قرارداد فروش از راه دور</a
+                                        >
+                                    </li>
+                                    <li class="d-flex w-100 pt-1">
+                                        <a
+                                            class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                            href='{% url "website:gp" %}'
+                                            >سیاست حفظ حریم خصوصی</a
+                                        >
+                                    </li>
+                                    <li class="d-flex w-100 pt-1">
+                                        <a
+                                            class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                            href='{% url "website:orderAndRefound" %}'
+                                            >شرایط تحویل، مرجوع و خرید</a
+                                        >
+                                    </li>
+                                    <li class="d-flex w-100 pt-1">
+                                        <a
+                                            class="nav-link animate-underline animate-target d-inline fw-normal text-truncate p-0"
+                                            href='{% url "website:contact" %}'
+                                            >مرکز پشتیبانی</a
+                                        >
+                                    </li>
+                                </ul>
+                            </div>
+                            <hr class="d-sm-none my-0" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category / tag links -->
+        <div
+            class="d-flex flex-column gap-3 pb-3 pb-md-4 pb-lg-5 mt-n2 mt-sm-n4 mt-lg-0 mb-4"
+        >
+            <ul class="nav align-items-center text-body-tertiary gap-2">
+                {% for category in categories %}
+                <li class="animate-underline">
+                    <a
+                        class="nav-link fw-normal p-0 animate-target"
+                        href='{% url "shop:shop_list" %}?category={{category.slug}}'
+                        >{{category.name}}</a
+                    >
+                </li>
+                <li class="px-1">/</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Copyright + Payment methods -->
+        <div class="d-md-flex align-items-center border-top py-4">
+            <div
+                class="d-flex gap-2 gap-sm-3 justify-content-center ms-md-auto mb-4 mb-md-0 order-md-2"
+            >
+                <div>
+                    <img
+                        src="{% static 'img/payment-methods/e-namad.png' %}"
+                        alt="اینماد"
+                        class="img-fluid"
+                        style="max-height: 120px"
+                    />
+                </div>
+                <div>
+                    <img
+                        src="{% static 'img/payment-methods/zarrinpal.png' %}"
+                        alt="زرین‌پال"
+                        class="img-fluid"
+                        style="max-height: 82px"
+                    />
+                </div>
+            </div>
+            <p
+                class="text-body fs-xs text-center text-md-start mb-0 me-4 order-md-1"
+            >
+                Wigenzo PCS © تمام حقوق محفوظ است.
+            </p>
+        </div>
+    </div>
+</footer>

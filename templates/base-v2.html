@@ -1,0 +1,16 @@
+{% load static i18n %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-bs-theme="light" data-pwa="true">
+    {% include "base-includes/head.html" %}
+
+    <body>
+        {% include "base-includes/offcanvas_cart.html" %} {% include
+        "base-includes/offcanvas_wishlist.html" %} {% include
+        "base-includes/modal_authenticate.html" %} {% include
+        "base-includes/navbar.html" %} {% block content %} {# each page injects
+        its content here #} {% endblock %} {% include
+        "base-includes/section.html" %}{% include "base-includes/footer.html"
+        %}{% include "base-includes/floating-buttons.html" %} {% include
+        "base-includes/scripts.html" %}
+    </body>
+</html>

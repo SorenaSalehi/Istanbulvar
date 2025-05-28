@@ -1,0 +1,238 @@
+{% load static %}
+
+<!-- Authenticate modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="authenticate">
+    <div class="modal-dialog modal-lg" role="document">
+        <div
+            class="modal-content row row-cols-1 row-cols-lg-2 flex-row g-0 overflow-hidden"
+        >
+            <div class="col order-lg-2">
+                <div
+                    class="position-relative d-flex align-items-end h-100 pt-4 px-4 px-sm-5 px-lg-0"
+                >
+                    <button
+                        type="button"
+                        class="btn-close position-absolute top-0 end-0 z-2 mt-3 me-3"
+                        data-bs-dismiss="modal"
+                        aria-label="بستن"
+                    ></button>
+                    <div
+                        class="ratio position-relative z-1"
+                        style="--cz-aspect-ratio: calc(1030 / 1032 * 100%)"
+                    >
+                        <img src="static/img/account/cover.png" alt="دختر" />
+                    </div>
+                    <span
+                        class="position-absolute top-0 start-0 w-100 h-100 d-none-dark"
+                        style="
+                            background: linear-gradient(
+                                -90deg,
+                                #accbee 0%,
+                                #e7f0fd 100%
+                            );
+                        "
+                    ></span>
+                    <span
+                        class="position-absolute top-0 start-0 w-100 h-100 d-none d-block-dark"
+                        style="
+                            background: linear-gradient(
+                                -90deg,
+                                #1b273a 0%,
+                                #1f2632 100%
+                            );
+                        "
+                    ></span>
+                </div>
+            </div>
+            <div
+                class="col d-flex flex-column order-lg-1"
+                id="authenticateContent"
+            >
+                <div class="modal-header d-block border-0 pt-sm-5 px-sm-5 pb-2">
+                    <ul class="nav nav-tabs mt-sm-n2" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button
+                                type="button"
+                                class="nav-link text-nowrap active"
+                                data-bs-toggle="tab"
+                                data-bs-target="#signin"
+                                role="tab"
+                                aria-controls="signin"
+                                aria-selected="true"
+                            >
+                                <i
+                                    class="ci-log-in fs-base opacity-75 ms-n1 me-2"
+                                ></i>
+                                ورود
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button
+                                type="button"
+                                class="nav-link text-nowrap"
+                                data-bs-toggle="tab"
+                                data-bs-target="#signup"
+                                role="tab"
+                                aria-controls="signup"
+                                aria-selected="false"
+                            >
+                                <i
+                                    class="ci-user fs-base opacity-75 ms-n1 me-2"
+                                ></i>
+                                ثبت نام
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-body tab-content px-sm-5 pb-sm-5">
+                    <div
+                        class="tab-pane fade show active"
+                        id="signin"
+                        role="tabpanel"
+                    >
+                        <h2 class="h5 mb-4">خوش آمدید دوباره</h2>
+                        <form
+                            method="post"
+                            action='{% url "login" %}'
+                            id="loginForm"
+                        >
+                            {% csrf_token %}
+                            <div class="position-relative mb-4">
+                                <input
+                                    type="text"
+                                    class="form-control phone-mask"
+                                    id="phone_number"
+                                    name="phone_number"
+                                    placeholder="09__ - ___ - ____"
+                                    maxlength="16"
+                                    style="direction: ltr; text-align: left"
+                                    required
+                                />
+                            </div>
+                            <div class="mb-4">
+                                <div class="password-toggle">
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        style="direction: ltr; text-align: left"
+                                        id="password"
+                                        class="form-control"
+                                        placeholder="رمز عبور"
+                                        required
+                                    />
+                                    <label
+                                        class="password-toggle-button fs-lg"
+                                        aria-label="نمایش/مخفی کردن رمز عبور"
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            class="btn-check"
+                                        />
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">
+                                ورود
+                            </button>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="signup" role="tabpanel">
+                        <h2 class="h5">ایجاد حساب</h2>
+                        <form
+                            method="post"
+                            action='{% url "signup" %}'
+                            id="signupForm"
+                        >
+                            {% csrf_token %}
+                            <input
+                                type="hidden"
+                                name="next"
+                                value="{{request.get_full_path}}"
+                            />
+                            <div class="position-relative mb-4">
+                                <input
+                                    type="text"
+                                    class="form-control phone-mask"
+                                    id="phone_number"
+                                    name="phone_number"
+                                    placeholder="09__ - ___ - ____"
+                                    maxlength="16"
+                                    style="direction: ltr; text-align: left"
+                                    required
+                                />
+                            </div>
+                            <div class="position-relative mb-3">
+                                <label for="register-email" class="form-label"
+                                    >ایمیل</label
+                                >
+                                <input
+                                    type="email"
+                                    class="form-control"
+                                    name="email"
+                                    required
+                                />
+                            </div>
+                            <div class="mb-4">
+                                <label
+                                    for="register-password"
+                                    class="form-label"
+                                    >رمز عبور</label
+                                >
+                                <div class="password-toggle">
+                                    <input
+                                        type="password"
+                                        class="form-control"
+                                        name="password"
+                                        minlength="8"
+                                        placeholder="حداقل 8 کاراکتر"
+                                        style="direction: ltr; text-align: left"
+                                        required
+                                    />
+                                    <label
+                                        class="password-toggle-button fs-lg"
+                                        aria-label="نمایش/مخفی کردن رمز عبور"
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            class="btn-check"
+                                        />
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label
+                                    for="register-password"
+                                    class="form-label"
+                                    >تکرار رمز عبور</label
+                                >
+                                <div class="password-toggle">
+                                    <input
+                                        type="password"
+                                        class="form-control"
+                                        name="confirm_password"
+                                        minlength="8"
+                                        placeholder="حداقل 8 کاراکتر"
+                                        style="direction: ltr; text-align: left"
+                                        required
+                                    />
+                                    <label
+                                        class="password-toggle-button fs-lg"
+                                        aria-label="نمایش/مخفی کردن رمز عبور"
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            class="btn-check"
+                                        />
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">
+                                ایجاد حساب
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

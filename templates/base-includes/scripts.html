@@ -1,0 +1,50 @@
+{% load static %}
+
+<script>
+    // set custom urls for using in scripts.js
+    window.addToCartApiUrl = '{% url "shop:add_to_cart_api" %}';
+    window.checkOut = '{% url "shop:checkOut" %}';
+    window.removeFromCartApiUrl = '{% url "shop:remove_from_cart_api" %}';
+    window.cartPartial = '{% url "shop:cart_partial" %}';
+    window.infiniteScrollUrl = '{% url "shop:shop_list" %}';
+    window.addToWishlistApiUrl = '{% url "shop:add_to_wishlist_api" %}';
+    window.removeFromWishlistApiUrl =
+        '{% url "shop:remove_from_wishlist_api" %}';
+    window.wishlistPartialUrl = '{% url "shop:wishlist_partial" %}';
+    window.setCurrentAddress = '{% url "setCurrentAddress" %}';
+    window.deleteAddress = '{% url "deleteAddress" %}';
+    window.orderDetail = '{% url "shop:order_detail" %}';
+</script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script async src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script
+    async
+    src="https://cdn.jsdelivr.net/npm/inputmask/dist/jquery.inputmask.min.js"
+></script>
+<script defer src='{% static "js/scripts.js" %}'></script>
+
+<!-- Vendor scripts -->
+<script defer src='{% static "vendor/drift-zoom/Drift.min.js" %}'></script>
+<script defer src='{% static "vendor/swiper/swiper-bundle.min.js" %}'></script>
+<script defer src='{% static "vendor/simplebar/simplebar.min.js" %}'></script>
+<script defer src='{% static "vendor/choices.js/choices.min.js" %}'></script>
+<script defer src='{% static "vendor/nouislider/nouislider.min.js" %}'></script>
+<script defer src='{% static "vendor/flatpickr/flatpickr.min.js" %}'></script>
+<script defer src='{% static "vendor/cleave.js/cleave.min.js" %}'></script>
+
+<!-- Bootstrap + Theme scripts -->
+<script async src='{% static "js/theme.min.js" %}'></script>
+
+<!-- Theme switcher (color modes) -->
+<script defer src='{% static "js/theme-switcher.js" %}'></script>
+
+{% for message in messages %}
+<script>
+    Swal.fire({
+        icon: "{{message.tags}}",
+        text: "{{message|linebreaksbr}}",
+        confirmButtonText: "باشه",
+    });
+</script>
+{% endfor %}

@@ -1,0 +1,260 @@
+ {% load static i18n %}
+ 
+    <header class='navbar navbar-expand-lg navbar-dark bg-dark d-block z-fixed p-0'
+        data-sticky-navbar='{"offset": 500}'>
+        <div class='container d-block py-1 py-lg-3' data-bs-theme='dark'>
+            <div class='navbar-stuck-hide pt-1'></div>
+            <div class='row flex-nowrap align-items-center g-0'>
+                <div class='col col-lg-3 d-flex align-items-center'>
+
+                    <!-- Mobile offcanvas menu toggler (Hamburger) -->
+                    <button type='button' class='navbar-toggler me-4 me-lg-0' data-bs-toggle='offcanvas'
+                        data-bs-target='#navbarNav' aria-controls='navbarNav' aria-label='Toggle navigation'>
+                        <span class='navbar-toggler-icon'></span>
+                    </button>
+
+                    <!-- Navbar brand (Logo) -->
+                    <a href="/" class="navbar-brand me-0">
+                        <img src="{% static 'img/website/psc-white.png' %}" alt="لوگو" class="img-fluid"
+                            style="max-height:60px; width:auto;">
+                        <span class='d-none d-sm-flex flex-shrink-0 text-primary me-2'>
+                            <!-- پی اس سی گیمز -->
+                        </span>
+                    </a>
+                </div>
+                <div class='col col-lg-9 d-flex align-items-center justify-content-end'>
+                    <div class='position-relative flex-fill d-none d-lg-block pe-4 pe-xl-5'>
+                        <form action="{% url 'shop:shop_list' %}" method="get">
+                            <button type="submit"
+                                class="btn position-absolute top-50 translate-middle-y start-0 ms-3 p-0 border-0 bg-transparent">
+                                <i class="ci-search fs-lg text-white"></i>
+                            </button>
+                            <input type="search" name="query"
+                                class='form-control form-control-lg form-icon-start border-white rounded-pill'
+                                placeholder='جستجوی محصولات' value="{{ request.GET.query|default:'' }}">
+                        </form>
+                    </div>
+
+
+                    <!-- Sale link visible on screens > 1200px wide (xl breakpoint) -->
+                    <a class='d-none d-xl-flex align-items-center text-decoration-none animate-shake navbar-stuck-hide me-3 me-xl-4 me-xxl-5'
+                        href='{% url "shop:shop_list" %}?discount=yes'>
+                        <div
+                            class='btn btn-icon btn-lg fs-lg text-primary bg-body-secondary bg-opacity-75 pe-none rounded-circle'>
+                            <i class='ci-percent animate-target'></i>
+                        </div>
+                        <div class='ps-2 text-nowrap'>
+                            <div class='fs-xs text-body'>
+                                فقط برای این ماه </div>
+                            <div class='fw-medium text-white'> تا سقف ۷۰٪ تخفیف ویژه
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Button group -->
+                    <div class='d-flex align-items-center'>
+
+                        <!-- Navbar stuck nav toggler (optional) -->
+                        <button type='button' class='navbar-toggler d-none navbar-stuck-show me-3'
+                            data-bs-toggle='collapse' data-bs-target='#stuckNav' aria-controls='stuckNav'
+                            aria-expanded='false' aria-label='Toggle navigation in navbar stuck state'>
+                            <span class='navbar-toggler-icon'></span>
+                        </button>
+
+                        <!-- Theme switcher (always visible) -->
+                        <div class='dropdown'>
+                            <button type='button'
+                                class='theme-switcher btn btn-icon btn-lg btn-outline-secondary fs-lg border-0 rounded-circle animate-scale d-none d-md-inline-flex'
+                                data-bs-toggle='dropdown' aria-expanded='false' aria-label='Temayı değiştir (açık)'>
+                                <span class='theme-icon-active d-flex animate-target'>
+                                    <i class='ci-sun'></i>
+                                </span>
+                            </button>
+                            <ul class='dropdown-menu' style='--cz-dropdown-min-width: 9rem'>
+                                <li>
+                                    <button type='button' class='dropdown-item active' data-bs-theme-value='light'
+                                        aria-pressed='true'>
+                                        <span class='theme-icon d-flex fs-base me-2'>
+                                            <i class='ci-sun'></i>
+                                        </span>
+                                        <span class='theme-label'>روز</span>
+                                        <i class='item-active-indicator ci-check ms-auto'></i>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type='button' class='dropdown-item' data-bs-theme-value='dark'
+                                        aria-pressed='false'>
+                                        <span class='theme-icon d-flex fs-base me-2'>
+                                            <i class='ci-moon'></i>
+                                        </span>
+                                        <span class='theme-label'>شب</span>
+                                        <i class='item-active-indicator ci-check ms-auto'></i>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type='button' class='dropdown-item' data-bs-theme-value='auto'
+                                        aria-pressed='false'>
+                                        <span class='theme-icon d-flex fs-base me-2'>
+                                            <i class='ci-auto'></i>
+                                        </span>
+                                        <span class='theme-label'>بر اساس سیستم</span>
+                                        <i class='item-active-indicator ci-check ms-auto'></i>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Search toggle button (visible on mobile due to d-lg-none class) -->
+                        <button type='button'
+                            class='btn btn-icon btn-lg fs-xl btn-outline-secondary border-0 rounded-circle animate-shake d-lg-none'
+                            data-bs-toggle='collapse' data-bs-target='#searchBar' aria-expanded='false'
+                            aria-controls='searchBar' aria-label='Arama çubuğunu göster/gizle'>
+                            <i class='ci-search animate-target'></i>
+                        </button>
+
+                        <!-- Account button -->
+                        {% if not user.is_authenticated %}
+                        <button type='button'
+                            class='btn btn-icon btn-lg fs-lg btn-outline-secondary border-0 rounded-circle animate-shake d-md-inline-flex'
+                            data-bs-toggle='modal' data-bs-target='#authenticate' aria-controls='authenticate'
+                            aria-label='Hesap'>
+                            <i class='ci-user animate-target'></i>
+                            <span class='visually-hidden'>Account</span>
+                        </button>
+                        {% else %}
+                        <a type='button'
+                            class='btn btn-icon btn-lg fs-lg btn-outline-secondary border-0 rounded-circle animate-shake d-md-inline-flex'
+                            aria-controls='authenticate' aria-label='Hesap' href='{% url "website:orders" %}'>
+                            <i class='ci-user animate-target'></i>
+                            <span class='visually-hidden'>Account</span>
+                        </a>
+                        {% endif %}
+
+                        <!-- Wishlist button -->
+                        <button type='button'
+                            class='btn btn-icon btn-lg animate-pulse fs-lg btn-secondary position-relative rounded-circle ms-2'
+                            data-bs-toggle='offcanvas' data-bs-target='#Wishlist' aria-controls='Wishlist'
+                            aria-label='Favoriler'>
+                            <i class='ci-heart animate-target'></i>
+                            <span
+                                class='position-absolute top-0 start-100 mt-n1 ms-n3 badge text-bg-success border border-3 border-dark rounded-pill wishlistCount'
+                                style='--cz-badge-padding-y: .25em; --cz-badge-padding-x: .42em'>{{wishlist_count}}</span>
+                            <span class='visually-hidden'>Wishlist</span>
+                        </button>
+
+                        <!-- Cart button -->
+                        <button type='button'
+                            class='btn btn-icon btn-lg btn-secondary position-relative rounded-circle ms-2'
+                            data-bs-toggle='offcanvas' data-bs-target='#shoppingCart' aria-controls='shoppingCart'
+                            aria-label='Alışveriş Sepeti'>
+                            <span
+                                class='position-absolute top-0 start-100 mt-n1 ms-n3 badge text-bg-success border border-3 border-dark rounded-pill cartCount'
+                                style='--cz-badge-padding-y: .25em; --cz-badge-padding-x: .42em'>{{cart_count}}</span>
+                            <span
+                                class='position-absolute top-0 start-0 d-flex align-items-center justify-content-center w-100 h-100 rounded-circle animate-slide-end fs-lg'>
+                                <i class='ci-shopping-cart animate-target ms-n1'></i>
+                            </span>
+                            <span class='visually-hidden'>Cart</span>
+                        </button>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class='navbar-stuck-hide pb-1'></div>
+        </div>
+
+        <!-- Search visible on screens < 992px wide (lg breakpoint). It is hidden inside collapse by default -->
+        <div class="collapse position-absolute top-100 z-2 w-100 bg-dark d-lg-none" id="searchBar">
+            <form action="{% url 'shop:shop_list' %}" method="get">
+                <div class="container position-relative my-3" data-bs-theme="dark">
+                    <button type="submit"
+                        class="btn position-absolute top-50 translate-middle-y d-flex fs-lg text-white ms-3 p-0"
+                        style="background: none; border: none;">
+                        <i class="ci-search"></i>
+                    </button>
+
+                    <input name="query" type="search" class="form-control form-icon-start border-white rounded-pill"
+                        placeholder='جستجوی محصولات' data-autofocus="collapse">
+                </div>
+            </form>
+        </div>
+
+        <!-- Main navigation that turns into offcanvas on screens < 992px wide (lg breakpoint) -->
+        <div class='collapse navbar-stuck-hide' id='stuckNav'>
+            <nav class='offcanvas offcanvas-start' id='navbarNav' tabindex='-1' aria-labelledby='navbarNavLabel'>
+                <div class='offcanvas-header py-3'>
+                    <h5 class='offcanvas-title' id='navbarNavLabel'>کاوش PSC Games</h5>
+                    <button type='button' class='btn-close' data-bs-dismiss='offcanvas' aria-label='بستن'></button>
+                </div>
+                <div class='offcanvas-body py-3 py-lg-0'>
+                    <div class='container px-0 px-lg-3'>
+                        <div class='row'>
+
+                            {% include "partials/category_menu_item.html" %}
+
+                            <!-- Navbar nav -->
+                            <div class='col-lg-9 d-lg-flex pt-3 pt-lg-0 ps-lg-0'>
+                                <ul class='navbar-nav position-relative'>
+                                    <li class='nav-item me-lg-n2 me-xl-0'>
+                                        <a class='nav-link' href='/'>صفحه اصلی</a>
+                                    </li>
+                                    <li class='nav-item dropdown me-lg-n1 me-xl-0'>
+                                        <a class='nav-link dropdown-toggle active' aria-current='page' href='#'
+                                            role='button' data-bs-toggle='dropdown' data-bs-trigger='hover'
+                                            aria-expanded='false'>برندها</a>
+                                        <ul class='dropdown-menu'>
+                                            {% for brand in brands %}
+                                            <li class='hover-effect-opacity px-2 mx-n2'>
+                                                <a class='dropdown-item d-block mb-0'
+                                                    href='{% url "shop:shop_list" %}?brand={{brand.slug}}'>
+                                                    <span class='fw-medium'>{{ brand.name }}</span>
+                                                    <span
+                                                        class='d-block fs-xs text-body-secondary'>{{brand.description}}</span>
+                                                    <div class='d-none d-lg-block hover-effect-target position-absolute top-0 start-100 bg-body border border-light-subtle rounded rounded-start-0 transition-none invisible opacity-0 pt-2 px-2 ms-n2'
+                                                        style='width: 212px; height: calc(100% + 2px); margin-top: -1px'>
+                                                        <img class='position-relative z-2' src='{{ brand.img.url }}'
+                                                            alt='{{ brand.name }}'>
+                                                        <span
+                                                            class='position-absolute top-0 start-0 w-100 h-100 rounded rounded-start-0 d-none-dark'
+                                                            style='box-shadow: .875rem .5rem 2rem -.5rem #676f7b; opacity: .1'></span>
+                                                        <span
+                                                            class='position-absolute top-0 start-0 w-100 h-100 rounded rounded-start-0 d-none d-block-dark'
+                                                            style='box-shadow: .875rem .5rem 1.875rem -.5rem #080b12; opacity: .25'></span>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                    <li class='nav-item me-lg-n2 me-xl-0'>
+                                        <a class='nav-link' href='{% url "shop:shop_list" %}'>محصولات</a>
+                                    </li>
+                                    <li class='nav-item me-lg-n2 me-xl-0'>
+                                        <a class='nav-link' href='{% url "website:contact" %}'>تماس با ما</a>
+                                    </li>
+                                </ul>
+                                <hr class='d-lg-none my-3'>
+                                <ul class='navbar-nav ms-auto d-block d-lg-none'>
+                                    <li class='nav-item me-lg-n2 me-xl-0'>
+                                        {% if not user.is_authenticated %}
+                                        <button class='nav-link' type='button' data-bs-toggle='modal'
+                                            data-bs-target='#authenticate' aria-controls='authenticate'
+                                            aria-label='authenticate'>
+                                            ورود / ثبت نام
+                                        </button>
+                                        {% else %}
+                                        <a class='nav-link' href='{% url "website:orders" %}'>
+                                            <i class='ci-user fs-base opacity-75 ms-n1 me-2'></i>پروفایل و تنظیمات</a>
+                                        <a class='nav-link' href='{% url "logout" %}'>
+                                            <i class='ci-log-out fs-base opacity-75 ms-n1 me-2'></i>خروج</a>
+                                        {% endif %}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+            </nav>
+        </div>
+        </div>
+    </header>
