@@ -17,10 +17,9 @@
 
                     <!-- Navbar brand (Logo) -->
                     <a href="/" class="navbar-brand me-0">
-                        <img src="{% static 'img/website/psc-white.png' %}" alt="لوگو" class="img-fluid"
+                        <img src="{% static 'img/website/psc-white.png' %}" alt="لوگو استانبول وار \ واردات اجناس و پوشاک اورجینال به صورت مستقیم از ترکیه " class="img-fluid"
                             style="max-height:60px; width:auto;">
-                        <span class='d-none d-sm-flex flex-shrink-0 text-primary me-2'>
-                            <!-- پی اس سی گیمز -->
+                        <span class='d-none d-sm-flex flex-shrink-0 text-primary me-2'>           
                         </span>
                     </a>
                 </div>
@@ -39,7 +38,7 @@
 
 
                     <!-- Sale link visible on screens > 1200px wide (xl breakpoint) -->
-                    <a class='d-none d-xl-flex align-items-center text-decoration-none animate-shake navbar-stuck-hide me-3 me-xl-4 me-xxl-5'
+                    <!-- <a class='d-none d-xl-flex align-items-center text-decoration-none animate-shake navbar-stuck-hide me-3 me-xl-4 me-xxl-5'
                         href='{% url "shop:shop_list" %}?discount=yes'>
                         <div
                             class='btn btn-icon btn-lg fs-lg text-primary bg-body-secondary bg-opacity-75 pe-none rounded-circle'>
@@ -51,7 +50,7 @@
                             <div class='fw-medium text-white'> تا سقف ۷۰٪ تخفیف ویژه
                             </div>
                         </div>
-                    </a>
+                    </a> -->
 
                     <!-- Button group -->
                     <div class='d-flex align-items-center'>
@@ -67,7 +66,7 @@
                         <div class='dropdown'>
                             <button type='button'
                                 class='theme-switcher btn btn-icon btn-lg btn-outline-secondary fs-lg border-0 rounded-circle animate-scale d-none d-md-inline-flex'
-                                data-bs-toggle='dropdown' aria-expanded='false' aria-label='Temayı değiştir (açık)'>
+                                data-bs-toggle='dropdown' aria-expanded='false' aria-label='change theme'>
                                 <span class='theme-icon-active d-flex animate-target'>
                                     <i class='ci-sun'></i>
                                 </span>
@@ -110,7 +109,7 @@
                         <button type='button'
                             class='btn btn-icon btn-lg fs-xl btn-outline-secondary border-0 rounded-circle animate-shake d-lg-none'
                             data-bs-toggle='collapse' data-bs-target='#searchBar' aria-expanded='false'
-                            aria-controls='searchBar' aria-label='Arama çubuğunu göster/gizle'>
+                            aria-controls='searchBar' aria-label='show \ hide search button'>
                             <i class='ci-search animate-target'></i>
                         </button>
 
@@ -148,7 +147,7 @@
                         <button type='button'
                             class='btn btn-icon btn-lg btn-secondary position-relative rounded-circle ms-2'
                             data-bs-toggle='offcanvas' data-bs-target='#shoppingCart' aria-controls='shoppingCart'
-                            aria-label='Alışveriş Sepeti'>
+                            aria-label='shopping cart'>
                             <span
                                 class='position-absolute top-0 start-100 mt-n1 ms-n3 badge text-bg-success border border-3 border-dark rounded-pill cartCount'
                                 style='--cz-badge-padding-y: .25em; --cz-badge-padding-x: .42em'>{{cart_count}}</span>
