@@ -1,32 +1,16 @@
 {% extends "base.html" %} {% load static %} {% block content %}
 <!-- :::::::::::::: BAŞLIK 2 – Biz Kimiz? :::::::::::::: -->
-<div class="container text-center py-4">
-    <h2 class="fw-bold">اینجا دنیای بدون مرز شماست 😉</h2>
+<div class="card">
+    <img
+        class="img-fluid"
+        src='{% static "img/about/about-hero.jpg" %}'
+        alt="istanbulvar استانبول وار , واردات پوشاک زنانه , مردانه , بچگانه , دخترانه و پسرانه و اجناس اصل و اورجینال از ترکیه,  سبک زندگی مدرن و بدون مرز"
+    />
+    <div class="card-body text-center"><h1>اینجا دنیای بدون مرز شماست</h1></div>
 </div>
-<!-- ...::: Strat About Hero Section :::... -->
-<div class="about-hero-image">
-    <div class="box-wrapper">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-xl-8">
-                    <div class="about-hero-img text-center">
-                        <img
-                            class="img-fluid"
-                            src='{% static "images/breadcrumb/breadcrumb-img-about-page.webp" %}'
-                            alt="istanbulvar استانبول وار , واردات پوشاک زنانه , مردانه , بچگانه , دخترانه و پسرانه و اجناس اصل و اورجینال از ترکیه,  سبک زندگی مدرن و بدون مرز"
-                        />
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
 <!-- ...::: End About Hero Section :::... -->
 
-<!-- :::::::::::::: BAŞLIK 3 – Neden Wigenzo? :::::::::::::: -->
-<div class="container text-center py-4">
-    <h2 class="fw-bold">اینجا چه خبره؟ 🤔</h2>
-</div>
 <!-- ...::: Strat About Section :::... -->
 <div class="about-section section-fluid-270 section-top-gap-100">
     <div class="section-wrapper">
@@ -42,6 +26,7 @@
                             مستقیم اجناس اصل و اورجینال از ترکیه
                             <span>پوشاک , دکوری , اکسسوری و ...</span>
                         </h2>
+                        <hr />
                         <h6>
                             IstanbulVar – اولین و بهترین مرجع خرید مستقیم از
                             ترکیه در IstanbulVar ما افتخار می‌کنیم که به‌عنوان
@@ -53,12 +38,13 @@
                             همان را دریافت می‌کنید – با ارسال سریع به سراسر
                             ایران.
                         </h6>
-                        <p>
-                            ✅ واردات مستقیم از ترکیه ✅ امکان خرید سفارشی از
-                            تمام برندها ✅ ضمانت اصالت کالا ✅ تخفیف‌های فصلی و
-                            پیشنهادهای ویژه ✅ پشتیبانی ۲۴ ساعته ✅ بازگشت
-                            بی‌قید و شرط
-                        </p>
+                        <hr />
+                        <p>☑️واردات مستقیم از ترکیه</p>
+                        <p>☑️امکان خرید سفارشی از تمامی برند ها</p>
+                        <p>☑️ضمانت اصالات کالا</p>
+                        <p>☑️پشتیبانی 24 ساعته</p>
+                        <hr />
+
                         <h6>
                             IstanbulVar یعنی دسترسی به جدیدترین ترندهای ترک و
                             جهان، با بهترین قیمت و مطمئن‌ترین خدمات. تجربه‌ای
@@ -71,8 +57,16 @@
                 <div class="col-10 col-lg-6 col-xl-7 col-xxl offset-xl-1">
                     <div class="image">
                         <img
-                            src='{% static "images/about/about-section-img.webp" %}'
-                            alt="Wigenzo Gaming"
+                            src='{% static "img/about/about-sec-1.jpg" %}'
+                            alt="IstanbulVar – اولین و بهترین مرجع خرید مستقیم از
+                            ترکیه در IstanbulVar ما افتخار می‌کنیم که به‌عنوان
+                            اولین و معتبرترین مرجع واردات مستقیم پوشاک، اکسسوری
+                            و لوازم دکوری از ترکیه فعالیت می‌کنیم. تمامی محصولات
+                            ما از برندهای معروف ترک و دنیا تهیه شده و با سفارش
+                            مستقیم شما، بدون واسطه وارد می‌شوند. ما اصالت کالا
+                            را تضمین می‌کنیم و هر آنچه سفارش می‌دهید، دقیقاً
+                            همان را دریافت می‌کنید – با ارسال سریع به سراسر
+                            ایران."
                             class="img-fluid"
                         />
                     </div>
@@ -91,81 +85,95 @@
     </div>
     <div class="box-wrapper">
         <div class="company-logo-wrapper">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-12">
-                        <!-- Start Company Slider -->
-                        <div class="company-slider">
-                            <!-- Slider main container -->
-                            <div class="swiper-container">
-                                <!-- Additional required wrapper -->
-                                <div class="swiper-wrapper">
-                                    <!-- Slides -->
-                                    <a
-                                        href="#"
-                                        class="company-slider-single-item swiper-slide"
-                                    >
-                                        <div class="image">
-                                            <img
-                                                class="img-fluid"
-                                                src='{% static "images/company-logo/company-logo-1.png" %}'
-                                                alt="برند ۱"
-                                            />
-                                        </div>
-                                    </a>
-                                    <a
-                                        href="#"
-                                        class="company-slider-single-item swiper-slide"
-                                    >
-                                        <div class="image">
-                                            <img
-                                                class="img-fluid"
-                                                src='{% static "images/company-logo/company-logo-2.png" %}'
-                                                alt="برند ۲"
-                                            />
-                                        </div>
-                                    </a>
-                                    <a
-                                        href="#"
-                                        class="company-slider-single-item swiper-slide"
-                                    >
-                                        <div class="image">
-                                            <img
-                                                class="img-fluid"
-                                                src='{% static "images/company-logo/company-logo-3.png" %}'
-                                                alt="برند ۳"
-                                            />
-                                        </div>
-                                    </a>
-                                    <a
-                                        href="#"
-                                        class="company-slider-single-item swiper-slide"
-                                    >
-                                        <div class="image">
-                                            <img
-                                                class="img-fluid"
-                                                src='{% static "images/company-logo/company-logo-4.png" %}'
-                                                alt="برند ۴"
-                                            />
-                                        </div>
-                                    </a>
-                                    <a
-                                        href="#"
-                                        class="company-slider-single-item swiper-slide"
-                                    >
-                                        <div class="image">
-                                            <img
-                                                class="img-fluid"
-                                                src='{% static "images/company-logo/company-logo-5.png" %}'
-                                                alt="برند ۵"
-                                            />
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Company Slider -->
+            <div class="container">
+                <!-- یک ردیف با دو سطر و پنج ستون در هر سطر -->
+                <div class="row row-cols-2 row-cols-md-5 g-3">
+                    <!-- لوگو ۱ -->
+                    <div
+                        class="col d-flex justify-content-center align-items-center"
+                    >
+                        <a href="#">
+                            <img
+                                class="img-fluid w-50"
+                                src="{% static 'img/company-logos/nike.png' %}"
+                                alt="برند ۱"
+                            />
+                        </a>
                     </div>
+                    <!-- لوگو ۲ -->
+                    <div
+                        class="col d-flex justify-content-center align-items-center"
+                    >
+                        <a href="#">
+                            <img
+                                class="img-fluid w-50"
+                                src="{% static 'img/company-logos/adidas.png' %}"
+                                alt="برند ۲"
+                            />
+                        </a>
+                    </div>
+                    <!-- لوگو ۳ -->
+                    <div
+                        class="col d-flex justify-content-center align-items-center"
+                    >
+                        <a href="#">
+                            <img
+                                class="img-fluid w-50"
+                                src="{% static 'img/company-logos/pawprint.png' %}"
+                                alt="برند ۳"
+                            />
+                        </a>
+                    </div>
+                    <!-- لوگو ۴ -->
+                    <div
+                        class="col d-flex justify-content-center align-items-center"
+                    >
+                        <a href="#">
+                            <img
+                                class="img-fluid w-50"
+                                src="{% static 'img/company-logos/shop.png' %}"
+                                alt="برند ۴"
+                            />
+                        </a>
+                    </div>
+                    <!-- لوگو ۵ -->
+                    <div
+                        class="col d-flex justify-content-center align-items-center"
+                    >
+                        <a href="#">
+                            <img
+                                class="img-fluid w-50"
+                                src="{% static 'img/company-logos/social.png' %}"
+                                alt="برند ۵"
+                            />
+                        </a>
+                    </div>
+                    <!-- اگر لوگوهای بیشتری دارید، همین ساختار را ادامه دهید تا پر شود -->
+                    <!-- مثال لوگو ۶ -->
+                    <div
+                        class="col d-flex justify-content-center align-items-center"
+                    >
+                        <a href="#">
+                            <img
+                                class="img-fluid w-50"
+                                src="{% static 'img/company-logos/social.png' %}"
+                                alt="برند ۶"
+                            />
+                        </a>
+                    </div>
+                    <!-- لوگو ۷ -->
+                    <div
+                        class="col d-flex justify-content-center align-items-center"
+                    >
+                        <a href="#">
+                            <img
+                                class="img-fluid w-50"
+                                src="{% static 'img/company-logos/social.png' %}"
+                                alt="برند ۷"
+                            />
+                        </a>
+                    </div>
+                    <!-- تا پنج یا ده لوگو، دو ردیف کامل خواهد شد -->
                 </div>
             </div>
         </div>
