@@ -1,157 +1,336 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends 'base.html' %} {% load static %} {% block content %}
 
-{% block content %}
-
-<main class='content-wrapper'>
-
+<main class="content-wrapper">
     <!-- İletişim formları -->
-    <section class='bg-body-tertiary pb-1 pb-sm-3 pb-md-4 pb-lg-5' style='margin-top: -110px; padding-top: 110px'>
-        <div class='container py-5 mb-xxl-3'>
-
+    <section
+        class="bg-body-tertiary pb-1 pb-sm-3 pb-md-4 pb-lg-5"
+        style="margin-top: -110px; padding-top: 110px"
+    >
+        <div class="container py-5 mb-xxl-3">
             <!-- Sayfa Başlığı -->
-            <h1 class='text-center pb-2 pb-sm-3 mt-lg-3 mt-xl-4'>با متخصصان ما تماس بگیرید</h1>
+            <h1 class="text-center pb-2 pb-sm-3 mt-lg-3 mt-xl-4">
+                با متخصصان ما تماس بگیرید
+            </h1>
 
             <!-- Nav pills -->
-            <ul class='nav nav-pills justify-content-center pb-2 pb-sm-3 mb-3' role='tablist'>
-                <li class='nav-item' role='presentation'>
-                    <button type='button' class='nav-link active' id='customers-tab' data-bs-toggle='pill'
-                        data-bs-target='#customers' role='tab' aria-controls='customers' aria-selected='true'>
-                        <i class='ci-shopping-bag fs-base me-2 ms-n1'></i>
+            <ul
+                class="nav nav-pills justify-content-center pb-2 pb-sm-3 mb-3"
+                role="tablist"
+            >
+                <li class="nav-item" role="presentation">
+                    <button
+                        type="button"
+                        class="nav-link active"
+                        id="customers-tab"
+                        data-bs-toggle="pill"
+                        data-bs-target="#customers"
+                        role="tab"
+                        aria-controls="customers"
+                        aria-selected="true"
+                    >
+                        <i class="ci-shopping-bag fs-base me-2 ms-n1"></i>
                         برای مشتریان
                     </button>
                 </li>
-                <li class='nav-item' role='presentation'>
-                    <button class='nav-link' id='retailers-tab' data-bs-toggle='pill' data-bs-target='#retailers'
-                        type='button' role='tab' aria-controls='retailers' aria-selected='false'>
-                        <i class='ci-box fs-base me-2 ms-n1'></i>
+                <li class="nav-item" role="presentation">
+                    <button
+                        class="nav-link"
+                        id="retailers-tab"
+                        data-bs-toggle="pill"
+                        data-bs-target="#retailers"
+                        type="button"
+                        role="tab"
+                        aria-controls="retailers"
+                        aria-selected="false"
+                    >
+                        <i class="ci-box fs-base me-2 ms-n1"></i>
                         برای عمده فروشان
                     </button>
                 </li>
             </ul>
 
             <!-- Formlar -->
-            <div class='row justify-content-center'>
-                <div class='col-md-11 col-lg-9 col-xl-8'>
-                    <div class='tab-content bg-body rounded-5 py-3 py-sm-4 px-4 px-sm-5'>
-                        <p class='text-center py-3 mx-auto' style='max-width: 450px'>
-                            فرم زیر را پر کنید، ظرف ۲۴ ساعت با شما تماس خواهیم گرفت.
+            <div class="row justify-content-center">
+                <div class="col-md-11 col-lg-9 col-xl-8">
+                    <div
+                        class="tab-content bg-body rounded-5 py-3 py-sm-4 px-4 px-sm-5"
+                    >
+                        <p
+                            class="text-center py-3 mx-auto"
+                            style="max-width: 450px"
+                        >
+                            فرم زیر را پر کنید، ظرف ۲۴ ساعت با شما تماس خواهیم
+                            گرفت.
                         </p>
 
                         <!-- Müşteriler Formu -->
-                        <div class='tab-pane fade show active' id='customers' role='tabpanel'
-                            aria-labelledby='customers-tab'>
-                            <form class='needs-validation' novalidate='' action='{% url "website:customer_contact" %}'
-                                method='post'>
+                        <div
+                            class="tab-pane fade show active"
+                            id="customers"
+                            role="tabpanel"
+                            aria-labelledby="customers-tab"
+                        >
+                            <form
+                                class="needs-validation"
+                                novalidate=""
+                                action='{% url "website:customer_contact" %}'
+                                method="post"
+                            >
                                 {% csrf_token %}
-                                <div class='row g-4'>
-                                    <div class='col-md-6 position-relative'>
-                                        <label for='first_name' class='form-label'>نام *</label>
-                                        <input type='text' class='form-control form-control-lg rounded-pill'
-                                            id='first_name' name='first_name' required=''>
-                                        <div class='invalid-tooltip bg-transparent z-0 py-0 ps-3'>لطفاً نام خود را وارد
-                                            کنید!</div>
+                                <div class="row g-4">
+                                    <div class="col-md-6 position-relative">
+                                        <label
+                                            for="first_name"
+                                            class="form-label"
+                                            >نام *</label
+                                        >
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-lg rounded-pill"
+                                            id="first_name"
+                                            name="first_name"
+                                            required=""
+                                        />
+                                        <div
+                                            class="invalid-tooltip bg-transparent z-0 py-0 ps-3"
+                                        >
+                                            لطفاً نام خود را وارد کنید!
+                                        </div>
                                     </div>
-                                    <div class='col-md-6 position-relative'>
-                                        <label for='last_name' class='form-label'>نام خانوادگی *</label>
-                                        <input type='text' class='form-control form-control-lg rounded-pill'
-                                            id='last_name' name='last_name' required=''>
-                                        <div class='invalid-tooltip bg-transparent z-0 py-0 ps-3'>لطفاً نام خانوادگی خود
-                                            را وارد کنید!</div>
+                                    <div class="col-md-6 position-relative">
+                                        <label
+                                            for="last_name"
+                                            class="form-label"
+                                            >نام خانوادگی *</label
+                                        >
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-lg rounded-pill"
+                                            id="last_name"
+                                            name="last_name"
+                                            required=""
+                                        />
+                                        <div
+                                            class="invalid-tooltip bg-transparent z-0 py-0 ps-3"
+                                        >
+                                            لطفاً نام خانوادگی خود را وارد کنید!
+                                        </div>
                                     </div>
-                                    <div class='col-md-6 position-relative'>
-                                        <label for='email' class='form-label'>ایمیل *</label>
-                                        <input type='email' class='form-control form-control-lg rounded-pill' id='email'
-                                            name='email' required=''>
-                                        <div class='invalid-tooltip bg-transparent z-0 py-0 ps-3'>لطفاً ایمیل خود را
-                                            وارد کنید!</div>
+                                    <div class="col-md-6 position-relative">
+                                        <label for="email" class="form-label"
+                                            >ایمیل *</label
+                                        >
+                                        <input
+                                            type="email"
+                                            class="form-control form-control-lg rounded-pill"
+                                            id="email"
+                                            name="email"
+                                            required=""
+                                        />
+                                        <div
+                                            class="invalid-tooltip bg-transparent z-0 py-0 ps-3"
+                                        >
+                                            لطفاً ایمیل خود را وارد کنید!
+                                        </div>
                                     </div>
-                                    <div class='col-md-6'>
-                                        <label for='phone' class='form-label'>تلفن *</label>
-                                        <input type='tel' class='form-control form-control-lg rounded-pill' id='phone'
-                                            name='phone' required=''>
+                                    <div class="col-md-6">
+                                        <label for="phone" class="form-label"
+                                            >تلفن *</label
+                                        >
+                                        <input
+                                            type="tel"
+                                            class="form-control form-control-lg rounded-pill"
+                                            id="phone"
+                                            name="phone"
+                                            required=""
+                                        />
                                     </div>
-                                    <div class='col-12 position-relative'>
-                                        <label for='subject' class='form-label'>موضوع *</label>
-                                        <input type='text' class='form-control form-control-lg rounded-pill'
-                                            id='subject' name='subject' required=''>
-                                        <div class='invalid-tooltip bg-transparent z-0 py-0 ps-3'>لطفاً موضوع پیام را
-                                            وارد کنید!</div>
+                                    <div class="col-12 position-relative">
+                                        <label for="subject" class="form-label"
+                                            >موضوع *</label
+                                        >
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-lg rounded-pill"
+                                            id="subject"
+                                            name="subject"
+                                            required=""
+                                        />
+                                        <div
+                                            class="invalid-tooltip bg-transparent z-0 py-0 ps-3"
+                                        >
+                                            لطفاً موضوع پیام را وارد کنید!
+                                        </div>
                                     </div>
-                                    <div class='col-12 position-relative'>
-                                        <label for='message' class='form-label'>پیام *</label>
-                                        <textarea class='form-control form-control-lg rounded-6' id='message'
-                                            name='message' rows='5' required=''></textarea>
-                                        <div class='invalid-tooltip bg-transparent z-0 py-0 ps-3'>لطفاً پیام خود را
-                                            بنویسید!</div>
+                                    <div class="col-12 position-relative">
+                                        <label for="message" class="form-label"
+                                            >پیام *</label
+                                        >
+                                        <textarea
+                                            class="form-control form-control-lg rounded-6"
+                                            id="message"
+                                            name="message"
+                                            rows="5"
+                                            required=""
+                                        ></textarea>
+                                        <div
+                                            class="invalid-tooltip bg-transparent z-0 py-0 ps-3"
+                                        >
+                                            لطفاً پیام خود را بنویسید!
+                                        </div>
                                     </div>
-                                    <div class='col-12 text-center pt-2 pb-3'>
-                                        <button type='submit' class='btn btn-lg btn-dark rounded-pill'>ارسال
-                                            پیام</button>
+                                    <div class="col-12 text-center pt-2 pb-3">
+                                        <button
+                                            type="submit"
+                                            class="btn btn-lg btn-dark rounded-pill"
+                                        >
+                                            ارسال پیام
+                                        </button>
                                     </div>
                                 </div>
                             </form>
                         </div>
 
                         <!-- Perakendeciler Formu -->
-                        <div class='tab-pane fade' id='retailers' role='tabpanel' aria-labelledby='retailers-tab'>
-                            <form class='needs-validation' novalidate='' action='{% url "website:retailer_contact" %}'
-                                method='post'>
+                        <div
+                            class="tab-pane fade"
+                            id="retailers"
+                            role="tabpanel"
+                            aria-labelledby="retailers-tab"
+                        >
+                            <form
+                                class="needs-validation"
+                                novalidate=""
+                                action='{% url "website:retailer_contact" %}'
+                                method="post"
+                            >
                                 {% csrf_token %}
-                                <div class='row g-4'>
-                                    <div class='col-md-6 position-relative'>
-                                        <label for='company' class='form-label'>نام شرکت *</label>
-                                        <input type='text' class='form-control form-control-lg rounded-pill'
-                                            id='company' name='company' required=''>
-                                        <div class='invalid-tooltip bg-transparent py-0 ps-3'>لطفاً نام شرکت را وارد
-                                            کنید!</div>
-                                    </div>
-                                    <div class='col-md-6 position-relative'>
-                                        <label for='contact_person' class='form-label'>مسئول تماس *</label>
-                                        <input type='text' class='form-control form-control-lg rounded-pill'
-                                            id='contact_person' name='contact_person' required=''>
-                                        <div class='invalid-tooltip bg-transparent py-0 ps-3'>لطفاً نام شخص مسئول را
-                                            وارد کنید!</div>
-                                    </div>
-                                    <div class='col-md-6 position-relative'>
-                                        <label for='email-r' class='form-label'>ایمیل *</label>
-                                        <input type='email' class='form-control form-control-lg rounded-pill'
-                                            id='email-r' name='email' required=''>
-                                        <div class='invalid-tooltip bg-transparent py-0 ps-3'>لطفاً ایمیل شرکت را وارد
-                                            کنید!</div>
-                                    </div>
-                                    <div class='col-md-6'>
-                                        <label for='phone-r' class='form-label'>تلفن *</label>
-                                        <input type='tel' class='form-control form-control-lg rounded-pill' id='phone-r'
-                                            name='phone' required=''>
-                                    </div>
-                                    <div class='col-md-6 position-relative'>
-                                        <label for='website' class='form-label'>وب‌سایت</label>
-                                        <input type='text' class='form-control form-control-lg rounded-pill'
-                                            id='website' name='website'>
-                                    </div>
-                                    <div class='col-md-6 position-relative'>
-                                        <label for='subject-r' class='form-label'>موضوع *</label>
-                                        <input type='text' class='form-control form-control-lg rounded-pill'
-                                            id='subject-r' name='subject' required=''>
-                                        <div class='invalid-tooltip bg-transparent py-0 ps-3'>لطفاً موضوع پیام را وارد
-                                            کنید!</div>
-                                    </div>
-                                    <div class='col-12 position-relative'>
-                                        <label for='message-r' class='form-label'>پیام *</label>
-                                        <textarea class='form-control form-control-lg rounded-6' id='message-r'
-                                            name='message' rows='5' required=''></textarea>
-                                        <div class='invalid-tooltip bg-transparent py-0 ps-3'>لطفاً پیام خود را بنویسید!
+                                <div class="row g-4">
+                                    <div class="col-md-6 position-relative">
+                                        <label for="company" class="form-label"
+                                            >نام شرکت *</label
+                                        >
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-lg rounded-pill"
+                                            id="company"
+                                            name="company"
+                                            required=""
+                                        />
+                                        <div
+                                            class="invalid-tooltip bg-transparent py-0 ps-3"
+                                        >
+                                            لطفاً نام شرکت را وارد کنید!
                                         </div>
                                     </div>
-                                    <div class='col-12 text-center pt-2 pb-3'>
-                                        <button type='submit' class='btn btn-lg btn-dark rounded-pill'>ارسال
-                                            پیام</button>
+                                    <div class="col-md-6 position-relative">
+                                        <label
+                                            for="contact_person"
+                                            class="form-label"
+                                            >مسئول تماس *</label
+                                        >
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-lg rounded-pill"
+                                            id="contact_person"
+                                            name="contact_person"
+                                            required=""
+                                        />
+                                        <div
+                                            class="invalid-tooltip bg-transparent py-0 ps-3"
+                                        >
+                                            لطفاً نام شخص مسئول را وارد کنید!
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 position-relative">
+                                        <label for="email-r" class="form-label"
+                                            >ایمیل *</label
+                                        >
+                                        <input
+                                            type="email"
+                                            class="form-control form-control-lg rounded-pill"
+                                            id="email-r"
+                                            name="email"
+                                            required=""
+                                        />
+                                        <div
+                                            class="invalid-tooltip bg-transparent py-0 ps-3"
+                                        >
+                                            لطفاً ایمیل شرکت را وارد کنید!
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="phone-r" class="form-label"
+                                            >تلفن *</label
+                                        >
+                                        <input
+                                            type="tel"
+                                            class="form-control form-control-lg rounded-pill"
+                                            id="phone-r"
+                                            name="phone"
+                                            required=""
+                                        />
+                                    </div>
+                                    <div class="col-md-6 position-relative">
+                                        <label for="website" class="form-label"
+                                            >وب‌سایت</label
+                                        >
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-lg rounded-pill"
+                                            id="website"
+                                            name="website"
+                                        />
+                                    </div>
+                                    <div class="col-md-6 position-relative">
+                                        <label
+                                            for="subject-r"
+                                            class="form-label"
+                                            >موضوع *</label
+                                        >
+                                        <input
+                                            type="text"
+                                            class="form-control form-control-lg rounded-pill"
+                                            id="subject-r"
+                                            name="subject"
+                                            required=""
+                                        />
+                                        <div
+                                            class="invalid-tooltip bg-transparent py-0 ps-3"
+                                        >
+                                            لطفاً موضوع پیام را وارد کنید!
+                                        </div>
+                                    </div>
+                                    <div class="col-12 position-relative">
+                                        <label
+                                            for="message-r"
+                                            class="form-label"
+                                            >پیام *</label
+                                        >
+                                        <textarea
+                                            class="form-control form-control-lg rounded-6"
+                                            id="message-r"
+                                            name="message"
+                                            rows="5"
+                                            required=""
+                                        ></textarea>
+                                        <div
+                                            class="invalid-tooltip bg-transparent py-0 ps-3"
+                                        >
+                                            لطفاً پیام خود را بنویسید!
+                                        </div>
+                                    </div>
+                                    <div class="col-12 text-center pt-2 pb-3">
+                                        <button
+                                            type="submit"
+                                            class="btn btn-lg btn-dark rounded-pill"
+                                        >
+                                            ارسال پیام
+                                        </button>
                                     </div>
                                 </div>
                             </form>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -159,36 +338,62 @@
     </section>
 
     <!-- İletişim Bilgileri -->
-    <section class='container pt-5 mt-xxl-3'>
-        <div class='row row-cols-1 row-cols-sm-3 gy-4 gy-sm-0 pt-1 pt-sm-2 pt-md-3 pt-lg-4 pt-xl-5'>
-            <div class='col text-center mb-2 mb-sm-0'>
+    <section class="container pt-5 mt-xxl-3">
+        <div
+            class="row row-cols-1 row-cols-sm-3 gy-4 gy-sm-0 pt-1 pt-sm-2 pt-md-3 pt-lg-4 pt-xl-5"
+        >
+            <div class="col text-center mb-2 mb-sm-0">
                 <i
-                    class='ci-phone-outgoing bg-dark text-white fs-4 rounded-circle p-3 mb-3 d-inline-flex d-none-dark'></i>
+                    class="ci-phone-outgoing bg-dark text-white fs-4 rounded-circle p-3 mb-3 d-inline-flex d-none-dark"
+                ></i>
                 <i
-                    class='ci-phone-outgoing bg-body-secondary text-white fs-4 rounded-circle p-3 mb-3 d-none d-inline-flex-dark'></i>
-                <h3 class='text-body fs-sm fw-normal mb-2'>مستقیماً با ما تماس بگیرید</h3>
-                <div class='nav animate-underline justify-content-center'>
-                    <a class='nav-link animate-target text-dark-emphasis fs-base p-0'
-                        href='tel:+989353006807'>0935-300-6807</a>
+                    class="ci-phone-outgoing bg-body-secondary text-white fs-4 rounded-circle p-3 mb-3 d-none d-inline-flex-dark"
+                ></i>
+                <h3 class="text-body fs-sm fw-normal mb-2">
+                    مستقیماً با ما تماس بگیرید
+                </h3>
+                <div class="nav animate-underline justify-content-center">
+                    <a
+                        class="nav-link animate-target text-dark-emphasis fs-base p-0"
+                        href="tel:+989353006807"
+                        >0935-300-6807</a
+                    >
                 </div>
             </div>
-            <div class='col text-center mb-2 mb-sm-0'>
-                <i class='ci-mail bg-dark text-white fs-4 rounded-circle p-3 mb-3 d-inline-flex d-none-dark'></i>
+            <div class="col text-center mb-2 mb-sm-0">
                 <i
-                    class='ci-mail bg-body-secondary text-white fs-4 rounded-circle p-3 mb-3 d-none d-inline-flex-dark'></i>
-                <h3 class='text-body fs-sm fw-normal mb-2'>برای ما پیام بفرستید</h3>
-                <div class='nav animate-underline justify-content-center'>
-                    <a class='nav-link animate-target text-dark-emphasis fs-base p-0'
-                        href='mailto:info@wigenzo.com.tr'>info@wigenzo.com.tr</a>
+                    class="ci-mail bg-dark text-white fs-4 rounded-circle p-3 mb-3 d-inline-flex d-none-dark"
+                ></i>
+                <i
+                    class="ci-mail bg-body-secondary text-white fs-4 rounded-circle p-3 mb-3 d-none d-inline-flex-dark"
+                ></i>
+                <h3 class="text-body fs-sm fw-normal mb-2">
+                    برای ما پیام بفرستید
+                </h3>
+                <div class="nav animate-underline justify-content-center">
+                    <a
+                        class="nav-link animate-target text-dark-emphasis fs-base p-0"
+                        href="mailto:info@wigenzo.com.tr"
+                        >info@wigenzo.com.tr</a
+                    >
                 </div>
             </div>
-            <div class='col text-center'>
-                <i class='ci-help-circle bg-dark text-white fs-4 rounded-circle p-3 mb-3 d-inline-flex d-none-dark'></i>
+            <div class="col text-center">
                 <i
-                    class='ci-help-circle bg-body-secondary text-white fs-4 rounded-circle p-3 mb-3 d-none d-inline-flex-dark'></i>
-                <h3 class='text-body fs-sm fw-normal mb-2'>به دنبال پشتیبانی هستید؟</h3>
-                <div class='nav animate-underline justify-content-center'>
-                    <a class='nav-link animate-target text-dark-emphasis fs-base p-0' href='#!'>مرکز پشتیبانی</a>
+                    class="ci-help-circle bg-dark text-white fs-4 rounded-circle p-3 mb-3 d-inline-flex d-none-dark"
+                ></i>
+                <i
+                    class="ci-help-circle bg-body-secondary text-white fs-4 rounded-circle p-3 mb-3 d-none d-inline-flex-dark"
+                ></i>
+                <h3 class="text-body fs-sm fw-normal mb-2">
+                    به دنبال پشتیبانی هستید؟
+                </h3>
+                <div class="nav animate-underline justify-content-center">
+                    <a
+                        class="nav-link animate-target text-dark-emphasis fs-base p-0"
+                        href="#!"
+                        >مرکز پشتیبانی</a
+                    >
                 </div>
             </div>
         </div>

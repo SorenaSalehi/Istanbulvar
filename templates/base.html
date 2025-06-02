@@ -1,33 +1,33 @@
 {% load static i18n %}
 <!DOCTYPE html>
 <html lang="fa" dir="rtl" data-bs-theme="light" data-pwa="true">
-    {% include "base-includes/head.html" %}
+    {% include "header-includes/head.html" %}
 
     <body>
         <!-- Shopping cart offcanvas -->
-        <div>{% include "base-includes/offcanvas_cart.html" %}</div>
+        <div>{% include "header-includes/offcanvas_cart.html" %}</div>
 
         <!-- Authenticate modal -->
-        <div>{% include "base-includes/modal_authenticate.html" %}</div>
+        <div>{% include "header-includes/modal_authenticate.html" %}</div>
 
         <!-- Wishlist offcanvas -->
-        <div>{% include "base-includes/offcanvas_wishlist.html" %}</div>
+        <div>{% include "header-includes/offcanvas_wishlist.html" %}</div>
 
         <!-- Navigation bar (Page header) -->
-        <div>{% include "base-includes/navbar.html" %}</div>
+        <div>{% include "header-includes/navbar.html" %}</div>
 
         {% block content %} {% endblock %}
 
         <!-- Subscription form + Vlog -->
-        <div>{% include "base-includes/section.html" %}</div>
+        <div>{% include "header-includes/section.html" %}</div>
 
         <!-- Page footer -->
-        <div>{% include "base-includes/footer.html" %}</div>
+        <div>{% include "header-includes/footer.html" %}</div>
 
         <!-- Back to top button -->
-        <div>{% include "base-includes/floating-buttons.html" %}</div>
+        <div>{% include "header-includes/floating-buttons.html" %}</div>
 
         <!-- scripts  -->
-        {% include "base-includes/scripts.html" %}
+        {% include "header-includes/scripts.html" %}
     </body>
 </html>

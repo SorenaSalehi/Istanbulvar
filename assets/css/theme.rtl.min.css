@@ -3566,18 +3566,18 @@ fieldset:disabled .btn {
   width: 100%;
 }
 .dropdown-item:focus,
-.dropdown-item:hover {
+.dropdown-item:hover,.dropdown-item-child:focus, .dropdown-item-child:hover {
   background-color: var(--cz-dropdown-link-hover-bg);
   color: var(--cz-dropdown-link-hover-color);
 }
 .dropdown-item.active,
-.dropdown-item:active {
+.dropdown-item:active, .dropdown-item-child:focus, .dropdown-item-child:hover {
   background-color: var(--cz-dropdown-link-active-bg);
   color: var(--cz-dropdown-link-active-color);
   text-decoration: none;
 }
 .dropdown-item.disabled,
-.dropdown-item:disabled {
+.dropdown-item:disabled,.dropdown-item-child:focus, .dropdown-item-child:hover {
   background-color: transparent;
   color: var(--cz-dropdown-link-disabled-color);
   pointer-events: none;
