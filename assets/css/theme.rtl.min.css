@@ -757,6 +757,32 @@ progress {
     color: var(--cz-secondary-color);
     font-size: 0.75rem;
 }
+
+/* استایل ساده برای کارت برند */
+.brand-filter-slider {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    text-align: center;
+    transition: box-shadow 0.2s ease;
+    height: 100%;
+}
+.brand-filter-slider:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+.brand-filter-slider img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 0.5rem;
+}
+.brand-filter-slider .brand-filter-slider-name {
+    font-size: 0.9rem;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 .container,
 .container-fluid,
 .container-lg,
@@ -14926,6 +14952,9 @@ html:not([dir="rtl"]) .range-slider-ui.noUi-horizontal .noUi-handle {
 }
 [data-bs-theme="dark"] .popover:not([data-bs-theme="light"]) {
     --cz-popover-box-shadow: 0 0.5rem 1.875rem -0.25rem rgba(8, 11, 18, 0.25);
+}
+.swiper {
+    direction: rtl;
 }
 .swiper-button-lock {
     display: none !important;

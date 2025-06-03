@@ -1,0 +1,257 @@
+{% load static %}
+
+<section class="container pt-4">
+    <h2 class="h3 mb-4 text-center">دسته‌بندی برندها</h2>
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <!-- کانتینر اصلی Swiper -->
+            <div
+                class="swiper"
+                id="brandsSlider"
+                data-swiper='{
+          "slidesPerView": 7,
+          "grid": { "rows": 1, "fill": "row" },
+          "spaceBetween": 10,
+          "navigation": {
+            "nextEl": ".swiper-button-next",
+            "prevEl": ".swiper-button-prev"
+          },
+          "pagination": {
+            "el": ".swiper-pagination",
+            "clickable": true
+          },
+          "breakpoints": {
+            "768": {
+              "slidesPerView": 4,
+              "grid": { "rows": 2, "fill": "row" },
+              "spaceBetween": 50
+            },
+            "0": {
+              "slidesPerView": 2,
+              "grid": { "rows": 2, "fill": "row" },
+              "spaceBetween": 20
+            }
+          }
+        }'
+            >
+                <div class="swiper-wrapper">
+                    <!-- اسلاید اول -->
+                    <div class="swiper-slide">
+                        <div class="row gx-2 gy-3 w-100">
+                            {% comment %} ۷ کارت برند برای هر اسلاید در دسکتاپ
+                            {% endcomment %} <div class="col-6 col-md-3
+                            col-lg-{{ 12|floatformat:"0" }}/7">
+                            <!-- قابل حذف کردن col-lg اگر می‌خواهید فقط از تنظیمات Swiper grid استفاده کنید -->
+                        </div>
+                        <!-- ما اینجا مثال را ساده کردیم و کارت‌ها را تک به تک می‌نویسیم: -->
+                        <div class="col-6 col-md-3">
+                            <div class="brand-filter-slider">
+                                <img
+                                    src="{% static 'img/brand-imgs/logo-1.png' %}"
+                                    alt="Brand 1"
+                                    class="img-fluid"
+                                />
+                                <div class="brand-filter-slider-name">
+                                    Brand 1
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="brand-filter-slider">
+                                <img
+                                    src="{% static 'img/brand-imgs/logo-1.png' %}"
+                                    alt="Brand 2"
+                                    class="img-fluid"
+                                />
+                                <div class="brand-filter-slider-name">
+                                    Brand 2
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="brand-filter-slider">
+                                <img
+                                    src="{% static 'img/brand-imgs/logo-1.png' %}"
+                                    alt="Brand 3"
+                                    class="img-fluid"
+                                />
+                                <div class="brand-filter-slider-name">
+                                    Brand 3
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="brand-filter-slider">
+                                <img
+                                    src="{% static 'img/brand-imgs/logo-1.png' %}"
+                                    alt="Brand 4"
+                                    class="img-fluid"
+                                />
+                                <div class="brand-filter-slider-name">
+                                    Brand 4
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="brand-filter-slider">
+                                <img
+                                    src="{% static 'img/brand-imgs/logo-1.png' %}"
+                                    alt="Brand 5"
+                                    class="img-fluid"
+                                />
+                                <div class="brand-filter-slider-name">
+                                    Brand 5
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="brand-filter-slider">
+                                <img
+                                    src="{% static 'img/brand-imgs/logo-1.png' %}"
+                                    alt="Brand 6"
+                                    class="img-fluid"
+                                />
+                                <div class="brand-filter-slider-name">
+                                    Brand 6
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="brand-filter-slider">
+                                <img
+                                    src="{% static 'img/brand-imgs/logo-1.png' %}"
+                                    alt="Brand 7"
+                                    class="img-fluid"
+                                />
+                                <div class="brand-filter-slider-name">
+                                    Brand 7
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="brand-filter-slider">
+                                <img
+                                    src="{% static 'img/brand-imgs/logo-1.png' %}"
+                                    alt="Brand 8"
+                                    class="img-fluid"
+                                />
+                                <div class="brand-filter-slider-name">
+                                    Brand 8
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- اسلاید دوم -->
+                <div class="swiper-slide">
+                    <div class="row gx-2 gy-3 w-100">
+                        <div class="col-6 col-md-3">
+                            <div class="brand-filter-slider">
+                                <img
+                                    src="{% static 'img/brand-imgs/logo-1.png' %}"
+                                    alt="Brand 9"
+                                    class="img-fluid"
+                                />
+                                <div class="brand-filter-slider-name">
+                                    Brand 9
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="brand-filter-slider">
+                                <img
+                                    src="{% static 'img/brand-imgs/logo-1.png' %}"
+                                    alt="Brand 10"
+                                    class="img-fluid"
+                                />
+                                <div class="brand-filter-slider-name">
+                                    Brand 10
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="brand-filter-slider">
+                                <img
+                                    src="{% static 'img/brand-imgs/logo-1.png' %}"
+                                    alt="Brand 11"
+                                    class="img-fluid"
+                                />
+                                <div class="brand-filter-slider-name">
+                                    Brand 11
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="brand-filter-slider">
+                                <img
+                                    src="{% static 'img/brand-imgs/logo-1.png' %}"
+                                    alt="Brand 12"
+                                    class="img-fluid"
+                                />
+                                <div class="brand-filter-slider-name">
+                                    Brand 12
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="brand-filter-slider">
+                                <img
+                                    src="{% static 'img/brand-imgs/logo-1.png' %}"
+                                    alt="Brand 13"
+                                    class="img-fluid"
+                                />
+                                <div class="brand-filter-slider-name">
+                                    Brand 13
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="brand-filter-slider">
+                                <img
+                                    src="{% static 'img/brand-imgs/logo-1.png' %}"
+                                    alt="Brand 14"
+                                    class="img-fluid"
+                                />
+                                <div class="brand-filter-slider-name">
+                                    Brand 14
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="brand-filter-slider">
+                                <img
+                                    src="{% static 'img/brand-imgs/logo-1.png' %}"
+                                    alt="Brand 15"
+                                    class="img-fluid"
+                                />
+                                <div class="brand-filter-slider-name">
+                                    Brand 15
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="brand-filter-slider">
+                                <img
+                                    src="{% static 'img/brand-imgs/logo-1.png' %}"
+                                    alt="Brand 16"
+                                    class="img-fluid"
+                                />
+                                <div class="brand-filter-slider-name">
+                                    Brand 16
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- دکمه‌های ناوبری -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+
+            <!-- نقطه‌های صفحه‌بندی -->
+            <div class="swiper-pagination mt-3"></div>
+        </div>
+    </div>
+</section>
